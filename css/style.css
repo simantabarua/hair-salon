@@ -1,0 +1,39 @@
+@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Manrope:wght@200;400;500;600;700;800&display=swap");
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-[#050505] text-white font-manrope;
+  }
+
+  .navbar-nav {
+    @apply h-12 flex items-center justify-center gap-8;
+  }
+  section {
+    @apply h-screen;
+  }
+  .section-heading {
+    @apply max-w-2xl mx-auto text-center;
+  }
+  .section-subtitle {
+    @apply font-cormorant text-primary text-xl md:text-2xl;
+  }
+  .section-title {
+    @apply font-cormorant text-primary text-4xl md:text-6xl font-semibold  leading-[2.5rem] md:leading-[5rem];
+  }
+  .section-description {
+    @apply font-manrope text-white/70 text-base;
+  }
+
+  .btn {
+    @apply flex items-center justify-center font-semibold text-xs md:text-base uppercase rounded-xl  hover:bg-primary/70 focus:bg-primary/70 focus:outline-none transition-all duration-300;
+  }
+  .btn-primary {
+    @apply bg-primary px-2.5 py-1.5 md:px-9 md:py-4 m-1;
+  }
+  .btn-circel {
+    @apply w-8 h-8 p-1 md:w-10 md:h-10 md:p-2 bg-primary rounded-full;
+  }
+}

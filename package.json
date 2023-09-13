@@ -1,0 +1,11 @@
+{
+  "private": true,
+  "scripts": {
+    "dev": "yarn",
+    "build": "yarn tailwindcss -i ./css/style.css -o ./css/main.css --watch"
+  },
+  "devDependencies": {
+    "@tailwindcss/forms": "^0.5.3",
+    "tailwindcss": "^3.3.1"
+  }
+}
