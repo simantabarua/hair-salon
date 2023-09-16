@@ -7,15 +7,16 @@
   body {
     @apply bg-[#050505] text-white font-manrope;
   }
+  section {
+    @apply py-4 md:py-10 ;
+  }
 
   .navbar-nav {
     @apply h-12 flex items-center justify-center gap-8;
   }
-  section {
-    @apply h-screen;
-  }
+
   .section-heading {
-    @apply max-w-2xl mx-auto text-center;
+    @apply mt-10 mb-6 lg:mt-28 lg:mb-20 max-w-2xl mx-auto text-center;
   }
   .section-subtitle {
     @apply font-cormorant text-primary text-xl md:text-2xl;
@@ -36,4 +37,24 @@
   .btn-circel {
     @apply w-8 h-8 p-1 md:w-10 md:h-10 md:p-2 bg-primary rounded-full;
   }
+
+  #hero {
+    background-image: url("./../img/Hero Section/image 2.png");
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+
+  /* services  */
+  .services-card {
+    @apply flex flex-col  items-center justify-center gap-8 w-[19.5rem] h-[25.25rem] px-11 py-20 rounded-xl bg-secondary/70 border border-primary;
+  }
+  /* product */
+  .product-card {
+    @apply flex-1  w-full md:w-1/2  max-w-[26rem] font-cormorant;
+  }
+  .product-card-title {
+    @apply text-3xl md:text-5xl;
+  }
 }
+

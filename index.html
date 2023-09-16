@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -15,85 +15,29 @@
       ============================
       -->
     <nav
-      class="fixed inset-x-0 container px-4 py-6 mx-auto flex items-center justify-between text-white"
+      id="navbar"
+      class="fixed inset-x-0 z-50 transition-all duration-300 ease-in-out"
     >
-      <div>
-        <h1 class="text-3xl"><a href="#">Logo</a></h1>
-      </div>
-      <div>
-        <ul class="navbar-nav hidden lg:flex">
-          <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
-          <li class="nav-item"><a class="nav-link" href="#">About Us</a></li>
-          <li class="nav-item"><a class="nav-link" href="#">Services</a></li>
-          <li class="nav-item"><a class="nav-link" href="#">Pricing</a></li>
-          <li class="nav-item"><a class="nav-link" href="#">Appointment</a></li>
-          <li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
-        </ul>
-      </div>
-      <div class="flex items-center gap-4 md:gap-6">
-        <button class="btn btn-circel">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke-width="1.5"
-            stroke="currentColor"
-            class="w-6 h-6"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"
-            />
-          </svg>
-        </button>
-        <button class="btn btn-circel">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke-width="1.5"
-            stroke="currentColor"
-            class="w-6 h-6"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
-            />
-          </svg>
-        </button>
-        <button class="btn btn-primary">Sign Up</button>
-      </div>
-    </nav>
-
-    <main class="max-w-7xl mx-auto">
-      <!-- 
-      ============================
-           Hero Section
-      ============================
-      -->
-      <section
-        id="hero"
-        class="flex flex-col items-start justify-center overflow-hidden px-4 md:px-8 2xl:px-0 pt-14 lg:pt-48"
+      <div
+        class="max-w-8xl px-4 md:px-0 py-2.5 mx-auto flex items-center justify-between text-white"
       >
-        <h1
-          class="text-5xl md:text-6xl lg:text-8xl font-semibold font-cormorant max-w-3xl text-blanced"
-        >
-          Find Your <span class="text-primary">Signature</span> Look with Our
-          <br class="hidden lg:block" />
-          Salon
-        </h1>
-        <p class="max-w-2xl text-base text-white/70 py-4 md:py-8">
-          Discover the art of beautiful hair at our salon. Our skilled stylists
-          bring creativity and expertise to every cut, Colour, and style. Step
-          into a world of luxury
-        </p>
-        <!-- Action Bnt -->
-        <div class="flex gap-2 md:gap-8">
-          <button class="btn btn-primary py-1.5 md:py-5">Appoint Now</button>
-          <button class="btn gap-3 px-4">
-            Secondary Button
+        <div>
+          <h1 class="text-3xl"><a href="#">Logo</a></h1>
+        </div>
+        <div>
+          <ul class="navbar-nav hidden lg:flex">
+            <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">About Us</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">Services</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">Pricing</a></li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Appointment</a>
+            </li>
+            <li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
+          </ul>
+        </div>
+        <div class="flex items-center gap-4 md:gap-6">
+          <button class="btn btn-circel">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -105,66 +49,147 @@
               <path
                 stroke-linecap="round"
                 stroke-linejoin="round"
-                d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75"
+                d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"
               />
             </svg>
           </button>
+          <button class="btn btn-circel">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="w-6 h-6"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
+              />
+            </svg>
+          </button>
+          <button class="btn btn-primary">Sign Up</button>
         </div>
-        <div class="flex items-center justify-center gap-5 md:gap-24 xl:gap-36 py-16">
-          <div>
-            <h1 class="text-3xl md:text-5xl m-1 font-normal">15 +</h1>
-            <p>Experience</p>
-          </div>
-          <div>
-            <h1 class="text-3xl md:text-5xl m-1 font-normal">137k +</h1>
-            <p>Clients Worldwide</p>
-          </div>
+      </div>
+    </nav>
 
-          <div>
-            <h1 class="text-3xl md:text-5xl m-1 font-normal">15 +</h1>
-            <p>Experience</p>
-          </div>
-        </div>
-        <div class="max-w-xs mx-auto">
-          <svg
-            width="49"
-            height="48"
-            class="mx-auto my-1 animate-bounce"
-            viewBox="0 0 49 48"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
+    <main>
+      <!-- 
+      ============================
+           Hero Section
+      ============================
+      -->
+      <section id="hero" class="max-h-screen w-full">
+        <div
+          class="max-w-8xl mx-auto flex flex-col items-start justify-center overflow-hidden px-4 md:px-8 2xl:px-0 pt-14 lg:pt-48"
+        >
+          <h1
+            class="text-5xl md:text-6xl lg:text-8xl font-semibold font-cormorant max-w-3xl text-blanced"
           >
-            <path
-              d="M28.3413 30.6654L28.3417 30.666L37.0248 43.3578C37.0248 43.3578 37.0248 43.3579 37.0249 43.3579C37.0623 43.4128 37.0765 43.4803 37.0642 43.5456C37.052 43.611 37.0142 43.6688 36.9594 43.7063C36.9045 43.7438 36.8369 43.758 36.7716 43.7457L36.6793 44.2371L36.7716 43.7457C36.7062 43.7335 36.6484 43.6957 36.6109 43.6408L36.6108 43.6407L27.9296 30.9526L27.9278 30.9501C27.8901 30.8957 27.8755 30.8286 27.8872 30.7634C27.899 30.6983 27.936 30.6405 27.9903 30.6026L27.9974 30.5977L28.0006 30.5953C28.026 30.5792 28.0541 30.5677 28.0836 30.5615C28.1157 30.5548 28.1489 30.5545 28.1811 30.5606L28.2739 30.0693L28.1812 30.5606C28.2134 30.5667 28.2442 30.5791 28.2716 30.5971L28.5454 30.1787L28.2717 30.5971C28.2991 30.615 28.3228 30.6383 28.3413 30.6654ZM12.037 43.7087L12.036 43.7079C11.9817 43.6701 11.9446 43.6122 11.9329 43.5471C11.9212 43.4819 11.9358 43.4148 11.9735 43.3604L11.9751 43.358L24.0033 25.7817L24.1965 25.4993L24.0033 25.2169L17.9039 16.3051L17.6547 15.941L17.2625 16.1428C16.0311 16.7764 14.6061 16.9221 13.272 16.551C11.9379 16.1798 10.7929 15.319 10.0656 14.1405C9.33843 12.962 9.08253 11.5526 9.34904 10.1937C9.61556 8.83478 10.3849 7.62642 11.5034 6.80993C12.6218 5.99344 14.0072 5.62892 15.3827 5.78916C16.7581 5.9494 18.0226 6.62261 18.9234 7.67434C19.8242 8.72608 20.2952 10.0789 20.2422 11.4627C20.1892 12.8464 19.6162 14.1592 18.6377 15.1389C18.5611 15.2155 18.4811 15.2904 18.3995 15.3618L18.0655 15.654L18.3161 16.0204L24.0873 24.4579L24.5 25.0612L24.9127 24.4579L30.684 16.0204L30.9345 15.654L30.6005 15.3618C30.5903 15.3529 30.5805 15.3443 30.5711 15.336C30.4847 15.2606 30.4263 15.2096 30.3825 15.1603L30.3729 15.1495L30.3628 15.1393C29.3897 14.1638 28.8203 12.8572 28.7683 11.4803C28.7163 10.1035 29.1854 8.75761 30.0821 7.71145C30.9788 6.66529 32.2371 5.99579 33.6057 5.83659C34.9743 5.67738 36.3527 6.0402 37.4655 6.8526C38.5784 7.665 39.344 8.86722 39.6094 10.2193C39.8748 11.5713 39.6205 12.9738 38.8974 14.1466C38.1742 15.3194 37.0353 16.1764 35.7081 16.5464C34.3808 16.9164 32.9628 16.7722 31.7372 16.1427L31.3451 15.9413L31.0961 16.3051L24.7211 25.6219L24.7211 25.622L12.3911 43.6388L12.3883 43.643C12.3698 43.6707 12.3459 43.6944 12.3181 43.7127C12.2903 43.731 12.2592 43.7436 12.2265 43.7497C12.1937 43.7558 12.1601 43.7553 12.1276 43.7483C12.0951 43.7412 12.0643 43.7278 12.037 43.7087ZM30.7083 14.7898L30.7089 14.7903C30.9251 15.0066 31.1604 15.2029 31.4119 15.3768L31.4125 15.3773C32.4716 16.1073 33.7714 16.401 35.0415 16.1974C36.3116 15.9938 37.4544 15.3085 38.2323 14.284L37.8341 13.9816L38.2323 14.284C39.0102 13.2595 39.3633 11.9746 39.2182 10.6965C39.0731 9.41832 38.441 8.24527 37.4532 7.4212C36.4655 6.59712 35.1982 6.18542 33.9147 6.2717C32.6313 6.35797 31.4305 6.93558 30.5619 7.88443C29.6934 8.83329 29.2239 10.0804 29.2512 11.3664C29.2785 12.6525 29.8004 13.8786 30.7083 14.7898ZM17.4296 15.4712L17.445 15.4712L17.5725 15.3842C17.8292 15.2089 18.0693 15.0106 18.2898 14.7916L18.2917 14.7898C18.9892 14.0898 19.4637 13.1989 19.6552 12.2294C19.8467 11.26 19.7467 10.2556 19.3678 9.34294C18.9888 8.43033 18.3479 7.65046 17.5261 7.10182C16.7042 6.55318 15.7382 6.26037 14.75 6.26037C13.7619 6.26037 12.7958 6.55318 11.974 7.10182C11.1521 7.65046 10.5112 8.43032 10.1323 9.34294C9.75334 10.2556 9.65331 11.26 9.84483 12.2294C10.0363 13.1989 10.5108 14.0898 11.2084 14.7898L11.2087 14.7901C11.6734 15.2557 12.226 15.6244 12.8343 15.8749C13.442 16.1251 14.0933 16.2524 14.7505 16.2493C15.7007 16.252 16.6305 15.9813 17.4296 15.4712Z"
-              stroke="#CEA561"
-            />
-          </svg>
-          <span>Scroll Down</span>
+            Find Your <span class="text-primary">Signature</span> Look with Our
+            <br class="hidden lg:block" />
+            Salon
+          </h1>
+          <p class="max-w-2xl text-base text-white/70 py-4 md:py-8">
+            Discover the art of beautiful hair at our salon. Our skilled
+            stylists bring creativity and expertise to every cut, Colour, and
+            style. Step into a world of luxury
+          </p>
+          <!-- Action Bnt -->
+          <div class="flex gap-2 md:gap-8">
+            <button class="btn btn-primary py-1.5 md:py-5">Appoint Now</button>
+            <button class="btn gap-3 px-4">
+              Secondary Button
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="w-6 h-6"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75"
+                />
+              </svg>
+            </button>
+          </div>
+          <div
+            class="flex items-center justify-center gap-5 md:gap-24 xl:gap-36 py-16"
+          >
+            <div>
+              <h1 class="text-3xl md:text-5xl m-1 font-normal">15 +</h1>
+              <p>Experience</p>
+            </div>
+            <div>
+              <h1 class="text-3xl md:text-5xl m-1 font-normal">137k +</h1>
+              <p>Clients Worldwide</p>
+            </div>
+
+            <div>
+              <h1 class="text-3xl md:text-5xl m-1 font-normal">15 +</h1>
+              <p>Experience</p>
+            </div>
+          </div>
+          <div class="max-w-xs mx-auto">
+            <svg
+              width="49"
+              height="48"
+              class="mx-auto my-1 animate-bounce"
+              viewBox="0 0 49 48"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M28.3413 30.6654L28.3417 30.666L37.0248 43.3578C37.0248 43.3578 37.0248 43.3579 37.0249 43.3579C37.0623 43.4128 37.0765 43.4803 37.0642 43.5456C37.052 43.611 37.0142 43.6688 36.9594 43.7063C36.9045 43.7438 36.8369 43.758 36.7716 43.7457L36.6793 44.2371L36.7716 43.7457C36.7062 43.7335 36.6484 43.6957 36.6109 43.6408L36.6108 43.6407L27.9296 30.9526L27.9278 30.9501C27.8901 30.8957 27.8755 30.8286 27.8872 30.7634C27.899 30.6983 27.936 30.6405 27.9903 30.6026L27.9974 30.5977L28.0006 30.5953C28.026 30.5792 28.0541 30.5677 28.0836 30.5615C28.1157 30.5548 28.1489 30.5545 28.1811 30.5606L28.2739 30.0693L28.1812 30.5606C28.2134 30.5667 28.2442 30.5791 28.2716 30.5971L28.5454 30.1787L28.2717 30.5971C28.2991 30.615 28.3228 30.6383 28.3413 30.6654ZM12.037 43.7087L12.036 43.7079C11.9817 43.6701 11.9446 43.6122 11.9329 43.5471C11.9212 43.4819 11.9358 43.4148 11.9735 43.3604L11.9751 43.358L24.0033 25.7817L24.1965 25.4993L24.0033 25.2169L17.9039 16.3051L17.6547 15.941L17.2625 16.1428C16.0311 16.7764 14.6061 16.9221 13.272 16.551C11.9379 16.1798 10.7929 15.319 10.0656 14.1405C9.33843 12.962 9.08253 11.5526 9.34904 10.1937C9.61556 8.83478 10.3849 7.62642 11.5034 6.80993C12.6218 5.99344 14.0072 5.62892 15.3827 5.78916C16.7581 5.9494 18.0226 6.62261 18.9234 7.67434C19.8242 8.72608 20.2952 10.0789 20.2422 11.4627C20.1892 12.8464 19.6162 14.1592 18.6377 15.1389C18.5611 15.2155 18.4811 15.2904 18.3995 15.3618L18.0655 15.654L18.3161 16.0204L24.0873 24.4579L24.5 25.0612L24.9127 24.4579L30.684 16.0204L30.9345 15.654L30.6005 15.3618C30.5903 15.3529 30.5805 15.3443 30.5711 15.336C30.4847 15.2606 30.4263 15.2096 30.3825 15.1603L30.3729 15.1495L30.3628 15.1393C29.3897 14.1638 28.8203 12.8572 28.7683 11.4803C28.7163 10.1035 29.1854 8.75761 30.0821 7.71145C30.9788 6.66529 32.2371 5.99579 33.6057 5.83659C34.9743 5.67738 36.3527 6.0402 37.4655 6.8526C38.5784 7.665 39.344 8.86722 39.6094 10.2193C39.8748 11.5713 39.6205 12.9738 38.8974 14.1466C38.1742 15.3194 37.0353 16.1764 35.7081 16.5464C34.3808 16.9164 32.9628 16.7722 31.7372 16.1427L31.3451 15.9413L31.0961 16.3051L24.7211 25.6219L24.7211 25.622L12.3911 43.6388L12.3883 43.643C12.3698 43.6707 12.3459 43.6944 12.3181 43.7127C12.2903 43.731 12.2592 43.7436 12.2265 43.7497C12.1937 43.7558 12.1601 43.7553 12.1276 43.7483C12.0951 43.7412 12.0643 43.7278 12.037 43.7087ZM30.7083 14.7898L30.7089 14.7903C30.9251 15.0066 31.1604 15.2029 31.4119 15.3768L31.4125 15.3773C32.4716 16.1073 33.7714 16.401 35.0415 16.1974C36.3116 15.9938 37.4544 15.3085 38.2323 14.284L37.8341 13.9816L38.2323 14.284C39.0102 13.2595 39.3633 11.9746 39.2182 10.6965C39.0731 9.41832 38.441 8.24527 37.4532 7.4212C36.4655 6.59712 35.1982 6.18542 33.9147 6.2717C32.6313 6.35797 31.4305 6.93558 30.5619 7.88443C29.6934 8.83329 29.2239 10.0804 29.2512 11.3664C29.2785 12.6525 29.8004 13.8786 30.7083 14.7898ZM17.4296 15.4712L17.445 15.4712L17.5725 15.3842C17.8292 15.2089 18.0693 15.0106 18.2898 14.7916L18.2917 14.7898C18.9892 14.0898 19.4637 13.1989 19.6552 12.2294C19.8467 11.26 19.7467 10.2556 19.3678 9.34294C18.9888 8.43033 18.3479 7.65046 17.5261 7.10182C16.7042 6.55318 15.7382 6.26037 14.75 6.26037C13.7619 6.26037 12.7958 6.55318 11.974 7.10182C11.1521 7.65046 10.5112 8.43032 10.1323 9.34294C9.75334 10.2556 9.65331 11.26 9.84483 12.2294C10.0363 13.1989 10.5108 14.0898 11.2084 14.7898L11.2087 14.7901C11.6734 15.2557 12.226 15.6244 12.8343 15.8749C13.442 16.1251 14.0933 16.2524 14.7505 16.2493C15.7007 16.252 16.6305 15.9813 17.4296 15.4712Z"
+                stroke="#CEA561"
+              />
+            </svg>
+            <span>Scroll Down</span>
+          </div>
         </div>
       </section>
-
       <!-- 
       ============================
            About Us Section
       ============================
       -->
-      <section id="about-us">
-        <div>
-          <img src="" alt="" />
-        </div>
-        <div class="section-heading">
-          <p class="section-subtitle">Our Services</p>
-          <h2 class="section-title">What We Provide</h2>
-          <p class="section-description">
-            Borem ipsum dolor sit amet, consectetur adipiscing elit. Nunc
-            vulputate libero et velit interdum, ac aliquet odio mattis. Class
-            aptent taciti sociosqu ad litora torquent per himenaeos. Curabitur
-            tempus urna at turpis condimentum lobortis. Borem ipsum dolor sit
-            amet, consectetur adipiscing elit. Nunc vulputate libero et velit
-            interdum, ac aliquet odio mattis. Class aptent taciti sociosqu ad
-            litora torquent per himenaeos. Curabitur tempus urna at turpis
-            condimentum lobortis.
-          </p>
+      <section
+        id="about-us"
+        class="h-full md:h-[48rem] flex items-center justify-center bg-secondary"
+      >
+        <div
+          class="max-w-7xl px-4 flex flex-col-reverse lg:flex-row items-center justify-between gap-6 lg:gap-16"
+        >
+          <div class="max-w-lg">
+            <img
+              src="./img/About Us Section/adam-winger-VjRpkGtS55w-unsplash 2.png"
+              class="w-full h-full object-cover"
+              alt=""
+            />
+          </div>
+          <div class="max-w-2xl mx-auto">
+            <p class="section-subtitle">Our Services</p>
+            <h2 class="section-title">What We Provide</h2>
+            <div class="section-description text-justify space-y-8">
+              <p>
+                Borem ipsum dolor sit amet, consectetur adipiscing elit. Nunc
+                vulputate libero et velit interdum, ac aliquet odio mattis.
+                Class aptent taciti sociosqu ad litora torquent per himenaeos.
+                Curabitur tempus urna at turpis condimentum
+              </p>
+              <p>
+                lobortis. Borem ipsum dolor sit amet, consectetur adipiscing
+                elit. Nunc vulputate libero et velit interdum, ac aliquet odio
+                mattis. Class aptent taciti sociosqu ad litora torquent per
+                himenaeos. Curabitur tempus urna at turpis condimentum lobortis.
+              </p>
+            </div>
+            <button class="btn btn-primary my-4 md:my-8">More About Us</button>
+          </div>
         </div>
       </section>
 
@@ -173,13 +198,83 @@
            Services Section
       ============================
       -->
-      <section id="services">
+      <section class="h-full" id="services">
         <div class="section-heading">
           <p class="section-subtitle">Our Services</p>
           <h2 class="section-title">What We Provide</h2>
           <p class="section-description">
             Borem ipsum dolor sit amet, consectetur adipiscing elit. Nunc
           </p>
+        </div>
+
+        <!-- Services -->
+        <div
+          class="flex items-center justify-center flex-wrap gap-6 w-full lg:py-20"
+        >
+          <!-- Services card start-->
+          <div class="services-card">
+            <div class="w-28 h-20">
+              <img
+                class="w-full h-full object-cover"
+                src="./img/Icons/HairCut.svg"
+                alt=""
+              />
+            </div>
+            <div>
+              <h4 class="font-cormorant text-5xl">Hair Cut</h4>
+            </div>
+            <div>
+              <button class="btn px-16 py-2 btn-primary">Book now</button>
+            </div>
+          </div>
+          <!-- Services card start-->
+          <div class="services-card">
+            <div class="w-28 h-20">
+              <img
+                class="w-full h-full object-cover"
+                src="./img/Icons/Shaving.svg"
+                alt=""
+              />
+            </div>
+            <div>
+              <h4 class="font-cormorant text-5xl">Shaving</h4>
+            </div>
+            <div>
+              <button class="btn px-16 py-2 btn-primary">Book now</button>
+            </div>
+          </div>
+          <!-- Services card start-->
+          <div class="services-card">
+            <div class="w-28 h-20">
+              <img
+                class="w-full h-full object-cover"
+                src="./img/Icons/Hair Dye.svg"
+                alt=""
+              />
+            </div>
+            <div>
+              <h4 class="font-cormorant text-5xl">Hair Dye</h4>
+            </div>
+            <div>
+              <button class="btn px-16 py-2 btn-primary">Book now</button>
+            </div>
+          </div>
+          <!-- Services card start-->
+          <div class="services-card">
+            <div class="w-28 h-20">
+              <img
+                class="w-full h-full object-cover"
+                src="./img/Icons/Facial.svg"
+                alt=""
+              />
+            </div>
+            <div>
+              <h4 class="font-cormorant text-5xl">Facial</h4>
+            </div>
+            <div>
+              <button class="btn px-16 py-2 btn-primary">Book now</button>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -188,13 +283,826 @@
            Shop Section
       ============================
       -->
-      <section id="shop">
+      <section class="h-full bg-secondary" id="shop">
         <div class="section-heading">
           <p class="section-subtitle">Shop Now</p>
           <h2 class="section-title">Our Latest Products</h2>
           <p class="section-description">
             Borem ipsum dolor sit amet, consectetur adipiscing elit. Nunc
           </p>
+        </div>
+        <!-- product container -->
+        <div class="max-w-8xl mx-auto px-4 flex justify-center flex-wrap gap-5">
+          <!-- product card  -->
+          <div class="product-card">
+            <div class="card-header group">
+              <div
+                class="relative w-full h-full md:w-[26rem] md:h-[28rem] overflow-hidden rounded-xl bg-orange-100"
+              >
+                <img
+                  class="w-full h-full object-cover object-top"
+                  src="./img/Products Images/image 5.png"
+                  alt=""
+                />
+                <div
+                  class="absolute h-full w-full bg-black/20 flex items-center justify-center -bottom-10 group-hover:bottom-0 opacity-0 group-hover:opacity-100 transition-all duration-300"
+                >
+                  <button
+                    class="btn bg-secondary text-white py-5 px-5 rounded-full"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke-width="1.5"
+                      stroke="#A5844E"
+                      class="w-8 h-8"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"
+                      />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="flex justify-between items-center py-5 border-b">
+                <h4 class="product-card-title">Face Wash</h4>
+                <div class="flex items-center gap-1">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="#FFE500"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="#FFE500"
+                    class="w-6 h-6"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"
+                    />
+                  </svg>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="#FFE500"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="#FFE500"
+                    class="w-6 h-6"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"
+                    />
+                  </svg>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="#FFE500"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="#FFE500"
+                    class="w-6 h-6"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"
+                    />
+                  </svg>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="#FFE500"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="#FFE500"
+                    class="w-6 h-6"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"
+                    />
+                  </svg>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="#FFE500"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="#FFE500"
+                    class="w-6 h-6"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"
+                    />
+                  </svg>
+                  <span class="text-xs text-white/70 font-manrope">(234)</span>
+                </div>
+              </div>
+              <p class="font-manrope text-white/70 py-4">Price</p>
+              <div class="flex justify-between items-center">
+                <span class="font-cormorant text-3xl">74.5$</span>
+                <button class="btn py-3 px-4 ring-1 ring-white/70">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="w-6 h-6"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25"
+                    />
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+          <!-- product card  -->
+          <div class="product-card">
+            <div class="card-header group">
+              <div
+                class="relative w-full h-full md:w-[26rem] md:h-[28rem] overflow-hidden rounded-xl bg-orange-100"
+              >
+                <img
+                  class="w-full h-full object-cover object-top"
+                  src="./img/Products Images/image 3.png"
+                  alt=""
+                />
+                <div
+                  class="absolute h-full w-full bg-black/20 flex items-center justify-center -bottom-10 group-hover:bottom-0 opacity-0 group-hover:opacity-100 transition-all duration-300"
+                >
+                  <button
+                    class="btn bg-secondary text-white py-5 px-5 rounded-full"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke-width="1.5"
+                      stroke="#A5844E"
+                      class="w-8 h-8"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"
+                      />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="flex justify-between items-center py-5 border-b">
+                <h4 class="product-card-title">Beauty Ca...</h4>
+                <div class="flex items-center gap-1">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="#FFE500"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="#FFE500"
+                    class="w-6 h-6"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"
+                    />
+                  </svg>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="#FFE500"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="#FFE500"
+                    class="w-6 h-6"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"
+                    />
+                  </svg>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="#FFE500"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="#FFE500"
+                    class="w-6 h-6"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"
+                    />
+                  </svg>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="#FFE500"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="#FFE500"
+                    class="w-6 h-6"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"
+                    />
+                  </svg>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="#FFE500"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="#FFE500"
+                    class="w-6 h-6"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"
+                    />
+                  </svg>
+                  <span class="text-xs text-white/70 font-manrope">(234)</span>
+                </div>
+              </div>
+              <p class="font-manrope text-white/70 py-4">Price</p>
+              <div class="flex justify-between items-center">
+                <span class="font-cormorant text-3xl">74.5$</span>
+                <button class="btn py-3 px-4 ring-1 ring-white/70">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="w-6 h-6"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25"
+                    />
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+          <!-- product card  -->
+          <div class="product-card">
+            <div class="card-header group">
+              <div
+                class="relative w-full h-full md:w-[26rem] md:h-[28rem] overflow-hidden rounded-xl bg-orange-100"
+              >
+                <img
+                  class="w-full h-full object-cover object-top"
+                  src="./img/Products Images/image-2.png"
+                  alt=""
+                />
+                <div
+                  class="absolute h-full w-full bg-black/20 flex items-center justify-center -bottom-10 group-hover:bottom-0 opacity-0 group-hover:opacity-100 transition-all duration-300"
+                >
+                  <button
+                    class="btn bg-secondary text-white py-5 px-5 rounded-full"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke-width="1.5"
+                      stroke="#A5844E"
+                      class="w-8 h-8"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"
+                      />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="flex justify-between items-center py-5 border-b">
+                <h4 class="text-3xl md:text-5xl">Shampoo</h4>
+                <div class="flex items-center gap-1">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="#FFE500"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="#FFE500"
+                    class="w-6 h-6"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"
+                    />
+                  </svg>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="#FFE500"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="#FFE500"
+                    class="w-6 h-6"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"
+                    />
+                  </svg>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="#FFE500"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="#FFE500"
+                    class="w-6 h-6"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"
+                    />
+                  </svg>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="#FFE500"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="#FFE500"
+                    class="w-6 h-6"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"
+                    />
+                  </svg>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="#FFE500"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="#FFE500"
+                    class="w-6 h-6"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"
+                    />
+                  </svg>
+                  <span class="text-xs text-white/70 font-manrope">(234)</span>
+                </div>
+              </div>
+              <p class="font-manrope text-white/70 py-4">Price</p>
+              <div class="flex justify-between items-center">
+                <span class="font-cormorant text-3xl">74.5$</span>
+                <button class="btn py-3 px-4 ring-1 ring-white/70">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="w-6 h-6"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25"
+                    />
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+          <!-- product card  -->
+          <div class="product-card">
+            <div class="card-header group">
+              <div
+                class="relative w-full h-full md:w-[26rem] md:h-[28rem] overflow-hidden rounded-xl bg-orange-100"
+              >
+                <img
+                  class="w-full h-full object-cover object-top"
+                  src="./img/Products Images/image 3.png"
+                  alt=""
+                />
+                <div
+                  class="absolute h-full w-full bg-black/20 flex items-center justify-center -bottom-10 group-hover:bottom-0 opacity-0 group-hover:opacity-100 transition-all duration-300"
+                >
+                  <button
+                    class="btn bg-secondary text-white py-5 px-5 rounded-full"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke-width="1.5"
+                      stroke="#A5844E"
+                      class="w-8 h-8"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"
+                      />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="flex justify-between items-center py-5 border-b">
+                <h4 class="product-card-title">Beauty Ca...</h4>
+                <div class="flex items-center gap-1">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="#FFE500"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="#FFE500"
+                    class="w-6 h-6"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"
+                    />
+                  </svg>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="#FFE500"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="#FFE500"
+                    class="w-6 h-6"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"
+                    />
+                  </svg>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="#FFE500"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="#FFE500"
+                    class="w-6 h-6"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"
+                    />
+                  </svg>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="#FFE500"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="#FFE500"
+                    class="w-6 h-6"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"
+                    />
+                  </svg>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="#FFE500"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="#FFE500"
+                    class="w-6 h-6"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"
+                    />
+                  </svg>
+                  <span class="text-xs text-white/70 font-manrope">(234)</span>
+                </div>
+              </div>
+              <p class="font-manrope text-white/70 py-4">Price</p>
+              <div class="flex justify-between items-center">
+                <span class="font-cormorant text-3xl">74.5$</span>
+                <button class="btn py-3 px-4 ring-1 ring-white/70">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="w-6 h-6"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25"
+                    />
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+          <!-- product card  -->
+          <div class="product-card">
+            <div class="card-header group">
+              <div
+                class="relative w-full h-full md:w-[26rem] md:h-[28rem] overflow-hidden rounded-xl bg-orange-100"
+              >
+                <img
+                  class="w-full h-full object-cover object-top"
+                  src="./img/Products Images/image-2.png"
+                  alt=""
+                />
+                <div
+                  class="absolute h-full w-full bg-black/20 flex items-center justify-center -bottom-10 group-hover:bottom-0 opacity-0 group-hover:opacity-100 transition-all duration-300"
+                >
+                  <button
+                    class="btn bg-secondary text-white py-5 px-5 rounded-full"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke-width="1.5"
+                      stroke="#A5844E"
+                      class="w-8 h-8"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"
+                      />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="flex justify-between items-center py-5 border-b">
+                <h4 class="text-3xl md:text-5xl">Shampoo</h4>
+                <div class="flex items-center gap-1">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="#FFE500"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="#FFE500"
+                    class="w-6 h-6"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"
+                    />
+                  </svg>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="#FFE500"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="#FFE500"
+                    class="w-6 h-6"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"
+                    />
+                  </svg>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="#FFE500"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="#FFE500"
+                    class="w-6 h-6"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"
+                    />
+                  </svg>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="#FFE500"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="#FFE500"
+                    class="w-6 h-6"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"
+                    />
+                  </svg>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="#FFE500"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="#FFE500"
+                    class="w-6 h-6"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"
+                    />
+                  </svg>
+                  <span class="text-xs text-white/70 font-manrope">(234)</span>
+                </div>
+              </div>
+              <p class="font-manrope text-white/70 py-4">Price</p>
+              <div class="flex justify-between items-center">
+                <span class="font-cormorant text-3xl">74.5$</span>
+                <button class="btn py-3 px-4 ring-1 ring-white/70">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="w-6 h-6"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25"
+                    />
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+          <!-- product card  -->
+          <div class="product-card">
+            <div class="card-header group">
+              <div
+                class="relative w-full h-full md:w-[26rem] md:h-[28rem] overflow-hidden rounded-xl bg-orange-100"
+              >
+                <img
+                  class="w-full h-full object-cover object-top"
+                  src="./img/Products Images/image 3.png"
+                  alt=""
+                />
+                <div
+                  class="absolute h-full w-full bg-black/20 flex items-center justify-center -bottom-10 group-hover:bottom-0 opacity-0 group-hover:opacity-100 transition-all duration-300"
+                >
+                  <button
+                    class="btn bg-secondary text-white py-5 px-5 rounded-full"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke-width="1.5"
+                      stroke="#A5844E"
+                      class="w-8 h-8"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"
+                      />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="flex justify-between items-center py-5 border-b">
+                <h4 class="product-card-title">Beauty Ca...</h4>
+                <div class="flex items-center gap-1">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="#FFE500"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="#FFE500"
+                    class="w-6 h-6"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"
+                    />
+                  </svg>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="#FFE500"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="#FFE500"
+                    class="w-6 h-6"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"
+                    />
+                  </svg>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="#FFE500"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="#FFE500"
+                    class="w-6 h-6"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"
+                    />
+                  </svg>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="#FFE500"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="#FFE500"
+                    class="w-6 h-6"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"
+                    />
+                  </svg>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="#FFE500"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="#FFE500"
+                    class="w-6 h-6"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"
+                    />
+                  </svg>
+                  <span class="text-xs text-white/70 font-manrope">(234)</span>
+                </div>
+              </div>
+              <p class="font-manrope text-white/70 py-4">Price</p>
+              <div class="flex justify-between items-center">
+                <span class="font-cormorant text-3xl">74.5$</span>
+                <button class="btn py-3 px-4 ring-1 ring-white/70">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="w-6 h-6"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25"
+                    />
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- load more btn -->
+        <div class="flex items-center justify-center py-4 md:py-16">
+          <button class="btn px-6 py-2.5 ring-1 ring-primary normal-case">
+            Show all
+          </button>
         </div>
       </section>
 
@@ -211,6 +1119,28 @@
             Borem ipsum dolor sit amet, consectetur adipiscing elit. Nunc
           </p>
         </div>
+        <!-- working hours -->
+        <div class="max-w-2xl mx-auto font-cormorant font-semibold">
+          <table class="border-collapse w-full">
+            <tr class="border-b border-white/30">
+              <td class="md:px-10 py-6 md:text-2xl">Mon - Friday</td>
+              <td class="md:px-10 py-6">:</td>
+              <td class="md:px-10 py-6 md:text-2xl text-left">
+                7:30 am - 2:00 pm
+              </td>
+            </tr>
+            <tr class="border-b border-white/30">
+              <td class="md:px-10 py-6 md:text-2xl">Saturday</td>
+              <td class="md:px-10 py-6">:</td>
+              <td class="md:px-10 py-6 md:text-2xl">7:30 am - 2:00 pm</td>
+            </tr>
+            <tr class="py-4">
+              <td class="md:px-10 py-6 md:text-2xl">Sunday</td>
+              <td class="md:px-10 py-6">:</td>
+              <td class="md:px-10 py-6 md:text-2xl">Closed</td>
+            </tr>
+          </table>
+        </div>
       </section>
 
       <!-- 
@@ -218,13 +1148,99 @@
            Blog Section
       ============================
       -->
-      <section id="blog">
+      <section id="blog" class="bg-secondary">
         <div class="section-heading">
           <p class="section-subtitle">Latest Trends</p>
           <h2 class="section-title">Our Blogs</h2>
           <p class="section-description">
             Borem ipsum dolor sit amet, consectetur adipiscing elit. Nunc
           </p>
+        </div>
+
+        <!-- blog container -->
+        <div class="container mx-auto px-4 flex justify-center flex-wrap gap-4">
+          <!-- blog card -->
+          <div class="rounded-lg max-w-md space-y-6">
+            <div class="max-w-md h-80 rounded-xl overflow-hidden">
+              <img
+                class="h-full w-full object-cover"
+                src="./img/Blog Section/Image.png"
+                alt=""
+              />
+            </div>
+            <div class="font-manrope">
+              <span class="text-white/70">By John | April 10, 2023</span>
+              <h5 class="text-xl md:text-3xl font-cormorant font-semibold my-2">
+                Discover the practices that form a healthy hair care routine.
+              </h5>
+              <p class="font-normal text-white/70">
+                Here are the biggest enterprise technology acquisitions of 2021
+                so far, in reverse chronological order.
+              </p>
+              <a
+                href="#"
+                class="inline-block my-2 py-2.5 text-xl text-primary font-semibold hover:border-b-2 border-primary hover:text-primary/70"
+              >
+                Read more
+              </a>
+            </div>
+          </div>
+          <!-- blog card -->
+          <div class="rounded-lg max-w-md space-y-6">
+            <div class="max-w-md h-80 rounded-xl overflow-hidden">
+              <img
+                class="h-full w-full object-cover"
+                src="./img/Blog Section/Image-1.png"
+                alt=""
+              />
+            </div>
+            <div class="font-manrope">
+              <span class="text-white/70">By John | April 10, 2023</span>
+              <h5 class="text-xl md:text-3xl font-cormorant font-semibold my-2">
+                Discover the practices that form a healthy hair care routine.
+              </h5>
+              <p class="font-normal text-white/70">
+                Here are the biggest enterprise technology acquisitions of 2021
+                so far, in reverse chronological order.
+              </p>
+              <a
+                href="#"
+                class="inline-block my-2 py-2.5 text-xl text-primary font-semibold hover:border-b-2 border-primary hover:text-primary/70"
+              >
+                Read more
+              </a>
+            </div>
+          </div>
+          <!-- blog card -->
+          <div class="rounded-lg max-w-md space-y-6">
+            <div class="max-w-md h-80 rounded-xl overflow-hidden">
+              <img
+                class="h-full w-full object-cover"
+                src="./img/Blog Section/Image-2.png"
+                alt=""
+              />
+            </div>
+            <div class="font-manrope">
+              <span class="text-white/70">By John | April 10, 2023</span>
+              <h5 class="text-xl md:text-3xl font-cormorant font-semibold my-2">
+                Discover the practices that form a healthy hair care routine.
+              </h5>
+              <p class="font-normal text-white/70">
+                Here are the biggest enterprise technology acquisitions of 2021
+                so far, in reverse chronological order.
+              </p>
+              <a
+                href="#"
+                class="inline-block my-2 py-2.5 text-xl text-primary font-semibold hover:border-b-2 border-primary hover:text-primary/70"
+              >
+                Read more
+              </a>
+            </div>
+          </div>
+        </div>
+        <!-- load more btn -->
+        <div class="flex items-center justify-center py-4 md:py-8">
+          <button class="btn px-6 py-2.5 ring-1 ring-primary">Load more</button>
         </div>
       </section>
 
@@ -234,15 +1250,200 @@
       ============================
       -->
       <section id="team">
-        <section id="faqs">
-          <div class="section-heading">
-            <p class="section-subtitle">The Faces Behind Our Success</p>
-            <h2 class="section-title">Meet Our Stylists</h2>
-            <p class="section-description">
-              Borem ipsum dolor sit amet, consectetur adipiscing elit. Nunc
-            </p>
+        <div class="section-heading">
+          <p class="section-subtitle">The Faces Behind Our Success</p>
+          <h2 class="section-title">Meet Our Stylists</h2>
+          <p class="section-description">
+            Borem ipsum dolor sit amet, consectetur adipiscing elit. Nunc
+          </p>
+        </div>
+        <!-- team container -->
+        <div class="container mx-auto px-4 flex justify-center flex-wrap">
+          <!-- team card -->
+          <div
+            class="relative group w-full md:w-6/12 lg:w-3/12 mb-6 px-6 sm:px-6 lg:px-4"
+          >
+            <div class="flex flex-col rounded-2xl overflow-hidden">
+              <!-- Avatar -->
+              <div class="z-0 h-72 overflow-hidden object-top">
+                <img
+                  class="h-full w-full object-cover"
+                  src="./img/Team Members Images/team-1.png"
+                />
+              </div>
+
+              <!-- Details -->
+              <div class="text-center py-4 z-10 -mt-6 bg-secondary rounded-2xl">
+                <!-- Name -->
+                <h1
+                  class="text-white/70 text-2xl font-cormorant font-semibold mb-1"
+                >
+                  Tranter Jaskulski
+                </h1>
+
+                <!-- Title -->
+                <div class="text-white/70 font-light mb-2">
+                  Founder & Specialist
+                </div>
+              </div>
+            </div>
+            <!-- Social Icons -->
+            <div
+              class="absolute h-full w-full bg-black/20 flex items-center justify-center gap-4 -bottom-10 group-hover:bottom-0 opacity-0 group-hover:opacity-100 transition-all duration-300"
+            >
+              <!-- Facebook -->
+              <a href="#">
+                <img src="./img/Icons/Facebook.svg" alt="" />
+              </a>
+              <!-- Instagram -->
+              <a href="#">
+                <img src="./img/Icons/Instagram.svg" alt="" />
+              </a>
+              <!-- Tiktok -->
+              <a href="#">
+                <img src="./img/Icons/Tiktok.svg" alt="" />
+              </a>
+            </div>
           </div>
-        </section>
+          <!-- team card -->
+          <div
+            class="relative group w-full md:w-6/12 lg:w-3/12 mb-6 px-6 sm:px-6 lg:px-4"
+          >
+            <div class="flex flex-col rounded-2xl overflow-hidden">
+              <!-- Avatar -->
+              <div class="z-0 h-72 overflow-hidden object-top">
+                <img
+                  class="h-full w-full object-cover"
+                  src="./img/Team Members Images/team-2.png"
+                />
+              </div>
+
+              <!-- Details -->
+              <div class="text-center py-4 z-10 -mt-6 bg-secondary rounded-2xl">
+                <!-- Name -->
+                <h1
+                  class="text-white/70 text-2xl font-cormorant font-semibold mb-1"
+                >
+                  Tranter Jaskulski
+                </h1>
+
+                <!-- Title -->
+                <div class="text-white/70 font-light mb-2">
+                  Founder & Specialist
+                </div>
+              </div>
+            </div>
+            <!-- Social Icons -->
+            <div
+              class="absolute h-full w-full bg-black/20 flex items-center justify-center gap-4 -bottom-10 group-hover:bottom-0 opacity-0 group-hover:opacity-100 transition-all duration-300"
+            >
+              <!-- Facebook -->
+              <a href="#">
+                <img src="./img/Icons/Facebook.svg" alt="" />
+              </a>
+              <!-- Instagram -->
+              <a href="#">
+                <img src="./img/Icons/Instagram.svg" alt="" />
+              </a>
+              <!-- Tiktok -->
+              <a href="#">
+                <img src="./img/Icons/Tiktok.svg" alt="" />
+              </a>
+            </div>
+          </div>
+          <!-- team card -->
+          <div
+            class="relative group w-full md:w-6/12 lg:w-3/12 mb-6 px-6 sm:px-6 lg:px-4"
+          >
+            <div class="flex flex-col rounded-2xl overflow-hidden">
+              <!-- Avatar -->
+              <div class="z-0 h-72 overflow-hidden object-top">
+                <img
+                  class="h-full w-full object-cover"
+                  src="./img/Team Members Images/team-3.png"
+                />
+              </div>
+
+              <!-- Details -->
+              <div class="text-center py-4 z-10 -mt-6 bg-secondary rounded-2xl">
+                <!-- Name -->
+                <h1
+                  class="text-white/70 text-2xl font-cormorant font-semibold mb-1"
+                >
+                  Tranter Jaskulski
+                </h1>
+
+                <!-- Title -->
+                <div class="text-white/70 font-light mb-2">
+                  Founder & Specialist
+                </div>
+              </div>
+            </div>
+            <!-- Social Icons -->
+            <div
+              class="absolute h-full w-full bg-black/20 flex items-center justify-center gap-4 -bottom-10 group-hover:bottom-0 opacity-0 group-hover:opacity-100 transition-all duration-300"
+            >
+              <!-- Facebook -->
+              <a href="#">
+                <img src="./img/Icons/Facebook.svg" alt="" />
+              </a>
+              <!-- Instagram -->
+              <a href="#">
+                <img src="./img/Icons/Instagram.svg" alt="" />
+              </a>
+              <!-- Tiktok -->
+              <a href="#">
+                <img src="./img/Icons/Tiktok.svg" alt="" />
+              </a>
+            </div>
+          </div>
+          <!-- team card -->
+          <div
+            class="relative group w-full md:w-6/12 lg:w-3/12 mb-6 px-6 sm:px-6 lg:px-4"
+          >
+            <div class="flex flex-col rounded-2xl overflow-hidden">
+              <!-- Avatar -->
+              <div class="z-0 h-72 overflow-hidden object-top">
+                <img
+                  class="h-full w-full object-cover"
+                  src="./img/Team Members Images/team-4.png"
+                />
+              </div>
+
+              <!-- Details -->
+              <div class="text-center py-4 z-10 -mt-6 bg-secondary rounded-2xl">
+                <!-- Name -->
+                <h1
+                  class="text-white/70 text-2xl font-cormorant font-semibold mb-1"
+                >
+                  Tranter Jaskulski
+                </h1>
+
+                <!-- Title -->
+                <div class="text-white/70 font-light mb-2">
+                  Founder & Specialist
+                </div>
+              </div>
+            </div>
+            <!-- Social Icons -->
+            <div
+              class="absolute h-full w-full bg-black/20 flex items-center justify-center gap-4 -bottom-10 group-hover:bottom-0 opacity-0 group-hover:opacity-100 transition-all duration-300"
+            >
+              <!-- Facebook -->
+              <a href="#">
+                <img src="./img/Icons/Facebook.svg" alt="" />
+              </a>
+              <!-- Instagram -->
+              <a href="#">
+                <img src="./img/Icons/Instagram.svg" alt="" />
+              </a>
+              <!-- Tiktok -->
+              <a href="#">
+                <img src="./img/Icons/Tiktok.svg" alt="" />
+              </a>
+            </div>
+          </div>
+        </div>
       </section>
 
       <!-- 
@@ -267,13 +1468,121 @@
       ============================
       -->
 
-      <section id="faqs">
+      <section id="faqs" class="bg-secondary">
         <div class="section-heading">
           <p class="section-subtitle">Verify Your Doubts</p>
           <h2 class="section-title">Frequently Asked Questions</h2>
           <p class="section-description">
             Borem ipsum dolor sit amet, consectetur adipiscing elit. Nunc
           </p>
+        </div>
+        <div>
+          <div
+            class="grid divide-y divide-neutral-200 max-w-6xl mx-auto space-y-6 mb-8 px-4"
+          >
+            <div>
+              <details class="group">
+                <summary
+                  class="flex justify-between items-center px-10 py-4 group-open:bg-primary group-open:text-black rounded-lg ring-1 ring-primary text-xl font-cormorant font-medium cursor-pointer list-none transition-all duration-300 ease-in"
+                >
+                  <span>
+                    Would I get a full refund If I cancel a reservation?</span
+                  >
+                  <span class="transition group-open:rotate-180">
+                    <svg
+                      fill="none"
+                      height="24"
+                      shape-rendering="geometricPrecision"
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="1.5"
+                      viewBox="0 0 24 24"
+                      width="24"
+                    >
+                      <path d="M6 9l6 6 6-6"></path>
+                    </svg>
+                  </span>
+                </summary>
+                <p
+                  class="text-neutral-600 mt-3 transition-all group-open:ease-in group-open:duration-300"
+                >
+                  We offers a variety of billing options, including monthly and
+                  annual subscription plans, as well as pay-as-you-go pricing
+                  for certain services. Payment is typically made through a
+                  credit card or other secure online payment method.
+                </p>
+              </details>
+            </div>
+            <div>
+              <details class="group">
+                <summary
+                  class="flex justify-between items-center px-10 py-4 group-open:bg-primary group-open:text-black rounded-lg ring-1 ring-primary text-xl font-cormorant font-medium cursor-pointer list-none transition-all duration-300 ease-in"
+                >
+                  <span>
+                    Would I get a full refund If I cancel a reservation?</span
+                  >
+                  <span class="transition group-open:rotate-180">
+                    <svg
+                      fill="none"
+                      height="24"
+                      shape-rendering="geometricPrecision"
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="1.5"
+                      viewBox="0 0 24 24"
+                      width="24"
+                    >
+                      <path d="M6 9l6 6 6-6"></path>
+                    </svg>
+                  </span>
+                </summary>
+                <p
+                  class="text-neutral-600 mt-3 transition-all group-open:ease-in group-open:duration-300"
+                >
+                  We offers a variety of billing options, including monthly and
+                  annual subscription plans, as well as pay-as-you-go pricing
+                  for certain services. Payment is typically made through a
+                  credit card or other secure online payment method.
+                </p>
+              </details>
+            </div>
+            <div>
+              <details class="group">
+                <summary
+                  class="flex justify-between items-center px-10 py-4 group-open:bg-primary group-open:text-black rounded-lg ring-1 ring-primary text-xl font-cormorant font-medium cursor-pointer list-none transition-all duration-300 ease-in"
+                >
+                  <span>
+                    Would I get a full refund If I cancel a reservation?</span
+                  >
+                  <span class="transition group-open:rotate-180">
+                    <svg
+                      fill="none"
+                      height="24"
+                      shape-rendering="geometricPrecision"
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="1.5"
+                      viewBox="0 0 24 24"
+                      width="24"
+                    >
+                      <path d="M6 9l6 6 6-6"></path>
+                    </svg>
+                  </span>
+                </summary>
+                <p
+                  class="text-neutral-600 mt-3 transition-all group-open:ease-in group-open:duration-300"
+                >
+                  We offers a variety of billing options, including monthly and
+                  annual subscription plans, as well as pay-as-you-go pricing
+                  for certain services. Payment is typically made through a
+                  credit card or other secure online payment method.
+                </p>
+              </details>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -282,7 +1591,182 @@
            Footer Section
       ============================
       -->
-      <footer></footer>
+      <footer>
+        <div class="mx-auto container px-6 py-16 sm:py-24 lg:px-8 lg:py-32">
+          <div class="xl:grid xl:grid-cols-3 xl:gap-8">
+            <div>
+              <h2 class="text-4xl py-4 font-semibold leading-6 text-white">
+                Logo
+              </h2>
+              <p class="max-w-sm">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                Obcaecati ad quibusdam veritatis consectetur, minima porro fuga
+                quas consequuntur! Accusantium iure commodi modi eligendi
+                doloribus maiores animi repellat dolorem inventore at?
+              </p>
+            </div>
+            <div class="mt-16 grid grid-cols-2 gap-8 xl:col-span-2 xl:mt-0">
+              <div class="md:grid md:grid-cols-2 md:gap-8">
+                <div>
+                  <h3 class="text-xl font-semibold leading-6 text-white">
+                    Solutions
+                  </h3>
+                  <ul role="list" class="mt-6 space-y-4">
+                    <li>
+                      <a
+                        href="#"
+                        class="text-sm leading-6 text-gray-300 hover:text-white"
+                        >Marketing</a
+                      >
+                    </li>
+
+                    <li>
+                      <a
+                        href="#"
+                        class="text-sm leading-6 text-gray-300 hover:text-white"
+                        >Analytics</a
+                      >
+                    </li>
+
+                    <li>
+                      <a
+                        href="#"
+                        class="text-sm leading-6 text-gray-300 hover:text-white"
+                        >Commerce</a
+                      >
+                    </li>
+
+                    <li>
+                      <a
+                        href="#"
+                        class="text-sm leading-6 text-gray-300 hover:text-white"
+                        >Insights</a
+                      >
+                    </li>
+                  </ul>
+                </div>
+                <div class="mt-10 md:mt-0">
+                  <h3 class="text-xl font-semibold leading-6 text-white">
+                    Support
+                  </h3>
+                  <ul role="list" class="mt-6 space-y-4">
+                    <li>
+                      <a
+                        href="#"
+                        class="text-sm leading-6 text-gray-300 hover:text-white"
+                        >Pricing</a
+                      >
+                    </li>
+
+                    <li>
+                      <a
+                        href="#"
+                        class="text-sm leading-6 text-gray-300 hover:text-white"
+                        >Documentation</a
+                      >
+                    </li>
+
+                    <li>
+                      <a
+                        href="#"
+                        class="text-sm leading-6 text-gray-300 hover:text-white"
+                        >Guides</a
+                      >
+                    </li>
+
+                    <li>
+                      <a
+                        href="#"
+                        class="text-sm leading-6 text-gray-300 hover:text-white"
+                        >API Status</a
+                      >
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div class="md:grid md:grid-cols-2 md:gap-8">
+                <div>
+                  <h3 class="text-xl font-semibold leading-6 text-white">
+                    Company
+                  </h3>
+                  <ul role="list" class="mt-6 space-y-4">
+                    <li>
+                      <a
+                        href="#"
+                        class="text-sm leading-6 text-gray-300 hover:text-white"
+                        >About</a
+                      >
+                    </li>
+
+                    <li>
+                      <a
+                        href="#"
+                        class="text-sm leading-6 text-gray-300 hover:text-white"
+                        >Blog</a
+                      >
+                    </li>
+
+                    <li>
+                      <a
+                        href="#"
+                        class="text-sm leading-6 text-gray-300 hover:text-white"
+                        >Jobs</a
+                      >
+                    </li>
+
+                    <li>
+                      <a
+                        href="#"
+                        class="text-sm leading-6 text-gray-300 hover:text-white"
+                        >Press</a
+                      >
+                    </li>
+
+                    <li>
+                      <a
+                        href="#"
+                        class="text-sm leading-6 text-gray-300 hover:text-white"
+                        >Partners</a
+                      >
+                    </li>
+                  </ul>
+                </div>
+                <div class="mt-10 md:mt-0">
+                  <h3 class="text-xl font-semibold leading-6 text-white">
+                    Legal
+                  </h3>
+                  <ul role="list" class="mt-6 space-y-4">
+                    <li>
+                      <a
+                        href="#"
+                        class="text-sm leading-6 text-gray-300 hover:text-white"
+                        >Claim</a
+                      >
+                    </li>
+
+                    <li>
+                      <a
+                        href="#"
+                        class="text-sm leading-6 text-gray-300 hover:text-white"
+                        >Privacy</a
+                      >
+                    </li>
+
+                    <li>
+                      <a
+                        href="#"
+                        class="text-sm leading-6 text-gray-300 hover:text-white"
+                        >Terms</a
+                      >
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </footer>
     </main>
+    <script src="./js/main.js"></script>
   </body>
 </html>
