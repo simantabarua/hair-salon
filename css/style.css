@@ -1,4 +1,5 @@
-@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Manrope:wght@200;400;500;600;700;800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Cormorant:ital,wght@1,600&family=Manrope:wght@200;400;500;600;700;800&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -8,15 +9,17 @@
     @apply bg-[#050505] text-white font-manrope;
   }
   section {
-    @apply py-4 md:py-10 ;
+    @apply py-4 md:py-28;
   }
 
   .navbar-nav {
-    @apply h-12 flex items-center justify-center gap-8;
+    @apply h-12 flex items-center justify-center gap-8 transition-all duration-300 ease-in-out ;
   }
-
+  .nav-item {
+    @apply inline-flex items-center  border-b-2 border-primary/0 hover:border-primary  px-1 py-2.5 text-sm font-medium;
+  }
   .section-heading {
-    @apply mt-10 mb-6 lg:mt-28 lg:mb-20 max-w-2xl mx-auto text-center;
+    @apply max-w-2xl pb-8 md:pb-16 px-4 mx-auto text-center;
   }
   .section-subtitle {
     @apply font-cormorant text-primary text-xl md:text-2xl;
@@ -34,7 +37,7 @@
   .btn-primary {
     @apply bg-primary px-2.5 py-1.5 md:px-9 md:py-4 m-1;
   }
-  .btn-circel {
+  .btn-circle {
     @apply w-8 h-8 p-1 md:w-10 md:h-10 md:p-2 bg-primary rounded-full;
   }
 
@@ -47,14 +50,30 @@
 
   /* services  */
   .services-card {
-    @apply flex flex-col  items-center justify-center gap-8 w-[19.5rem] h-[25.25rem] px-11 py-20 rounded-xl bg-secondary/70 border border-primary;
+    @apply flex flex-col  items-center justify-center gap-8 md:w-[19.5rem] md:h-[25.25rem] px-11 py-20 rounded-xl bg-secondary/70 border border-primary;
   }
   /* product */
   .product-card {
-    @apply flex-1  w-full md:w-1/2  max-w-[26rem] font-cormorant;
+    @apply font-cormorant;
   }
   .product-card-title {
     @apply text-3xl md:text-5xl;
   }
-}
 
+  /* testimonial  */
+  .swiper-pagination-bullet {
+    padding: 10px;
+    background-color: #8a8a8a !important;
+  }
+
+  .swiper-pagination-bullet-active {
+    background-color: white !important;
+    padding: 8px;
+    border: 10px solid black !important;
+    outline: 2px solid white;
+  }
+  /* * {
+    box-sizing: border-box;
+    border: 1px solid rgba(255, 0, 0, 0.285);
+  } */
+}
