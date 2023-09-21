@@ -13,13 +13,13 @@
   }
 
   .navbar-nav {
-    @apply h-12 flex items-center justify-center gap-8 transition-all duration-300 ease-in-out ;
+    @apply h-12 flex items-center justify-center gap-8 transition-all duration-300 ease-in-out;
   }
   .nav-item {
     @apply inline-flex items-center  border-b-2 border-primary/0 hover:border-primary  px-1 py-2.5 text-sm font-medium;
   }
   .section-heading {
-    @apply max-w-2xl pb-8 md:pb-16 px-4 mx-auto text-center;
+    @apply max-w-3xl pb-8 md:pb-16 px-4 mx-auto text-center space-y-2;
   }
   .section-subtitle {
     @apply font-cormorant text-primary text-xl md:text-2xl;
@@ -32,13 +32,23 @@
   }
 
   .btn {
-    @apply flex items-center justify-center font-semibold text-xs md:text-base uppercase rounded-xl  hover:bg-primary/70 focus:bg-primary/70 focus:outline-none transition-all duration-300;
+    @apply flex items-center justify-center font-semibold text-xs md:text-base  rounded-xl hover:bg-primary/75 focus:bg-primary/70 focus:outline-none transition-all duration-300;
   }
   .btn-primary {
-    @apply bg-primary px-2.5 py-1.5 md:px-9 md:py-4 m-1;
+    @apply bg-primary px-2.5 py-1.5 md:px-9 md:py-4 text-black;
+  }
+  .btn-outline {
+    @apply bg-secondary px-2.5 py-1.5 md:px-9 md:py-4 border border-primary;
   }
   .btn-circle {
-    @apply w-8 h-8 p-1 md:w-10 md:h-10 md:p-2 bg-primary rounded-full;
+    @apply w-8 h-8 p-1 md:w-10 md:h-10 md:p-2 text-black bg-primary rounded-full;
+  }
+
+  .input-group {
+    @apply w-full px-8 py-4 font-bold text-gray-500 bg-secondary rounded-xl focus:border-primary focus:ring-0;
+  }
+  .active-date {
+    @apply h-10 w-10 mx-auto text-black flex items-center justify-center bg-primary rounded-full;
   }
 
   #hero {
@@ -50,14 +60,23 @@
 
   /* services  */
   .services-card {
-    @apply flex flex-col  items-center justify-center gap-8 md:w-[19.5rem] md:h-[25.25rem] px-11 py-20 rounded-xl bg-secondary/70 border border-primary;
+    @apply flex flex-col  items-center justify-center gap-8 w-full max-w-xs md:w-[20rem] md:h-[25rem] px-11 py-20 rounded-xl bg-secondary/70 border border-primary;
   }
   /* product */
   .product-card {
     @apply font-cormorant;
   }
   .product-card-title {
-    @apply text-3xl md:text-5xl;
+    @apply font-cormorant text-2xl  md:text-3xl 2xl:text-4xl py-1.5;
+  }
+
+  /* business hour */
+  #business-hour {
+    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+      url("./../img/Working Hours Sections/Working hour salon 1.png");
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
   }
 
   /* testimonial  */
@@ -72,8 +91,26 @@
     border: 10px solid black !important;
     outline: 2px solid white;
   }
+
+  /* Page heading */
+
+  #page-heading {
+    @apply flex flex-col items-center justify-center h-full md:h-[32rem] w-full text-5xl lg:text-7xl font-semibold text-center font-cormorant;
+    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+      url("./../img/Icons/Page-heading.svg");
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+
   /* * {
     box-sizing: border-box;
     border: 1px solid rgba(255, 0, 0, 0.285);
   } */
+
+  /* Services Page */
+
+  .packages-card {
+    @apply flex flex-col gap-10 md:w-[26.5rem] md:max-h-full md:min-h-[33rem] px-5 py-12 rounded-2xl bg-secondary border border-primary;
+  }
 }

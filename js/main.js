@@ -48,3 +48,18 @@ mobileMenuButton.addEventListener("click", () => {
   openIcon.classList.toggle("hidden", !isExpanded);
   closeIcon.classList.toggle("hidden", isExpanded);
 });
+
+
+const openSidebarButton = document.getElementById('openSidebarButton');
+const sidebar = document.getElementById('sidebar');
+const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+openSidebarButton.addEventListener('click', () => {
+    sidebar.classList.remove('hidden');
+    sidebarOverlay.style.display = 'block';
+});
+
+sidebarOverlay.addEventListener('click', () => {
+    sidebar.classList.add('hidden');
+    sidebarOverlay.style.display = 'none';
+});

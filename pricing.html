@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Link Swiper's CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css"
+    />
+    <!-- Link CSS -->
+    <link rel="stylesheet" href="./css/main.css" />
+    <link rel="stylesheet" href="./css/style.css" />
+    <title>Hair salon</title>
+  </head>
+
+  <body>
+    <!-- 
+      ============================
+           Nav Section
+      ============================
+      -->
+    <nav
+      id="navbar"
+      class="fixed h-16 md:h-20 inset-x-0 z-50 transition-all duration-300 ease-in-out md:px-4"
+    >
+      <div
+        class="max-w-8xl px-4 md:px-0 py-2.5 mx-auto flex items-center justify-between text-white"
+      >
+        <div class="flex gap-4">
+          <!-- Mobile menu button -->
+          <button
+            type="button"
+            class="lg:hidden inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary"
+            aria-controls="mobile-menu"
+            aria-expanded="false"
+          >
+            <span class="sr-only">Open main menu</span>
+            <svg
+              class="open-icon block h-6 w-6"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              aria-hidden="true"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
+              />
+            </svg>
+
+            <svg
+              class="close-icon hidden h-6 w-6"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              aria-hidden="true"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
+          </button>
+          <h1 class="text-3xl"><a href="index.html">Logo</a></h1>
+        </div>
+
+        <div>
+          <ul class="navbar-nav hidden lg:flex">
+            <li class="nav-item">
+              <a class="nav-link" href="index.html">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="about.html">About Us</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="services.html">Services</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="pricing.html">Pricing</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="appointment.html">Appointment</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="contact.html">Contact</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="team.html">Team</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="appointment.html">Appointment</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="blog.html">Blog</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="shop.html">Shop</a>
+            </li>
+          </ul>
+        </div>
+        <div class="flex items-center gap-4 md:gap-6">
+          <button class="btn btn-circle">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="w-6 h-6"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"
+              />
+            </svg>
+          </button>
+          <button class="btn btn-circle">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="w-6 h-6"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
+              />
+            </svg>
+          </button>
+          <button class="btn btn-primary">Sign Up</button>
+        </div>
+      </div>
+
+      <!-- Mobile menu, show/hide based on menu state. -->
+      <div
+        class="md:hidden -translate-x-full transition-all duration-300 ease-in-out"
+        id="mobile-menu"
+      >
+        <ul class="flex flex-col p-4 gap-6 bg-secondary">
+          <li class="nav-item">
+            <a class="nav-link" href="index.html">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="about.html">About Us</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="services.html">Services</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="pricing.html">Pricing</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="appointment.html">Appointment</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="contact.html">Contact</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="team.html">Team</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="appointment.html">Appointment</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="blog.html">Blog</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="shop.html">Shop</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <main>
+      <!-- 
+      ============================
+           Page Heading Section
+      ============================
+      -->
+      <section id="page-heading">
+        <h2>Pricing</h2>
+      </section>
+
+      <div class="max-w-8xl mx-auto">
+        <div class="border-b border-white/60 mb-4">
+          <ul class="flex flex-wrap -mb-px">
+            <li class="mr-2" role="presentation">
+              <button
+                class="inline-block text-gray-500 hover:text-white  hover:border-gray-300 rounded-t-lg py-4  text-xl font-semibold text-center border-transparent border-b-4"
+              >
+              Hair Cut
+              </button>
+              
+            </li>
+          </ul>
+        </div>
+        <div id="myTabContent"></div>
+
+        <p class="mt-5">
+          This tabs component is part of a larger, open-source library of
+          Tailwind CSS components. Learn more by going to the official
+         
+        </p>
+      </div>
+
+      <!-- 
+      ============================
+           Packages Section
+      ============================
+      -->
+      <section class="h-full px-4" id="packages">
+        <div class="section-heading">
+          <p class="section-title">Our Packages</p>
+          <p class="section-description">
+            Borem ipsum dolor sit amet, consectetur adipiscing elit. Nunc
+          </p>
+        </div>
+
+        <!-- Packages -->
+        <div
+          class="container mx-auto flex items-center justify-center flex-wrap gap-6 w-full"
+        >
+          <!-- Packages card-->
+          <div class="packages-card">
+            <!-- Heading -->
+            <div class="text-4xl text-center space-y-5">
+              <h2>Grooming Package</h2>
+              <h2>$499</h2>
+            </div>
+
+            <!-- Body -->
+            <div>
+              <ul role="list" class="px-10 space-y-4">
+                <li class="flex items-start">
+                  <svg
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M12 1.5C9.9233 1.5 7.89323 2.11581 6.16652 3.26957C4.4398 4.42332 3.09399 6.0632 2.29927 7.98182C1.50455 9.90045 1.29661 12.0116 1.70176 14.0484C2.1069 16.0852 3.10693 17.9562 4.57538 19.4246C6.04383 20.8931 7.91476 21.8931 9.95156 22.2982C11.9884 22.7034 14.0996 22.4955 16.0182 21.7007C17.9368 20.906 19.5767 19.5602 20.7304 17.8335C21.8842 16.1068 22.5 14.0767 22.5 12C22.5 9.21523 21.3938 6.54451 19.4246 4.57538C17.4555 2.60625 14.7848 1.5 12 1.5ZM10.5 16.1925L6.75 12.4425L7.9425 11.25L10.5 13.8075L16.0575 8.25L17.2545 9.4395L10.5 16.1925Z"
+                      fill="#CEA561"
+                    />
+                  </svg>
+                  <span class="text-white ml-4 text-sm font-medium"
+                    >Hair Cut of Your Choice</span
+                  >
+                </li>
+                <li class="flex items-start">
+                  <svg
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M12 1.5C9.9233 1.5 7.89323 2.11581 6.16652 3.26957C4.4398 4.42332 3.09399 6.0632 2.29927 7.98182C1.50455 9.90045 1.29661 12.0116 1.70176 14.0484C2.1069 16.0852 3.10693 17.9562 4.57538 19.4246C6.04383 20.8931 7.91476 21.8931 9.95156 22.2982C11.9884 22.7034 14.0996 22.4955 16.0182 21.7007C17.9368 20.906 19.5767 19.5602 20.7304 17.8335C21.8842 16.1068 22.5 14.0767 22.5 12C22.5 9.21523 21.3938 6.54451 19.4246 4.57538C17.4555 2.60625 14.7848 1.5 12 1.5ZM10.5 16.1925L6.75 12.4425L7.9425 11.25L10.5 13.8075L16.0575 8.25L17.2545 9.4395L10.5 16.1925Z"
+                      fill="#CEA561"
+                    />
+                  </svg>
+                  <span class="text-white ml-4 text-sm font-medium"
+                    >Beard Style / Shaving for Men</span
+                  >
+                </li>
+                <li class="flex items-start">
+                  <svg
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M12 1.5C9.9233 1.5 7.89323 2.11581 6.16652 3.26957C4.4398 4.42332 3.09399 6.0632 2.29927 7.98182C1.50455 9.90045 1.29661 12.0116 1.70176 14.0484C2.1069 16.0852 3.10693 17.9562 4.57538 19.4246C6.04383 20.8931 7.91476 21.8931 9.95156 22.2982C11.9884 22.7034 14.0996 22.4955 16.0182 21.7007C17.9368 20.906 19.5767 19.5602 20.7304 17.8335C21.8842 16.1068 22.5 14.0767 22.5 12C22.5 9.21523 21.3938 6.54451 19.4246 4.57538C17.4555 2.60625 14.7848 1.5 12 1.5ZM10.5 16.1925L6.75 12.4425L7.9425 11.25L10.5 13.8075L16.0575 8.25L17.2545 9.4395L10.5 16.1925Z"
+                      fill="#CEA561"
+                    />
+                  </svg>
+                  <span class="text-white ml-4 text-sm font-medium"
+                    >Facial Treatment</span
+                  >
+                </li>
+                <li class="flex items-start">
+                  <svg
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M12 1.5C9.9233 1.5 7.89323 2.11581 6.16652 3.26957C4.4398 4.42332 3.09399 6.0632 2.29927 7.98182C1.50455 9.90045 1.29661 12.0116 1.70176 14.0484C2.1069 16.0852 3.10693 17.9562 4.57538 19.4246C6.04383 20.8931 7.91476 21.8931 9.95156 22.2982C11.9884 22.7034 14.0996 22.4955 16.0182 21.7007C17.9368 20.906 19.5767 19.5602 20.7304 17.8335C21.8842 16.1068 22.5 14.0767 22.5 12C22.5 9.21523 21.3938 6.54451 19.4246 4.57538C17.4555 2.60625 14.7848 1.5 12 1.5ZM10.5 16.1925L6.75 12.4425L7.9425 11.25L10.5 13.8075L16.0575 8.25L17.2545 9.4395L10.5 16.1925Z"
+                      fill="#CEA561"
+                    />
+                  </svg>
+                  <span class="text-white ml-4 text-sm font-medium"
+                    >Hair Treatment / Keratin Treatment Suited for You</span
+                  >
+                </li>
+              </ul>
+            </div>
+            <div>
+              <button class="btn px-16 py-3 mx-auto btn-primary">
+                Choose Plan
+              </button>
+            </div>
+          </div>
+          <!-- Packages card-->
+          <div class="packages-card">
+            <!-- Heading -->
+            <div class="text-4xl text-center space-y-5">
+              <h2>Grooming Package</h2>
+              <h2>$699</h2>
+            </div>
+
+            <!-- Body -->
+            <div>
+              <ul role="list" class="px-10 space-y-4">
+                <li class="flex items-start">
+                  <svg
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M12 1.5C9.9233 1.5 7.89323 2.11581 6.16652 3.26957C4.4398 4.42332 3.09399 6.0632 2.29927 7.98182C1.50455 9.90045 1.29661 12.0116 1.70176 14.0484C2.1069 16.0852 3.10693 17.9562 4.57538 19.4246C6.04383 20.8931 7.91476 21.8931 9.95156 22.2982C11.9884 22.7034 14.0996 22.4955 16.0182 21.7007C17.9368 20.906 19.5767 19.5602 20.7304 17.8335C21.8842 16.1068 22.5 14.0767 22.5 12C22.5 9.21523 21.3938 6.54451 19.4246 4.57538C17.4555 2.60625 14.7848 1.5 12 1.5ZM10.5 16.1925L6.75 12.4425L7.9425 11.25L10.5 13.8075L16.0575 8.25L17.2545 9.4395L10.5 16.1925Z"
+                      fill="#CEA561"
+                    />
+                  </svg>
+                  <span class="text-white ml-4 text-sm font-medium"
+                    >Hair Cut of Your Choice</span
+                  >
+                </li>
+                <li class="flex items-start">
+                  <svg
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M12 1.5C9.9233 1.5 7.89323 2.11581 6.16652 3.26957C4.4398 4.42332 3.09399 6.0632 2.29927 7.98182C1.50455 9.90045 1.29661 12.0116 1.70176 14.0484C2.1069 16.0852 3.10693 17.9562 4.57538 19.4246C6.04383 20.8931 7.91476 21.8931 9.95156 22.2982C11.9884 22.7034 14.0996 22.4955 16.0182 21.7007C17.9368 20.906 19.5767 19.5602 20.7304 17.8335C21.8842 16.1068 22.5 14.0767 22.5 12C22.5 9.21523 21.3938 6.54451 19.4246 4.57538C17.4555 2.60625 14.7848 1.5 12 1.5ZM10.5 16.1925L6.75 12.4425L7.9425 11.25L10.5 13.8075L16.0575 8.25L17.2545 9.4395L10.5 16.1925Z"
+                      fill="#CEA561"
+                    />
+                  </svg>
+                  <span class="text-white ml-4 text-sm font-medium"
+                    >Beard Style / Shaving for Men</span
+                  >
+                </li>
+                <li class="flex items-start">
+                  <svg
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M12 1.5C9.9233 1.5 7.89323 2.11581 6.16652 3.26957C4.4398 4.42332 3.09399 6.0632 2.29927 7.98182C1.50455 9.90045 1.29661 12.0116 1.70176 14.0484C2.1069 16.0852 3.10693 17.9562 4.57538 19.4246C6.04383 20.8931 7.91476 21.8931 9.95156 22.2982C11.9884 22.7034 14.0996 22.4955 16.0182 21.7007C17.9368 20.906 19.5767 19.5602 20.7304 17.8335C21.8842 16.1068 22.5 14.0767 22.5 12C22.5 9.21523 21.3938 6.54451 19.4246 4.57538C17.4555 2.60625 14.7848 1.5 12 1.5ZM10.5 16.1925L6.75 12.4425L7.9425 11.25L10.5 13.8075L16.0575 8.25L17.2545 9.4395L10.5 16.1925Z"
+                      fill="#CEA561"
+                    />
+                  </svg>
+                  <span class="text-white ml-4 text-sm font-medium"
+                    >Facial Treatment</span
+                  >
+                </li>
+                <li class="flex items-start">
+                  <svg
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M12 1.5C9.9233 1.5 7.89323 2.11581 6.16652 3.26957C4.4398 4.42332 3.09399 6.0632 2.29927 7.98182C1.50455 9.90045 1.29661 12.0116 1.70176 14.0484C2.1069 16.0852 3.10693 17.9562 4.57538 19.4246C6.04383 20.8931 7.91476 21.8931 9.95156 22.2982C11.9884 22.7034 14.0996 22.4955 16.0182 21.7007C17.9368 20.906 19.5767 19.5602 20.7304 17.8335C21.8842 16.1068 22.5 14.0767 22.5 12C22.5 9.21523 21.3938 6.54451 19.4246 4.57538C17.4555 2.60625 14.7848 1.5 12 1.5ZM10.5 16.1925L6.75 12.4425L7.9425 11.25L10.5 13.8075L16.0575 8.25L17.2545 9.4395L10.5 16.1925Z"
+                      fill="#CEA561"
+                    />
+                  </svg>
+                  <span class="text-white ml-4 text-sm font-medium"
+                    >Hair Treatment / Keratin Treatment Suited for You</span
+                  >
+                </li>
+              </ul>
+            </div>
+            <div>
+              <button class="btn px-16 py-3 mx-auto btn-primary">
+                Choose Plan
+              </button>
+            </div>
+          </div>
+          <!-- Packages card-->
+          <div class="packages-card">
+            <!-- Heading -->
+            <div class="text-4xl text-center space-y-5">
+              <h2>Wedding Package</h2>
+              <h2>$799</h2>
+            </div>
+
+            <!-- Body -->
+            <div>
+              <ul role="list" class="px-10 space-y-4">
+                <li class="flex items-start">
+                  <svg
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M12 1.5C9.9233 1.5 7.89323 2.11581 6.16652 3.26957C4.4398 4.42332 3.09399 6.0632 2.29927 7.98182C1.50455 9.90045 1.29661 12.0116 1.70176 14.0484C2.1069 16.0852 3.10693 17.9562 4.57538 19.4246C6.04383 20.8931 7.91476 21.8931 9.95156 22.2982C11.9884 22.7034 14.0996 22.4955 16.0182 21.7007C17.9368 20.906 19.5767 19.5602 20.7304 17.8335C21.8842 16.1068 22.5 14.0767 22.5 12C22.5 9.21523 21.3938 6.54451 19.4246 4.57538C17.4555 2.60625 14.7848 1.5 12 1.5ZM10.5 16.1925L6.75 12.4425L7.9425 11.25L10.5 13.8075L16.0575 8.25L17.2545 9.4395L10.5 16.1925Z"
+                      fill="#CEA561"
+                    />
+                  </svg>
+                  <span class="text-white ml-4 text-sm font-medium"
+                    >Hair Cut of Your Choice</span
+                  >
+                </li>
+                <li class="flex items-start">
+                  <svg
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M12 1.5C9.9233 1.5 7.89323 2.11581 6.16652 3.26957C4.4398 4.42332 3.09399 6.0632 2.29927 7.98182C1.50455 9.90045 1.29661 12.0116 1.70176 14.0484C2.1069 16.0852 3.10693 17.9562 4.57538 19.4246C6.04383 20.8931 7.91476 21.8931 9.95156 22.2982C11.9884 22.7034 14.0996 22.4955 16.0182 21.7007C17.9368 20.906 19.5767 19.5602 20.7304 17.8335C21.8842 16.1068 22.5 14.0767 22.5 12C22.5 9.21523 21.3938 6.54451 19.4246 4.57538C17.4555 2.60625 14.7848 1.5 12 1.5ZM10.5 16.1925L6.75 12.4425L7.9425 11.25L10.5 13.8075L16.0575 8.25L17.2545 9.4395L10.5 16.1925Z"
+                      fill="#CEA561"
+                    />
+                  </svg>
+                  <span class="text-white ml-4 text-sm font-medium"
+                    >Beard Style / Shaving for Men</span
+                  >
+                </li>
+                <li class="flex items-start">
+                  <svg
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M12 1.5C9.9233 1.5 7.89323 2.11581 6.16652 3.26957C4.4398 4.42332 3.09399 6.0632 2.29927 7.98182C1.50455 9.90045 1.29661 12.0116 1.70176 14.0484C2.1069 16.0852 3.10693 17.9562 4.57538 19.4246C6.04383 20.8931 7.91476 21.8931 9.95156 22.2982C11.9884 22.7034 14.0996 22.4955 16.0182 21.7007C17.9368 20.906 19.5767 19.5602 20.7304 17.8335C21.8842 16.1068 22.5 14.0767 22.5 12C22.5 9.21523 21.3938 6.54451 19.4246 4.57538C17.4555 2.60625 14.7848 1.5 12 1.5ZM10.5 16.1925L6.75 12.4425L7.9425 11.25L10.5 13.8075L16.0575 8.25L17.2545 9.4395L10.5 16.1925Z"
+                      fill="#CEA561"
+                    />
+                  </svg>
+                  <span class="text-white ml-4 text-sm font-medium"
+                    >Facial Treatment</span
+                  >
+                </li>
+                <li class="flex items-start">
+                  <svg
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M12 1.5C9.9233 1.5 7.89323 2.11581 6.16652 3.26957C4.4398 4.42332 3.09399 6.0632 2.29927 7.98182C1.50455 9.90045 1.29661 12.0116 1.70176 14.0484C2.1069 16.0852 3.10693 17.9562 4.57538 19.4246C6.04383 20.8931 7.91476 21.8931 9.95156 22.2982C11.9884 22.7034 14.0996 22.4955 16.0182 21.7007C17.9368 20.906 19.5767 19.5602 20.7304 17.8335C21.8842 16.1068 22.5 14.0767 22.5 12C22.5 9.21523 21.3938 6.54451 19.4246 4.57538C17.4555 2.60625 14.7848 1.5 12 1.5ZM10.5 16.1925L6.75 12.4425L7.9425 11.25L10.5 13.8075L16.0575 8.25L17.2545 9.4395L10.5 16.1925Z"
+                      fill="#CEA561"
+                    />
+                  </svg>
+                  <span class="text-white ml-4 text-sm font-medium"
+                    >Hair Treatment / Keratin Treatment Suited for You</span
+                  >
+                </li>
+              </ul>
+            </div>
+            <div>
+              <button class="btn px-16 py-3 mx-auto btn-primary">
+                Choose Plan
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 
+      ============================
+           Appointment Section
+      ============================
+      -->
+      <section class="h-full px-4" id="appointment">
+        <div class="section-heading">
+          <p class="section-title">Make An Appointment</p>
+          <p class="section-description">
+            Borem ipsum dolor sit amet, consectetur adipiscing elit. Nunc
+          </p>
+        </div>
+
+        <!-- Calender -->
+        <div
+          class="bg-secondary max-w-2xl mx-auto p-4 shadow-md rounded-xl border border-primary"
+        >
+          <div class="flex justify-between items-center text-white">
+            <div class="ps-6 py-4 flex items-center">
+              <span class="md:text-2xl font-semibold">September 2023</span>
+              <button class="p-1">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  class="w-5 h-5 stroke-primary"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M8.25 4.5l7.5 7.5-7.5 7.5"
+                  />
+                </svg>
+              </button>
+            </div>
+            <div class="flex space-x-2">
+              <button class="px-2 py-1">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  class="w-6 h-6 stroke-primary"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M15.75 19.5L8.25 12l7.5-7.5"
+                  />
+                </svg>
+              </button>
+              <button class="px-2 py-1">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  class="w-6 h-6 stroke-primary"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M8.25 4.5l7.5 7.5-7.5 7.5"
+                  />
+                </svg>
+              </button>
+            </div>
+          </div>
+          <div class="overflow-x-auto">
+            <table class="w-full table-auto text-center">
+              <thead>
+                <tr class="uppercase text-gray-600">
+                  <th class="p-3">Sun</th>
+                  <th class="p-3">Mon</th>
+                  <th class="p-3">Tue</th>
+                  <th class="p-3">Wed</th>
+                  <th class="p-3">Thu</th>
+                  <th class="p-3">Fri</th>
+                  <th class="p-3">Sat</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="text-gray-600">
+                  <td class="p-3"></td>
+                  <td class="p-3">1</td>
+                  <td class="p-3">2</td>
+                  <td class="p-3">3</td>
+                  <td class="p-3">4</td>
+                  <td class="p-3">5</td>
+                  <td class="p-3">6</td>
+                </tr>
+                <tr>
+                  <td class="p-3 active-date">7</td>
+                  <td class="p-3">8</td>
+                  <td class="p-3">9</td>
+                  <td class="p-3">10</td>
+                  <td class="p-3">11</td>
+                  <td class="p-3">12</td>
+                  <td class="p-3">13</td>
+                </tr>
+                <tr>
+                  <td class="p-3">14</td>
+                  <td class="p-3">15</td>
+                  <td class="p-3">16</td>
+                  <td class="p-3">17</td>
+                  <td class="p-3">18</td>
+                  <td class="p-3">19</td>
+                  <td class="p-3">20</td>
+                </tr>
+                <tr>
+                  <td class="p-3">21</td>
+                  <td class="p-3">22</td>
+                  <td class="p-3">23</td>
+                  <td class="p-3">24</td>
+                  <td class="p-3">25</td>
+                  <td class="p-3">26</td>
+                  <td class="p-3">27</td>
+                </tr>
+                <tr>
+                  <td class="p-3">28</td>
+                  <td class="p-3">29</td>
+                  <td class="p-3">30</td>
+                  <td class="p-3"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Select A Time -->
+        <div>
+          <h4 class="text-4xl font-semibold text-center pt-6 md:pt-12">
+            Select A Time
+          </h4>
+          <div
+            class="max-w-5xl mx-auto py-6 md:py-12 flex items-center justify-center gap-6 flex-wrap"
+          >
+            <button class="btn btn-outline">8:30 am - 9:30 am</button>
+            <button class="btn btn-outline">9:30 am - 10:30 am</button>
+            <button class="btn btn-outline">10:30 am - 11:30 am</button>
+            <button class="btn btn-outline">11:30 am - 12:30 pm</button>
+          </div>
+        </div>
+        <!-- Form -->
+        <form class="max-w-8xl mx-auto py-4 space-y-6">
+          <div class="flex gap-6 justify-center flex-col md:flex-row">
+            <div class="md:w-1/2">
+              <input
+                id="name"
+                type="text"
+                placeholder="Enter Your Name *"
+                class="input-group"
+              />
+            </div>
+            <div class="md:w-1/2">
+              <input
+                id="email"
+                type="email"
+                placeholder="Enter Your Email *"
+                class="input-group"
+              />
+            </div>
+          </div>
+          <div class="flex gap-6 justify-center flex-col md:flex-row">
+            <div class="md:w-1/2">
+              <input
+                id="name"
+                type="text"
+                placeholder="Enter Phone Number * *"
+                class="input-group"
+              />
+            </div>
+            <div class="md:w-1/2">
+              <select class="input-group cursor-pointer">
+                <option value="" selected>Select Service</option>
+                <option value="">Hair Cut</option>
+                <option value="">Shaving</option>
+                <option value="">Hair Dye</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="md:pt-8">
+            <input
+              class="btn btn-primary mx-auto"
+              type="button"
+              value="Book Appointment"
+            />
+          </div>
+        </form>
+      </section>
+      <!-- 
+      ============================
+           News Latter Section
+      ============================
+      -->
+      <div
+        class="h-[30rem] bg-secondary flex flex-col items-center justify-center gap-8 px-4"
+      >
+        <div class="text-center max-w-2xl">
+          <p class="section-title">Stay Updated</p>
+          <p class="section-description">
+            Borem ipsum dolor sit amet, consectetur adipiscin elit. Nunc
+            vulputate libero amet, consectetur adipiscin
+          </p>
+        </div>
+
+        <div class="w-full flex flex-col items-center justify-center mx-auto">
+          <div
+            class="w-full max-w-2xl flex flex-col md:flex-row gap-4 md:gap-0"
+          >
+            <input
+              id="name"
+              type="text"
+              placeholder="Enter Your Name *"
+              class="input-group"
+            />
+            <button
+              class="w-full h-16 md:w-40 md:-ml-6 bg-primary rounded-xl text-black font-bold"
+            >
+              Sign Up
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 
+      ============================
+           Footer Section
+      ============================
+      -->
+      <footer>
+        <div class="mx-auto container px-6 pt-12">
+          <div class="xl:grid xl:grid-cols-3 xl:gap-8">
+            <div>
+              <h2 class="text-4xl py-4 font-semibold leading-6 text-white">
+                Logo
+              </h2>
+              <p class="max-w-sm">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                Obcaecati ad quibusdam veritatis consectetur, minima porro fuga
+                quas consequuntur! Accusantium iure commodi modi eligendi
+                doloribus maiores animi repellat dolorem inventore at?
+              </p>
+            </div>
+            <div class="mt-16 grid grid-cols-2 gap-8 xl:col-span-2 xl:mt-0">
+              <div class="md:grid md:grid-cols-2 md:gap-8">
+                <div>
+                  <h3 class="text-xl font-semibold leading-6 text-white">
+                    Services
+                  </h3>
+                  <ul role="list" class="mt-6 space-y-4">
+                    <li>
+                      <a
+                        href="#"
+                        class="text-sm leading-6 text-gray-300 hover:text-white"
+                        >Hair Cut</a
+                      >
+                    </li>
+
+                    <li>
+                      <a
+                        href="#"
+                        class="text-sm leading-6 text-gray-300 hover:text-white"
+                        >Hair Dye</a
+                      >
+                    </li>
+
+                    <li>
+                      <a
+                        href="#"
+                        class="text-sm leading-6 text-gray-300 hover:text-white"
+                        >Shaving</a
+                      >
+                    </li>
+
+                    <li>
+                      <a
+                        href="#"
+                        class="text-sm leading-6 text-gray-300 hover:text-white"
+                        >Massage</a
+                      >
+                    </li>
+                  </ul>
+                </div>
+                <div class="mt-10 md:mt-0">
+                  <h3 class="text-xl font-semibold leading-6 text-white">
+                    Support
+                  </h3>
+                  <ul role="list" class="mt-6 space-y-4">
+                    <li>
+                      <a
+                        href="#"
+                        class="text-sm leading-6 text-gray-300 hover:text-white"
+                        >Pricing</a
+                      >
+                    </li>
+
+                    <li>
+                      <a
+                        href="#"
+                        class="text-sm leading-6 text-gray-300 hover:text-white"
+                        >Documentation</a
+                      >
+                    </li>
+
+                    <li>
+                      <a
+                        href="#"
+                        class="text-sm leading-6 text-gray-300 hover:text-white"
+                        >Guides</a
+                      >
+                    </li>
+
+                    <li>
+                      <a
+                        href="#"
+                        class="text-sm leading-6 text-gray-300 hover:text-white"
+                        >API Status</a
+                      >
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div class="md:grid md:grid-cols-2 md:gap-8">
+                <div>
+                  <h3 class="text-xl font-semibold leading-6 text-white">
+                    Company
+                  </h3>
+                  <ul role="list" class="mt-6 space-y-4">
+                    <li>
+                      <a
+                        href="#"
+                        class="text-sm leading-6 text-gray-300 hover:text-white"
+                        >About</a
+                      >
+                    </li>
+
+                    <li>
+                      <a
+                        href="#"
+                        class="text-sm leading-6 text-gray-300 hover:text-white"
+                        >Blog</a
+                      >
+                    </li>
+
+                    <li>
+                      <a
+                        href="#"
+                        class="text-sm leading-6 text-gray-300 hover:text-white"
+                        >Jobs</a
+                      >
+                    </li>
+
+                    <li>
+                      <a
+                        href="#"
+                        class="text-sm leading-6 text-gray-300 hover:text-white"
+                        >Press</a
+                      >
+                    </li>
+
+                    <li>
+                      <a
+                        href="#"
+                        class="text-sm leading-6 text-gray-300 hover:text-white"
+                        >Partners</a
+                      >
+                    </li>
+                  </ul>
+                </div>
+                <div class="mt-10 md:mt-0">
+                  <h3 class="text-xl font-semibold leading-6 text-white">
+                    Legal
+                  </h3>
+                  <ul role="list" class="mt-6 space-y-4">
+                    <li>
+                      <a
+                        href="#"
+                        class="text-sm leading-6 text-gray-300 hover:text-white"
+                        >Claim</a
+                      >
+                    </li>
+
+                    <li>
+                      <a
+                        href="#"
+                        class="text-sm leading-6 text-gray-300 hover:text-white"
+                        >Privacy</a
+                      >
+                    </li>
+
+                    <li>
+                      <a
+                        href="#"
+                        class="text-sm leading-6 text-gray-300 hover:text-white"
+                        >Terms</a
+                      >
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p class="text-center py-6">
+          Copyright © 2023 CryptoVault. All Rights Reserved
+        </p>
+      </footer>
+    </main>
+    <!-- Swiper JS -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+
+    <script src="./js/main.js"></script>
+  </body>
+</html>

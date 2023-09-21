@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Link Swiper's CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css"
+    />
+    <!-- Link CSS -->
+    <link rel="stylesheet" href="./css/main.css" />
+    <link rel="stylesheet" href="./css/style.css" />
+    <title>Hair salon</title>
+  </head>
+
+  <body>
+    <!-- 
+      ============================
+           Nav Section
+      ============================
+      -->
+    <nav
+      id="navbar"
+      class="fixed h-16 md:h-20 inset-x-0 z-50 transition-all duration-300 ease-in-out md:px-4"
+    >
+      <div
+        class="max-w-8xl px-4 md:px-0 py-2.5 mx-auto flex items-center justify-between text-white"
+      >
+        <div class="flex gap-4">
+          <!-- Mobile menu button -->
+          <button
+            type="button"
+            class="lg:hidden inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary"
+            aria-controls="mobile-menu"
+            aria-expanded="false"
+          >
+            <span class="sr-only">Open main menu</span>
+            <svg
+              class="open-icon block h-6 w-6"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              aria-hidden="true"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
+              />
+            </svg>
+
+            <svg
+              class="close-icon hidden h-6 w-6"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              aria-hidden="true"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
+          </button>
+          <h1 class="text-3xl"><a href="index.html">Logo</a></h1>
+        </div>
+
+        <div>
+          <ul class="navbar-nav hidden lg:flex">
+            <li class="nav-item">
+              <a class="nav-link" href="index.html">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="about.html">About Us</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="services.html">Services</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="pricing.html">Pricing</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="appointment.html">Appointment</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="contact.html">Contact</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="team.html">Team</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="appointment.html">Appointment</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="blog.html">Blog</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="shop.html">Shop</a>
+            </li>
+          </ul>
+        </div>
+        <div class="flex items-center gap-4 md:gap-6">
+          <button class="btn btn-circle">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="w-6 h-6"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"
+              />
+            </svg>
+          </button>
+          <button class="btn btn-circle">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="w-6 h-6"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
+              />
+            </svg>
+          </button>
+          <button class="btn btn-primary">Sign Up</button>
+        </div>
+      </div>
+
+      <!-- Mobile menu, show/hide based on menu state. -->
+      <div
+        class="md:hidden -translate-x-full transition-all duration-300 ease-in-out"
+        id="mobile-menu"
+      >
+        <ul class="flex flex-col p-4 gap-6 bg-secondary">
+          <li class="nav-item">
+            <a class="nav-link" href="index.html">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="about.html">About Us</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="services.html">Services</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="pricing.html">Pricing</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="appointment.html">Appointment</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="contact.html">Contact</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="team.html">Team</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="appointment.html">Appointment</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="blog.html">Blog</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="shop.html">Shop</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <main>
+      <!-- 
+      ============================
+           Hero Section
+      ============================
+      -->
+      <section id="page-heading">
+        <h2>FAQ</h2>
+      </section>
+
+      <!-- 
+      ============================
+           FAQ's Section
+      ============================
+      -->
+
+      <section id="faqs">
+        <div class="section-heading">
+          <p class="section-subtitle">Verify Your Doubts</p>
+          <h2 class="section-title">Frequently Asked Questions</h2>
+          <p class="section-description">
+            Borem ipsum dolor sit amet, consectetur adipiscing elit. Nunc
+          </p>
+        </div>
+        <!-- Faq accordion section  -->
+        <div
+          class="grid divide-y divide-neutral-200 max-w-6xl mx-auto space-y-6 mb-8 px-4"
+        >
+          <!-- FAQ items -->
+          <div>
+            <details class="group">
+              <summary
+                class="flex justify-between items-center px-4 md:px-10 py-4 group-open:bg-primary group-open:text-black rounded-lg ring-1 ring-primary text-xl font-cormorant font-medium cursor-pointer list-none transition-all duration-300 ease-in"
+              >
+                <span>
+                  Would I get a full refund If I cancel a reservation?</span
+                >
+                <span class="transition group-open:rotate-180">
+                  <svg
+                    fill="none"
+                    height="24"
+                    shape-rendering="geometricPrecision"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="1.5"
+                    viewBox="0 0 24 24"
+                    width="24"
+                  >
+                    <path d="M6 9l6 6 6-6"></path>
+                  </svg>
+                </span>
+              </summary>
+              <p
+                class="text-neutral-600 mt-3 transition-all group-open:ease-in group-open:duration-300"
+              >
+                We offers a variety of billing options, including monthly and
+                annual subscription plans, as well as pay-as-you-go pricing for
+                certain services. Payment is typically made through a credit
+                card or other secure online payment method.
+              </p>
+            </details>
+          </div>
+          <!-- FAQ items -->
+          <div>
+            <details class="group">
+              <summary
+                class="flex justify-between items-center px-4 md:px-10 py-4 group-open:bg-primary group-open:text-black rounded-lg ring-1 ring-primary text-xl font-cormorant font-medium cursor-pointer list-none transition-all duration-300 ease-in"
+              >
+                <span>
+                  Would I get a full refund If I cancel a reservation?</span
+                >
+                <span class="transition group-open:rotate-180">
+                  <svg
+                    fill="none"
+                    height="24"
+                    shape-rendering="geometricPrecision"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="1.5"
+                    viewBox="0 0 24 24"
+                    width="24"
+                  >
+                    <path d="M6 9l6 6 6-6"></path>
+                  </svg>
+                </span>
+              </summary>
+              <p
+                class="text-neutral-600 mt-3 transition-all group-open:ease-in group-open:duration-300"
+              >
+                We offers a variety of billing options, including monthly and
+                annual subscription plans, as well as pay-as-you-go pricing for
+                certain services. Payment is typically made through a credit
+                card or other secure online payment method.
+              </p>
+            </details>
+          </div>
+          <!-- FAQ items -->
+          <div>
+            <details class="group">
+              <summary
+                class="flex justify-between items-center px-4 md:px-10 py-4 group-open:bg-primary group-open:text-black rounded-lg ring-1 ring-primary text-xl font-cormorant font-medium cursor-pointer list-none transition-all duration-300 ease-in"
+              >
+                <span>
+                  Would I get a full refund If I cancel a reservation?</span
+                >
+                <span class="transition group-open:rotate-180">
+                  <svg
+                    fill="none"
+                    height="24"
+                    shape-rendering="geometricPrecision"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="1.5"
+                    viewBox="0 0 24 24"
+                    width="24"
+                  >
+                    <path d="M6 9l6 6 6-6"></path>
+                  </svg>
+                </span>
+              </summary>
+              <p
+                class="text-neutral-600 mt-3 transition-all group-open:ease-in group-open:duration-300"
+              >
+                We offers a variety of billing options, including monthly and
+                annual subscription plans, as well as pay-as-you-go pricing for
+                certain services. Payment is typically made through a credit
+                card or other secure online payment method.
+              </p>
+            </details>
+          </div>
+          <!-- FAQ items -->
+          <div>
+            <details class="group">
+              <summary
+                class="flex justify-between items-center px-4 md:px-10 py-4 group-open:bg-primary group-open:text-black rounded-lg ring-1 ring-primary text-xl font-cormorant font-medium cursor-pointer list-none transition-all duration-300 ease-in"
+              >
+                <span>
+                  Would I get a full refund If I cancel a reservation?</span
+                >
+                <span class="transition group-open:rotate-180">
+                  <svg
+                    fill="none"
+                    height="24"
+                    shape-rendering="geometricPrecision"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="1.5"
+                    viewBox="0 0 24 24"
+                    width="24"
+                  >
+                    <path d="M6 9l6 6 6-6"></path>
+                  </svg>
+                </span>
+              </summary>
+              <p
+                class="text-neutral-600 mt-3 transition-all group-open:ease-in group-open:duration-300"
+              >
+                We offers a variety of billing options, including monthly and
+                annual subscription plans, as well as pay-as-you-go pricing for
+                certain services. Payment is typically made through a credit
+                card or other secure online payment method.
+              </p>
+            </details>
+          </div>
+          <!-- FAQ items -->
+          <div>
+            <details class="group">
+              <summary
+                class="flex justify-between items-center px-4 md:px-10 py-4 group-open:bg-primary group-open:text-black rounded-lg ring-1 ring-primary text-xl font-cormorant font-medium cursor-pointer list-none transition-all duration-300 ease-in"
+              >
+                <span>
+                  Would I get a full refund If I cancel a reservation?</span
+                >
+                <span class="transition group-open:rotate-180">
+                  <svg
+                    fill="none"
+                    height="24"
+                    shape-rendering="geometricPrecision"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="1.5"
+                    viewBox="0 0 24 24"
+                    width="24"
+                  >
+                    <path d="M6 9l6 6 6-6"></path>
+                  </svg>
+                </span>
+              </summary>
+              <p
+                class="text-neutral-600 mt-3 transition-all group-open:ease-in group-open:duration-300"
+              >
+                We offers a variety of billing options, including monthly and
+                annual subscription plans, as well as pay-as-you-go pricing for
+                certain services. Payment is typically made through a credit
+                card or other secure online payment method.
+              </p>
+            </details>
+          </div>
+          <!-- FAQ items -->
+          <div>
+            <details class="group">
+              <summary
+                class="flex justify-between items-center px-4 md:px-10 py-4 group-open:bg-primary group-open:text-black rounded-lg ring-1 ring-primary text-xl font-cormorant font-medium cursor-pointer list-none transition-all duration-300 ease-in"
+              >
+                <span>
+                  Would I get a full refund If I cancel a reservation?</span
+                >
+                <span class="transition group-open:rotate-180">
+                  <svg
+                    fill="none"
+                    height="24"
+                    shape-rendering="geometricPrecision"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="1.5"
+                    viewBox="0 0 24 24"
+                    width="24"
+                  >
+                    <path d="M6 9l6 6 6-6"></path>
+                  </svg>
+                </span>
+              </summary>
+              <p
+                class="text-neutral-600 mt-3 transition-all group-open:ease-in group-open:duration-300"
+              >
+                We offers a variety of billing options, including monthly and
+                annual subscription plans, as well as pay-as-you-go pricing for
+                certain services. Payment is typically made through a credit
+                card or other secure online payment method.
+              </p>
+            </details>
+          </div>
+          <!-- FAQ items -->
+          <div>
+            <details class="group">
+              <summary
+                class="flex justify-between items-center px-4 md:px-10 py-4 group-open:bg-primary group-open:text-black rounded-lg ring-1 ring-primary text-xl font-cormorant font-medium cursor-pointer list-none transition-all duration-300 ease-in"
+              >
+                <span>
+                  Would I get a full refund If I cancel a reservation?</span
+                >
+                <span class="transition group-open:rotate-180">
+                  <svg
+                    fill="none"
+                    height="24"
+                    shape-rendering="geometricPrecision"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="1.5"
+                    viewBox="0 0 24 24"
+                    width="24"
+                  >
+                    <path d="M6 9l6 6 6-6"></path>
+                  </svg>
+                </span>
+              </summary>
+              <p
+                class="text-neutral-600 mt-3 transition-all group-open:ease-in group-open:duration-300"
+              >
+                We offers a variety of billing options, including monthly and
+                annual subscription plans, as well as pay-as-you-go pricing for
+                certain services. Payment is typically made through a credit
+                card or other secure online payment method.
+              </p>
+            </details>
+          </div>
+          <!-- FAQ items -->
+          <div>
+            <details class="group">
+              <summary
+                class="flex justify-between items-center px-4 md:px-10 py-4 group-open:bg-primary group-open:text-black rounded-lg ring-1 ring-primary text-xl font-cormorant font-medium cursor-pointer list-none transition-all duration-300 ease-in"
+              >
+                <span>
+                  Would I get a full refund If I cancel a reservation?</span
+                >
+                <span class="transition group-open:rotate-180">
+                  <svg
+                    fill="none"
+                    height="24"
+                    shape-rendering="geometricPrecision"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="1.5"
+                    viewBox="0 0 24 24"
+                    width="24"
+                  >
+                    <path d="M6 9l6 6 6-6"></path>
+                  </svg>
+                </span>
+              </summary>
+              <p
+                class="text-neutral-600 mt-3 transition-all group-open:ease-in group-open:duration-300"
+              >
+                We offers a variety of billing options, including monthly and
+                annual subscription plans, as well as pay-as-you-go pricing for
+                certain services. Payment is typically made through a credit
+                card or other secure online payment method.
+              </p>
+            </details>
+          </div>
+        </div>
+
+        <!-- For More Questions -->
+
+        <div>
+          <h2 class="section-title text-center pt-20">For More Questions</h2>
+          <div>
+            <form class="container mx-auto px-4 py-8 md:py-20 space-y-6">
+              <div class="flex gap-6 justify-center flex-col md:flex-row">
+                <div class="md:w-1/2">
+                  <input
+                    id="name"
+                    type="text"
+                    placeholder="Enter Your Name *"
+                    class="input-group"
+                  />
+                </div>
+                <div class="md:w-1/2">
+                  <input
+                    id="email"
+                    type="email"
+                    placeholder="Enter Your Email *"
+                    class="input-group"
+                  />
+                </div>
+              </div>
+              <div class="w-full">
+                <textarea
+                  name="message"
+                  id="message"
+                  cols="30"
+                  rows="10"
+                  placeholder="Your Message"
+                  class="input-group"
+                ></textarea>
+              </div>
+              <div class="py-1.5">
+                <label>
+                  <input
+                    id="remember"
+                    name="remember"
+                    type="checkbox"
+                    class="h-6 w-6 rounded-md bg-secondary border border-primary accent-primary text-secondary focus:ring-0 focus:outline-primary mx-2"
+                  />
+                  <span class="text-gray-400 text-xs md:text-sm">
+                    Save my name, email and website in this browser
+                  </span>
+                </label>
+              </div>
+
+              <input
+                class="btn btn-primary"
+                type="button"
+                value="Send Message"
+              />
+            </form>
+          </div>
+        </div>
+      </section>
+
+      <!-- 
+      ============================
+           News Latter Section
+      ============================
+      -->
+      <div
+        class="h-[30rem] bg-secondary flex flex-col items-center justify-center gap-8 px-4"
+      >
+        <div class="text-center max-w-2xl">
+          <p class="section-title">Stay Updated</p>
+          <p class="section-description">
+            Borem ipsum dolor sit amet, consectetur adipiscin elit. Nunc
+            vulputate libero amet, consectetur adipiscin
+          </p>
+        </div>
+
+        <div class="w-full flex flex-col items-center justify-center mx-auto">
+          <div
+            class="w-full max-w-2xl flex flex-col md:flex-row gap-4 md:gap-0"
+          >
+            <input
+              id="name"
+              type="text"
+              placeholder="Enter Your Name *"
+              class="input-group"
+            />
+            <button
+              class="w-full h-16 md:w-40 md:-ml-6 bg-primary rounded-xl text-black font-bold"
+            >
+              Sign Up
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 
+      ============================
+           Footer Section
+      ============================
+      -->
+      <footer>
+        <div class="mx-auto container px-6 pt-12">
+          <div class="xl:grid xl:grid-cols-3 xl:gap-8">
+            <div>
+              <h2 class="text-4xl py-4 font-semibold leading-6 text-white">
+                Logo
+              </h2>
+              <p class="max-w-sm">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                Obcaecati ad quibusdam veritatis consectetur, minima porro fuga
+                quas consequuntur! Accusantium iure commodi modi eligendi
+                doloribus maiores animi repellat dolorem inventore at?
+              </p>
+            </div>
+            <div class="mt-16 grid grid-cols-2 gap-8 xl:col-span-2 xl:mt-0">
+              <div class="md:grid md:grid-cols-2 md:gap-8">
+                <div>
+                  <h3 class="text-xl font-semibold leading-6 text-white">
+                    Services
+                  </h3>
+                  <ul role="list" class="mt-6 space-y-4">
+                    <li>
+                      <a
+                        href="#"
+                        class="text-sm leading-6 text-gray-300 hover:text-white"
+                        >Hair Cut</a
+                      >
+                    </li>
+
+                    <li>
+                      <a
+                        href="#"
+                        class="text-sm leading-6 text-gray-300 hover:text-white"
+                        >Hair Dye</a
+                      >
+                    </li>
+
+                    <li>
+                      <a
+                        href="#"
+                        class="text-sm leading-6 text-gray-300 hover:text-white"
+                        >Shaving</a
+                      >
+                    </li>
+
+                    <li>
+                      <a
+                        href="#"
+                        class="text-sm leading-6 text-gray-300 hover:text-white"
+                        >Massage</a
+                      >
+                    </li>
+                  </ul>
+                </div>
+                <div class="mt-10 md:mt-0">
+                  <h3 class="text-xl font-semibold leading-6 text-white">
+                    Support
+                  </h3>
+                  <ul role="list" class="mt-6 space-y-4">
+                    <li>
+                      <a
+                        href="#"
+                        class="text-sm leading-6 text-gray-300 hover:text-white"
+                        >Pricing</a
+                      >
+                    </li>
+
+                    <li>
+                      <a
+                        href="#"
+                        class="text-sm leading-6 text-gray-300 hover:text-white"
+                        >Documentation</a
+                      >
+                    </li>
+
+                    <li>
+                      <a
+                        href="#"
+                        class="text-sm leading-6 text-gray-300 hover:text-white"
+                        >Guides</a
+                      >
+                    </li>
+
+                    <li>
+                      <a
+                        href="#"
+                        class="text-sm leading-6 text-gray-300 hover:text-white"
+                        >API Status</a
+                      >
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div class="md:grid md:grid-cols-2 md:gap-8">
+                <div>
+                  <h3 class="text-xl font-semibold leading-6 text-white">
+                    Company
+                  </h3>
+                  <ul role="list" class="mt-6 space-y-4">
+                    <li>
+                      <a
+                        href="#"
+                        class="text-sm leading-6 text-gray-300 hover:text-white"
+                        >About</a
+                      >
+                    </li>
+
+                    <li>
+                      <a
+                        href="#"
+                        class="text-sm leading-6 text-gray-300 hover:text-white"
+                        >Blog</a
+                      >
+                    </li>
+
+                    <li>
+                      <a
+                        href="#"
+                        class="text-sm leading-6 text-gray-300 hover:text-white"
+                        >Jobs</a
+                      >
+                    </li>
+
+                    <li>
+                      <a
+                        href="#"
+                        class="text-sm leading-6 text-gray-300 hover:text-white"
+                        >Press</a
+                      >
+                    </li>
+
+                    <li>
+                      <a
+                        href="#"
+                        class="text-sm leading-6 text-gray-300 hover:text-white"
+                        >Partners</a
+                      >
+                    </li>
+                  </ul>
+                </div>
+                <div class="mt-10 md:mt-0">
+                  <h3 class="text-xl font-semibold leading-6 text-white">
+                    Legal
+                  </h3>
+                  <ul role="list" class="mt-6 space-y-4">
+                    <li>
+                      <a
+                        href="#"
+                        class="text-sm leading-6 text-gray-300 hover:text-white"
+                        >Claim</a
+                      >
+                    </li>
+
+                    <li>
+                      <a
+                        href="#"
+                        class="text-sm leading-6 text-gray-300 hover:text-white"
+                        >Privacy</a
+                      >
+                    </li>
+
+                    <li>
+                      <a
+                        href="#"
+                        class="text-sm leading-6 text-gray-300 hover:text-white"
+                        >Terms</a
+                      >
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p class="text-center py-6">
+          Copyright © 2023 CryptoVault. All Rights Reserved
+        </p>
+      </footer>
+    </main>
+    <!-- Swiper JS -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+
+    <script src="./js/main.js"></script>
+  </body>
+</html>
