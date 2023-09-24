@@ -49,17 +49,59 @@ mobileMenuButton.addEventListener("click", () => {
   closeIcon.classList.toggle("hidden", isExpanded);
 });
 
+// JS for sidebar
 
-const openSidebarButton = document.getElementById('openSidebarButton');
-const sidebar = document.getElementById('sidebar');
-const sidebarOverlay = document.getElementById('sidebarOverlay');
+const openSidebarButton = document.getElementById("openSidebarButton");
+const sidebar = document.getElementById("sidebar");
+const sidebarOverlay = document.getElementById("sidebarOverlay");
+const sidebarClose = document.getElementById("sidebarClose");
 
-openSidebarButton.addEventListener('click', () => {
-    sidebar.classList.remove('hidden');
-    sidebarOverlay.style.display = 'block';
-});
+// Check if elements exist before adding event listeners
+if (openSidebarButton && sidebar && sidebarOverlay && sidebarClose) {
+  openSidebarButton.addEventListener("click", () => {
+    sidebar.classList.remove("hidden");
+    sidebarOverlay.style.display = "block";
+  });
 
-sidebarOverlay.addEventListener('click', () => {
-    sidebar.classList.add('hidden');
-    sidebarOverlay.style.display = 'none';
+  sidebarOverlay.addEventListener("click", () => {
+    sidebar.classList.add("hidden");
+    sidebarOverlay.style.display = "none";
+  });
+
+  sidebarClose.addEventListener("click", () => {
+    sidebar.classList.add("hidden");
+    sidebarOverlay.style.display = "none";
+  });
+} else {
+  console.error("One or more elements not found. Check your HTML structure.");
+}
+
+// Tab
+
+document.addEventListener("DOMContentLoaded", function () {
+  const tabLinks = document.querySelectorAll(".tab");
+  const tabContents = document.querySelectorAll(".tab-pane");
+
+  tabLinks.forEach((tabLink) => {
+      tabLink.addEventListener("click", () => {
+          const tabId = tabLink.getAttribute("data-tab");
+
+          // Hide all tab contents
+          tabContents.forEach((content) => {
+              content.classList.remove("active-tab-pane");
+          });
+
+          // Show the selected tab content
+          const selectedTabContent = document.getElementById(tabId);
+          selectedTabContent.classList.add("active-tab-pane");
+
+          // Remove 'active-tab' class from all tab links
+          tabLinks.forEach((link) => {
+              link.classList.remove("active-tab");
+          });
+
+          // Add 'active-tab' class to the clicked tab link
+          tabLink.classList.add("active-tab");
+      });
+  });
 });
