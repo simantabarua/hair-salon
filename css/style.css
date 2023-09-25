@@ -32,7 +32,7 @@
   }
 
   .btn {
-    @apply flex items-center justify-center font-semibold text-xs md:text-base  rounded-xl hover:bg-primary/75 focus:bg-primary/70 focus:outline-none transition-all duration-300;
+    @apply flex items-center justify-center font-semibold text-xs md:text-base  rounded-xl hover:text-black hover:bg-primary/75 focus:bg-primary/70 focus:outline-none transition-all duration-300;
   }
   .btn-primary {
     @apply bg-primary px-2.5 py-1.5 md:px-9 md:py-4 text-black;
@@ -42,6 +42,9 @@
   }
   .btn-circle {
     @apply w-8 h-8 p-1 md:w-10 md:h-10 md:p-2 text-black bg-primary rounded-full;
+  }
+  .pagination-btn{
+    @apply btn w-14 h-14 px-4 py-2.5 text-center text-xl font-semibold border border-primary rounded-xl;
   }
 
   .input-group {
@@ -126,4 +129,17 @@
   .packages-card {
     @apply flex flex-col gap-10 md:w-[26.5rem] md:max-h-full md:min-h-[33rem] px-5 py-12 rounded-2xl bg-secondary border border-primary;
   }
+}
+/* Shop page */
+.thumbnail-image {
+  @apply h-full w-full object-center object-cover cursor-pointer;
+}
+/* CSS for active thumbnail */
+.active-thumbnail {
+  @apply opacity-100;
+}
+
+/* CSS for inactive thumbnail */
+.inactive-thumbnail {
+  @apply opacity-50;
 }

@@ -197,49 +197,756 @@
           Product details Section
       ============================
       -->
-      <section>
-        <div class="max-w-8xl mx-auto">
-          <div class="border-b border-white/60 mb-4">
-            <ul class="flex gap-4 md:gap-8 overflow-x-scroll p-4 md:p-0" id="tabList">
-              <li>
-                <a class="tab active-tab" data-tab="tab1">Description</a>
-              </li>
-              <li>
-                <a class="tab" data-tab="tab2">Shaving</a>
-              </li>
-              <li>
-                <a class="tab" data-tab="tab3">Hair Dye</a>
-              </li>
-              <li>
-                <a class="tab" data-tab="tab4">Facial</a>
-              </li>
-              <li>
-                <a class="tab" data-tab="tab5">Keratin Treatment</a>
-              </li>
-              <li>
-                <a class="tab" data-tab="tab6">Packages</a>
-              </li>
-            </ul>
+      <section class="max-w-8xl h-full mx-auto px-4">
+        <!-- Product -->
+        <div
+          class="flex flex-col justify-center items-center md:items-start lg:flex-row gap-11"
+        >
+          <!-- Left Side (Product Image) -->
+          <div>
+            <!-- Product image -->
+            <div
+              class="w-full h-full max-w-2xl lg:h-[38rem] lg:w-[38rem] rounded-xl overflow-hidden"
+            >
+              <img
+                id="main-product-image"
+                src="./img/Products Images/image 5.png"
+                alt="Product"
+                class="w-full h-full object-center object-cover"
+              />
+            </div>
+            <div class="py-4 flex gap-4 space-4">
+              <!-- Images (thumbnails) -->
+              <div
+                class="flex-1 w-full h-full md:w-48 md:h-48 rounded-xl overflow-hidden"
+              >
+                <img
+                  id="thumbnail1"
+                  src="./img/Products Images/image 5.png"
+                  alt="Product"
+                  class="thumbnail-image active-thumbnail"
+                  onclick="changeProductImage('./img/Products Images/image 5.png', 'thumbnail1')"
+                />
+              </div>
+              <!-- Images (thumbnails) -->
+              <div
+                class="flex-1 w-full h-full md:w-48 md:h-48 rounded-xl overflow-hidden"
+              >
+                <img
+                  id="thumbnail2"
+                  src="./img/Products Images/image 4.png"
+                  alt="Product"
+                  class="thumbnail-image inactive-thumbnail"
+                  onclick="changeProductImage('./img/Products Images/image 4.png', 'thumbnail2')"
+                />
+              </div>
+              <!-- Images (thumbnails) -->
+              <div
+                class="flex-1 w-full h-full md:w-48 md:h-48 rounded-xl overflow-hidden"
+              >
+                <img
+                  id="thumbnail3"
+                  src="./img/Products Images/image 3.png"
+                  alt="Product"
+                  class="thumbnail-image inactive-thumbnail"
+                  onclick="changeProductImage('./img/Products Images/image 3.png', 'thumbnail3')"
+                />
+              </div>
+            </div>
           </div>
-          <div id="tabContent">
-            <!-- Tab content placeholders -->
-            <div id="tab1" class="tab-pane active-tab-pane">
-              <p>Description  goes here.</p>
+
+          <!-- Right Side (Product Information) -->
+          <div class="px-4 flex flex-col gap-4 mg:gap-6 font-manrope">
+            <!-- Product Name -->
+            <h1 class="text-4xl lg:text-6xl font-cormorant font-semibold">
+              Beauty Care Cream
+            </h1>
+
+            <!-- Price -->
+            <p class="text-xl lg:text-4xl text-white font-semibold">$75.00</p>
+
+            <!-- Rating -->
+            <div class="flex items-center mb-2">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="w-6 h-6 text-yellow-600 fill-yellow-600"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"
+                />
+              </svg>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="w-6 h-6 text-yellow-600 fill-yellow-600"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"
+                />
+              </svg>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="w-6 h-6 text-yellow-600 fill-yellow-600"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"
+                />
+              </svg>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="w-6 h-6 text-yellow-600 fill-yellow-600"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"
+                />
+              </svg>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="w-6 h-6 text-yellow-600 fill-yellow-600"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"
+                />
+              </svg>
+
+              <span class="text-white/70 ml-2">(423)</span>
             </div>
-            <div id="tab2" class="tab-pane">
-              <p>Shaving  goes here.</p>
+
+            <!-- Product Details -->
+            <p class="text-white/70">
+              Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit
+              aut fugit, sed quia consequuntur magni dolores eos qui ratione
+              voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem
+              ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia
+              non numquam eius modi tempora incidunt ut labore et dolore magnam
+              aliquam quaerat voluptatem.
+            </p>
+
+            <!-- Quantity -->
+            <div>
+              <div class="flex items-center gap-3 py-6">
+                <button
+                  class="btn w-14 h-14 rounded-xl bg-secondary border border-primary"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="w-6 h-6"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M19.5 12h-15"
+                    />
+                  </svg>
+                </button>
+
+                <input
+                  class="w-20 h-16 bg-secondary rounded-xl border border-primary text-center font-semibold outline-none"
+                  type="text"
+                />
+                <button
+                  class="btn w-14 h-14 rounded-xl bg-secondary border border-primary"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="w-6 h-6"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M12 4.5v15m7.5-7.5h-15"
+                    />
+                  </svg>
+                </button>
+              </div>
+              <button class="btn p-4 text-xl btn-primary">Add to cart</button>
             </div>
-            <div id="tab3" class="tab-pane">
-              <p>Hair Dye  goes here.</p>
+
+            <!-- Additional info -->
+            <div class="space-y-4">
+              <p>Serial No : <span class="text-white/70">AQ5157</span></p>
+              <p>
+                Category :
+                <span class="text-white/70"> Face Care, Cream, Spray</span>
+              </p>
+              <p>
+                Tags : <span class="text-white/70">Face, Women, Trends</span>
+              </p>
             </div>
-            <div id="tab4" class="tab-pane">
-              <p>Facial  goes here.</p>
+          </div>
+        </div>
+      </section>
+      <!-- 
+      ============================
+       Product additional information
+      ============================
+      -->
+      <section class="max-w-8xl h-full mx-auto px-4">
+        <div class="border-b border-white/60 mb-4">
+          <!-- Tab content placeholders -->
+          <ul class="flex gap-4 md:gap-8 overflow-x-scroll" id="tabList">
+            <li>
+              <a class="tab active-tab" data-tab="tab1">Description</a>
+            </li>
+            <li>
+              <a class="tab" data-tab="tab2">Additional Info</a>
+            </li>
+            <li>
+              <a class="tab" data-tab="tab3">Reviews (4)</a>
+            </li>
+          </ul>
+        </div>
+        <!-- Tab content -->
+        <div id="tabContent">
+        <!-- Tab content 1-->
+          <div id="tab1" class="tab-pane active-tab-pane">
+            <p>
+              Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit
+              aut fugit, sed quia consequuntur magni dolores eos qui ratione
+              voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem
+              ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia
+              non numquam eius modi tempora incidunt ut labore et dolore magnam
+              aliquam quaerat voluptatem. Nemo enim ipsam voluptatem quia
+              voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur
+              magni dolores eos qui ratione voluptatem sequi nesciunt. Neque
+              porro quisquam est, qui dolorem ipsum quia dolor sit amet,
+              consectetur, adipisci velit, sed quia non numquam eius modi
+              tempora incidunt ut labore et dolore magnam aliquam quaerat
+              voluptatem.
+              <br />
+              Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit
+              aut fugit, sed quia consequuntur magni dolores eos qui ratione
+              voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem i
+            </p>
+          </div>
+        <!-- Tab content 2-->
+          <div id="tab2" class="tab-pane">
+            <table class="w-full border-collapse text-xl">
+              <tr class="border-b border-white/30">
+                <td class="py-3 md:py-6 text-start">Product Name</td>
+                <td class="py-3 md:py-6 text-start">Radiant Skin Serum</td>
+                <td class="py-3 md:py-6 text-start"></td>
+              </tr>
+              <tr class="border-b border-white/30">
+                <td class="py-3 md:py-6 text-start">Brand</td>
+                <td class="py-3 md:py-6 text-start">Glowing Beauty</td>
+                <td class="py-3 md:py-6 text-start"></td>
+              </tr>
+              <tr class="border-b border-white/30">
+                <td class="py-3 md:py-6 text-start">Volume</td>
+                <td class="py-3 md:py-6 text-start">30 ml</td>
+                <td class="py-3 md:py-6 text-start"></td>
+              </tr>
+              <tr class="border-b border-white/30">
+                <td class="py-3 md:py-6 text-start">Price</td>
+                <td class="py-3 md:py-6 text-start">$39.99</td>
+                <td class="py-3 md:py-6 text-start"></td>
+              </tr>
+              <tr class="border-b border-white/30">
+                <td class="py-3 md:py-6 text-start">Benefits</td>
+                <td class="py-3 md:py-6 text-start">
+                  Hydrates, Brightens, and Evens Skin Tone
+                </td>
+                <td class="py-3 md:py-6 text-start"></td>
+              </tr>
+            </table>
+          </div>
+        <!-- Tab content 3-->
+          <div id="tab3" class="tab-pane">
+            <!-- Reviews -->
+            <div>
+              <!-- Reviews card -->
+              <div
+                class="flex flex-col md:flex-row text-center md:text-left items-center gap-2 p-4 space-x-4"
+              >
+                <!-- Left Side (Image) -->
+                <div class="w-36 h-28 rounded-lg overflow-hidden">
+                  <img
+                    src="./img/Team Members Images/team-4.png"
+                    alt="Reviewer"
+                    class="w-full h-full object-center object-cover"
+                  />
+                </div>
+
+                <!-- Right Side (Review Information) -->
+                <div class="flex-grow">
+                  <!-- 5 Stars -->
+                  <div
+                    class="flex items-center justify-center md:justify-start space-x-2"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke-width="1.5"
+                      stroke="currentColor"
+                      class="w-6 h-6 text-yellow-600 fill-yellow-600"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"
+                      />
+                    </svg>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke-width="1.5"
+                      stroke="currentColor"
+                      class="w-6 h-6 text-yellow-600 fill-yellow-600"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"
+                      />
+                    </svg>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke-width="1.5"
+                      stroke="currentColor"
+                      class="w-6 h-6 text-yellow-600 fill-yellow-600"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"
+                      />
+                    </svg>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke-width="1.5"
+                      stroke="currentColor"
+                      class="w-6 h-6 text-yellow-600 fill-yellow-600"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"
+                      />
+                    </svg>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke-width="1.5"
+                      stroke="currentColor"
+                      class="w-6 h-6 text-yellow-600 fill-yellow-600"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"
+                      />
+                    </svg>
+                  </div>
+
+                  <!-- Reviewer Name -->
+                  <p class="text-lg font-semibold py-1">
+                    John Doe
+                    <span class="text-xs font-normal text-white/70 px-1"
+                      >12 days ago</span
+                    >
+                  </p>
+
+                  <!-- Review Text -->
+                  <p class="text-white/70">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                    Nullam eget erat nec libero hendrerit suscipit. Vestibulum
+                    bibendum metus id nisl dapibus, at lacinia erat posuere. Sed
+                    ac nulla non velit feugiat malesuada.
+                  </p>
+                </div>
+              </div>
+              <!-- Reviews card -->
+              <div
+                class="flex flex-col md:flex-row text-center md:text-left items-center gap-2 p-4 space-x-4"
+              >
+                <!-- Left Side (Image) -->
+                <div class="w-36 h-28 rounded-lg overflow-hidden">
+                  <img
+                    src="./img/Team Members Images/team-3.png"
+                    alt="Reviewer"
+                    class="w-full h-full object-center object-cover"
+                  />
+                </div>
+
+                <!-- Right Side (Review Information) -->
+                <div class="flex-grow">
+                  <!-- 5 Stars -->
+                  <div
+                    class="flex items-center justify-center md:justify-start space-x-2"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke-width="1.5"
+                      stroke="currentColor"
+                      class="w-6 h-6 text-yellow-600 fill-yellow-600"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"
+                      />
+                    </svg>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke-width="1.5"
+                      stroke="currentColor"
+                      class="w-6 h-6 text-yellow-600 fill-yellow-600"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"
+                      />
+                    </svg>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke-width="1.5"
+                      stroke="currentColor"
+                      class="w-6 h-6 text-yellow-600 fill-yellow-600"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"
+                      />
+                    </svg>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke-width="1.5"
+                      stroke="currentColor"
+                      class="w-6 h-6 text-yellow-600 fill-yellow-600"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"
+                      />
+                    </svg>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke-width="1.5"
+                      stroke="currentColor"
+                      class="w-6 h-6 text-yellow-600 fill-yellow-600"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"
+                      />
+                    </svg>
+                  </div>
+
+                  <!-- Reviewer Name -->
+                  <p class="text-lg font-semibold py-1">
+                    Sarah. h
+                    <span class="text-xs font-normal text-white/70 px-1"
+                      >17 days ago</span
+                    >
+                  </p>
+
+                  <!-- Review Text -->
+                  <p class="text-white/70">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                    Nullam eget erat nec libero hendrerit suscipit. Vestibulum
+                    bibendum metus id nisl dapibus, at lacinia erat posuere. Sed
+                    ac nulla non velit feugiat malesuada.
+                  </p>
+                </div>
+              </div>
+              <!-- Reviews card -->
+              <div
+                class="flex flex-col md:flex-row text-center md:text-left items-center gap-2 p-4 space-x-4"
+              >
+                <!-- Left Side (Image) -->
+                <div class="w-36 h-28 rounded-lg overflow-hidden">
+                  <img
+                    src="./img/Team Members Images/team-2.png"
+                    alt="Reviewer"
+                    class="w-full h-full object-center object-cover"
+                  />
+                </div>
+
+                <!-- Right Side (Review Information) -->
+                <div class="flex-grow">
+                  <!-- 5 Stars -->
+                  <div
+                    class="flex items-center justify-center md:justify-start space-x-2"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke-width="1.5"
+                      stroke="currentColor"
+                      class="w-6 h-6 text-yellow-600 fill-yellow-600"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"
+                      />
+                    </svg>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke-width="1.5"
+                      stroke="currentColor"
+                      class="w-6 h-6 text-yellow-600 fill-yellow-600"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"
+                      />
+                    </svg>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke-width="1.5"
+                      stroke="currentColor"
+                      class="w-6 h-6 text-yellow-600 fill-yellow-600"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"
+                      />
+                    </svg>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke-width="1.5"
+                      stroke="currentColor"
+                      class="w-6 h-6 text-yellow-600 fill-yellow-600"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"
+                      />
+                    </svg>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke-width="1.5"
+                      stroke="currentColor"
+                      class="w-6 h-6 text-yellow-600 fill-yellow-600"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"
+                      />
+                    </svg>
+                  </div>
+
+                  <!-- Reviewer Name -->
+                  <p class="text-lg font-semibold py-1">
+                    Alex ha.
+                    <span class="text-xs font-normal text-white/70 px-1"
+                      >12 days ago</span
+                    >
+                  </p>
+
+                  <!-- Review Text -->
+                  <p class="text-white/70">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                    Nullam eget erat nec libero hendrerit suscipit. Vestibulum
+                    bibendum metus id nisl dapibus, at lacinia erat posuere. Sed
+                    ac nulla non velit feugiat malesuada.
+                  </p>
+                </div>
+              </div>
             </div>
-            <div id="tab5" class="tab-pane">
-              <p>Keratin Treatment  goes here.</p>
-            </div>
-            <div id="tab6" class="tab-pane">
-              <p>Packages content goes here.</p>
+
+            <!-- ADD Review -->
+            <div class="py-8 md:py-16 px-4">
+              <h4 class="font-semibold text-3xl">Add Review</h4>
+              <form class="py-6 flex flex-col gap-4 md:gap-8">
+                <!-- Rating star -->
+                <div class="bg-secondary rounded-xl p-4 max-w-xs">
+                  <p class="py-2.5 font-semibold">Your Rating</p>
+                  <div class="flex gap-2 items-center">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke-width="1.5"
+                      stroke="currentColor"
+                      class="w-6 h-6 stroke-yellow-600"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"
+                      />
+                    </svg>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke-width="1.5"
+                      stroke="currentColor"
+                      class="w-6 h-6 stroke-yellow-600"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"
+                      />
+                    </svg>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke-width="1.5"
+                      stroke="currentColor"
+                      class="w-6 h-6 stroke-yellow-600"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"
+                      />
+                    </svg>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke-width="1.5"
+                      stroke="currentColor"
+                      class="w-6 h-6 stroke-yellow-600"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"
+                      />
+                    </svg>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke-width="1.5"
+                      stroke="currentColor"
+                      class="w-6 h-6 stroke-yellow-600"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"
+                      />
+                    </svg>
+                  </div>
+                </div>
+
+                <!-- Review Text -->
+                <textarea
+                  name="message"
+                  id="message"
+                  cols="30"
+                  rows="10"
+                  placeholder="Your Message"
+                  class="input-group"
+                ></textarea>
+                <!-- Reviewer Name -->
+                <div class="w-full">
+                  <input
+                    id="name"
+                    type="text"
+                    placeholder="Enter Your Name *"
+                    class="input-group"
+                  />
+                </div>
+                <!-- Reviewer Email -->
+                <div class="w-full">
+                  <input
+                    id="email"
+                    type="email"
+                    placeholder="Enter Your Email *"
+                    class="input-group"
+                  />
+                </div>
+                <!-- Save info -->
+                <div class="py-1.5">
+                  <label>
+                    <input
+                      id="remember"
+                      name="remember"
+                      type="checkbox"
+                      class="h-6 w-6 rounded-md bg-secondary border border-primary accent-primary text-secondary focus:ring-0 focus:outline-primary mx-2"
+                    />
+                    <span class="text-gray-400 text-xs md:text-sm">
+                      Save my name, email and website in this browser
+                    </span>
+                  </label>
+                </div>
+                <!-- Submit Button -->
+                <input
+                  class="p-4 text-xl btn btn-primary w-full md:max-w-xs"
+                  type="button"
+                  value="Submit"
+                />
+              </form>
             </div>
           </div>
         </div>
@@ -250,9 +957,11 @@
       ============================
       -->
 
-      <section class="max-w-7xl mx-auto">
+      <section class="max-w-7xl mx-auto md:!pt-0">
         <!-- Products -->
-        <h2 class="text-2xl md:text-6xl py-4 font-cormorant text-center">
+        <h2
+          class="text-2xl md:text-6xl py-4 md:py-8 font-cormorant text-center"
+        >
           Related Product
         </h2>
         <div

@@ -18,11 +18,13 @@ toggleNavbarTransparency();
 var swiper = new Swiper(".mySwiper", {
   pagination: {
     el: ".swiper-pagination",
+    c
   },
   autoplay: {
     delay: 2500,
     disableOnInteraction: false,
   },
+  
 });
 
 const mobileMenuButton = document.querySelector(
@@ -83,25 +85,45 @@ document.addEventListener("DOMContentLoaded", function () {
   const tabContents = document.querySelectorAll(".tab-pane");
 
   tabLinks.forEach((tabLink) => {
-      tabLink.addEventListener("click", () => {
-          const tabId = tabLink.getAttribute("data-tab");
+    tabLink.addEventListener("click", () => {
+      const tabId = tabLink.getAttribute("data-tab");
 
-          // Hide all tab contents
-          tabContents.forEach((content) => {
-              content.classList.remove("active-tab-pane");
-          });
-
-          // Show the selected tab content
-          const selectedTabContent = document.getElementById(tabId);
-          selectedTabContent.classList.add("active-tab-pane");
-
-          // Remove 'active-tab' class from all tab links
-          tabLinks.forEach((link) => {
-              link.classList.remove("active-tab");
-          });
-
-          // Add 'active-tab' class to the clicked tab link
-          tabLink.classList.add("active-tab");
+      // Hide all tab contents
+      tabContents.forEach((content) => {
+        content.classList.remove("active-tab-pane");
       });
+
+      // Show the selected tab content
+      const selectedTabContent = document.getElementById(tabId);
+      selectedTabContent.classList.add("active-tab-pane");
+
+      // Remove 'active-tab' class from all tab links
+      tabLinks.forEach((link) => {
+        link.classList.remove("active-tab");
+      });
+
+      // Add 'active-tab' class to the clicked tab link
+      tabLink.classList.add("active-tab");
+    });
   });
 });
+
+function changeProductImage(newImageSrc, clickedThumbnailId) {
+  // Get the main product image element
+  let mainProductImage = document.getElementById("main-product-image");
+
+  // Change the source of the main product image
+  mainProductImage.src = newImageSrc;
+
+  // Reset opacity for all thumbnails
+  let thumbnails = document.querySelectorAll(".thumbnail-image");
+  thumbnails.forEach(function (thumbnail) {
+    thumbnail.classList.remove("active-thumbnail");
+    thumbnail.classList.add("inactive-thumbnail");
+  });
+
+  // Set the active class for the clicked thumbnail
+  let clickedThumbnail = document.getElementById(clickedThumbnailId);
+  clickedThumbnail.classList.add("active-thumbnail");
+  clickedThumbnail.classList.remove("inactive-thumbnail");
+}
