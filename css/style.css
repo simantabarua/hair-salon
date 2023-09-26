@@ -16,8 +16,13 @@
     @apply h-12 flex items-center justify-center gap-8 transition-all duration-300 ease-in-out;
   }
   .nav-item {
-    @apply inline-flex items-center  border-b-2 border-primary/0 hover:border-primary  px-1 py-2.5 text-sm font-medium;
+    @apply inline-flex items-center font-semibold  border-b-2 border-primary/0 hover:border-primary  px-1 py-2.5 text-sm;
   }
+  .active-nav {
+    @apply font-bold text-primary  border-b-2 border-primary;
+  }
+
+  /* Css for page section */
   .section-heading {
     @apply max-w-3xl pb-8 md:pb-16 px-4 mx-auto text-center space-y-2;
   }
@@ -43,7 +48,7 @@
   .btn-circle {
     @apply w-8 h-8 p-1 md:w-10 md:h-10 md:p-2 text-black bg-primary rounded-full;
   }
-  .pagination-btn{
+  .pagination-btn {
     @apply btn w-14 h-14 px-4 py-2.5 text-center text-xl font-semibold border border-primary rounded-xl;
   }
 
@@ -80,10 +85,13 @@
   }
   /* product */
   .product-card {
-    @apply font-cormorant;
+    @apply font-cormorant max-w-md;
   }
   .product-card-title {
     @apply font-cormorant text-2xl  md:text-3xl 2xl:text-4xl py-1.5;
+  }
+  .product-card-image {
+    @apply relative w-full h-full md:h-80 xl:h-[28rem] overflow-hidden rounded-xl bg-orange-100;
   }
 
   /* business hour */

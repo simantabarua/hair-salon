@@ -8,9 +8,7 @@ function toggleNavbarTransparency() {
     navbar.classList.remove("bg-secondary");
   }
 }
-
 window.addEventListener("scroll", toggleNavbarTransparency);
-
 toggleNavbarTransparency();
 
 // js for swiper:
@@ -25,6 +23,38 @@ var swiper = new Swiper(".mySwiper", {
   },
 });
 
+// JavaScript for navbar dropdown
+const dropdownBtn = document.getElementById("navbar-dropdown-btn");
+const dropdownItems = document.getElementById("navbar-dropdown-items");
+
+try {
+    if (!dropdownBtn || !dropdownItems) {
+        throw new Error("Navbar dropdown button or dropdown items element not found.");
+    }
+
+    dropdownBtn.addEventListener("click", (e) => {
+        e.stopPropagation(); // Prevent the click event from propagating to the document
+    });
+
+    dropdownBtn.addEventListener("mouseover", () => {
+        dropdownItems.classList.add("scale-y-100");
+    });
+
+    document.addEventListener("click", () => {
+        dropdownItems.classList.remove("scale-y-100");
+    });
+
+    // Close the dropdown when an item is clicked
+    dropdownItems.addEventListener("click", (e) => {
+        if (e.target.tagName === "A") {
+            dropdownItems.classList.remove("scale-y-100");
+        }
+    });
+} catch (error) {
+    console.error("An error occurred in the navbar dropdown function:", error);
+}
+
+// JavaScript for Mobile nav
 const mobileMenuButton = document.querySelector(
   'button[aria-controls="mobile-menu"]'
 );
@@ -48,6 +78,9 @@ mobileMenuButton.addEventListener("click", () => {
   openIcon.classList.toggle("hidden", !isExpanded);
   closeIcon.classList.toggle("hidden", isExpanded);
 });
+
+
+
 
 // JS for sidebar
 const openSidebarButton = document.getElementById("openSidebarButton");
