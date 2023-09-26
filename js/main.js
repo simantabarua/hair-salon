@@ -14,17 +14,15 @@ window.addEventListener("scroll", toggleNavbarTransparency);
 toggleNavbarTransparency();
 
 // js for swiper:
-
 var swiper = new Swiper(".mySwiper", {
   pagination: {
     el: ".swiper-pagination",
-    c
+    clickable: true,
   },
   autoplay: {
     delay: 2500,
     disableOnInteraction: false,
   },
-  
 });
 
 const mobileMenuButton = document.querySelector(
@@ -52,7 +50,6 @@ mobileMenuButton.addEventListener("click", () => {
 });
 
 // JS for sidebar
-
 const openSidebarButton = document.getElementById("openSidebarButton");
 const sidebar = document.getElementById("sidebar");
 const sidebarOverlay = document.getElementById("sidebarOverlay");
@@ -78,8 +75,7 @@ if (openSidebarButton && sidebar && sidebarOverlay && sidebarClose) {
   console.error("One or more elements not found. Check your HTML structure.");
 }
 
-// Tab
-
+//JS for  Tab
 document.addEventListener("DOMContentLoaded", function () {
   const tabLinks = document.querySelectorAll(".tab");
   const tabContents = document.querySelectorAll(".tab-pane");
@@ -108,6 +104,7 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
+// Js for shop page
 function changeProductImage(newImageSrc, clickedThumbnailId) {
   // Get the main product image element
   let mainProductImage = document.getElementById("main-product-image");
