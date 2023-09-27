@@ -11,7 +11,7 @@
   section {
     @apply py-10 md:py-28;
   }
-
+  /* Css for navbar */
   .navbar-nav {
     @apply h-12 flex items-center justify-center gap-8 transition-all duration-300 ease-in-out;
   }
@@ -35,7 +35,7 @@
   .section-description {
     @apply font-manrope text-white/70 text-base;
   }
-
+  /* CSS for btns */
   .btn {
     @apply flex items-center justify-center font-semibold text-xs md:text-base  rounded-xl hover:text-black hover:bg-primary/75 focus:bg-primary/70 focus:outline-none transition-all duration-300;
   }
@@ -58,6 +58,8 @@
   .active-date {
     @apply h-10 w-10 mx-auto text-black flex items-center justify-center bg-primary rounded-full;
   }
+
+  /* CSS for Tab */
   .tab {
     @apply py-1 md:py-4 whitespace-nowrap md:text-xl inline-block cursor-pointer text-gray-500 hover:text-white hover:border-gray-300 rounded-t-lg  font-semibold text-center border-transparent border-b-4;
   }
@@ -71,7 +73,7 @@
   .active-tab-pane {
     @apply !block;
   }
-
+  /* Css for home page banner */
   #hero {
     background-image: url("./../img/Hero Section/image 2.png");
     background-position: center;
