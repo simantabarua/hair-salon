@@ -22,7 +22,7 @@
            Nav Section
       ============================
       -->
-    <nav
+      <nav
       id="navbar"
       class="fixed h-16 md:h-20 inset-x-0 z-50 transition-all duration-300 ease-in-out md:px-4"
     >
@@ -80,10 +80,23 @@
             <li class="nav-item">
               <a class="nav-link" href="index.html">Home</a>
             </li>
+            <li class="nav-item">
+              <a href="services.html" class="nav-link">Services</a>
+            </li>
+            <li class="nav-item active-nav">
+              <a class="nav-link" href="shop.html">Shop</a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" href="about.html">About Us</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="contact.html">Contact</a>
+            </li>
             <li class="nav-item group">
               <div class="relative" id="navbar-dropdown-container">
                 <button id="navbar-dropdown-btn" class="flex gap-2">
-                  Services
+                  Pages
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -108,15 +121,6 @@
                 >
                   <ul class="flex flex-col gap-2">
                     <li class="nav-item">
-                      <a href="services.html" class="nav-link">Services</a>
-                    </li>
-                    <li class="nav-item">
-                      <a href="pricing.html" class="nav-link">Pricing</a>
-                    </li>
-                    <li class="nav-item">
-                      <a href="team.html" class="nav-link">Team</a>
-                    </li>
-                    <li class="nav-item">
                       <a href="appointment.html" class="nav-link"
                         >Appointment</a
                       >
@@ -125,7 +129,19 @@
                       <a href="pricing.html" class="nav-link">Pricing</a>
                     </li>
                     <li class="nav-item">
-                      <a href="faq.html" class="nav-link">Faq</a>
+                      <a href="product-details.html" class="nav-link"
+                        >Product Details</a
+                      >
+                    </li>
+                    <li class="nav-item">
+                      <a href="cart.html" class="nav-link">Cart</a>
+                    </li>
+                    <li class="nav-item">
+                      <a href="team.html" class="nav-link">Team</a>
+                    </li>
+
+                    <li class="nav-item">
+                      <a href="faq.html" class="nav-link">FAQ</a>
                     </li>
                     <li class="nav-item">
                       <a href="blog.html" class="nav-link">Blog</a>
@@ -134,23 +150,13 @@
                       <a href="blog-2.html" class="nav-link">Blog 2</a>
                     </li>
                     <li class="nav-item">
-                      <a href="single-blog.html" class="nav-link"
-                        >Single Blog
+                      <a href="blog-details.html" class="nav-link"
+                        >Blog Details
                       </a>
                     </li>
                   </ul>
                 </div>
               </div>
-            </li>
-            <li class="nav-item active-nav">
-              <a class="nav-link" href="shop.html">Shop</a>
-            </li>
-
-            <li class="nav-item">
-              <a class="nav-link" href="about.html">About Us</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="contact.html">Contact</a>
             </li>
           </ul>
         </div>
@@ -196,41 +202,24 @@
 
       <!-- Mobile menu, show/hide based on menu state. -->
       <div
-        class="h-full lg:hidden -translate-x-full transition-all duration-300 ease-in-out"
+        class="h-full lg:hidden -translate-x-full transition-all duration-300 ease-in-out z-40"
         id="mobile-menu"
       >
         <ul
           class="flex flex-col p-4 gap-6 bg-secondary divide-y-1 divide-primary/70"
         >
-          <li class="nav-item">
+          <li class="nav-item active-nav">
             <a class="nav-link" href="index.html">Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="about.html">About Us</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="services.html">Services</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="pricing.html">Pricing</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="appointment.html">Appointment</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="contact.html">Contact</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="team.html">Team</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="appointment.html">Appointment</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="blog.html">Blog</a>
-          </li>
-          <li class="nav-item">
             <a class="nav-link" href="shop.html">Shop</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="about.html">About Us</a>
           </li>
         </ul>
       </div>
