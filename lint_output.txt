@@ -1,0 +1,115 @@
+
+/home/xsystem/Desktop/Project/hair-salon/src/app/about/page.tsx
+  291:15  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+/home/xsystem/Desktop/Project/hair-salon/src/app/appointment/page.tsx
+    4:22  warning  'CalendarIcon' is defined but never used                                                                                                                                                                                                                                                 @typescript-eslint/no-unused-vars
+    4:49  warning  'Check' is defined but never used                                                                                                                                                                                                                                                        @typescript-eslint/no-unused-vars
+    4:56  warning  'Scissors' is defined but never used                                                                                                                                                                                                                                                     @typescript-eslint/no-unused-vars
+    4:85  warning  'Mail' is defined but never used                                                                                                                                                                                                                                                         @typescript-eslint/no-unused-vars
+    4:91  warning  'Phone' is defined but never used                                                                                                                                                                                                                                                        @typescript-eslint/no-unused-vars
+   75:62  warning  '_' is defined but never used                                                                                                                                                                                                                                                            @typescript-eslint/no-unused-vars
+   75:65  warning  'i' is defined but never used                                                                                                                                                                                                                                                            @typescript-eslint/no-unused-vars
+  134:19  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  260:25  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+/home/xsystem/Desktop/Project/hair-salon/src/app/blog/[slug]/page.tsx
+  18:21  warning  'BlogPost' is defined but never used  @typescript-eslint/no-unused-vars
+
+/home/xsystem/Desktop/Project/hair-salon/src/app/checkout/page.tsx
+  67:7  error  Error: Cannot access variable before it is declared
+
+`applyPromoCode` is accessed before it is declared, which prevents the earlier access from updating when this value changes over time.
+
+/home/xsystem/Desktop/Project/hair-salon/src/app/checkout/page.tsx:67:7
+  65 |   useEffect(() => {
+  66 |     if (initialPromo) {
+> 67 |       applyPromoCode(initialPromo);
+     |       ^^^^^^^^^^^^^^ `applyPromoCode` accessed before it is declared
+  68 |     }
+  69 |   }, [initialPromo]);
+  70 |
+
+/home/xsystem/Desktop/Project/hair-salon/src/app/checkout/page.tsx:79:3
+  77 |   }, [items, router]);
+  78 |
+> 79 |   const applyPromoCode = (code: string) => {
+     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 80 |     const cleanCode = code.trim().toUpperCase();
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 81 |     if (cleanCode === 'GLOW10') {
+     …
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 95 |     }
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 96 |   };
+     | ^^^^^ `applyPromoCode` is declared here
+  97 |
+  98 |   const handleApplyPromo = (e: React.FormEvent) => {
+  99 |     e.preventDefault();  react-hooks/immutability
+
+/home/xsystem/Desktop/Project/hair-salon/src/app/checkout/payment/page.tsx
+   3:38  warning  'useRef' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         @typescript-eslint/no-unused-vars
+   5:8   warning  'Image' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          @typescript-eslint/no-unused-vars
+  77:5   error    Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+/home/xsystem/Desktop/Project/hair-salon/src/app/checkout/payment/page.tsx:77:5
+  75 |       return;
+  76 |     }
+> 77 |     setCheckoutData(JSON.parse(dataStr));
+     |     ^^^^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  78 |   }, [items, router]);
+  79 |
+  80 |   // Card brand detection  react-hooks/set-state-in-effect
+
+/home/xsystem/Desktop/Project/hair-salon/src/app/contact/page.tsx
+  4:25  warning  'Mail' is defined but never used  @typescript-eslint/no-unused-vars
+
+/home/xsystem/Desktop/Project/hair-salon/src/app/faq/page.tsx
+  4:29  warning  'HelpCircle' is defined but never used  @typescript-eslint/no-unused-vars
+
+/home/xsystem/Desktop/Project/hair-salon/src/app/pricing/page.tsx
+  4:23  warning  'Minus' is defined but never used         @typescript-eslint/no-unused-vars
+  4:40  warning  'ShoppingCart' is defined but never used  @typescript-eslint/no-unused-vars
+  4:54  warning  'HelpCircle' is defined but never used    @typescript-eslint/no-unused-vars
+  5:23  warning  'useSelector' is defined but never used   @typescript-eslint/no-unused-vars
+
+/home/xsystem/Desktop/Project/hair-salon/src/app/services/page.tsx
+  7:10  warning  'Button' is defined but never used  @typescript-eslint/no-unused-vars
+
+/home/xsystem/Desktop/Project/hair-salon/src/app/shop/[id]/page.tsx
+   18:9    warning  'router' is assigned a value but never used                      @typescript-eslint/no-unused-vars
+  311:197  error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+
+/home/xsystem/Desktop/Project/hair-salon/src/app/team/page.tsx
+  97:17  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+/home/xsystem/Desktop/Project/hair-salon/src/components/layout/Navbar.tsx
+   7:74  warning  'MoreHorizontal' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            @typescript-eslint/no-unused-vars
+   9:10  warning  'cn' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        @typescript-eslint/no-unused-vars
+  10:10  warning  'buttonVariants' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            @typescript-eslint/no-unused-vars
+  94:5   error    Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+/home/xsystem/Desktop/Project/hair-salon/src/components/layout/Navbar.tsx:94:5
+  92 |
+  93 |   useEffect(() => {
+> 94 |     syncAuth();
+     |     ^^^^^^^^ Avoid calling setState() directly within an effect
+  95 |     window.addEventListener('storage', syncAuth);
+  96 |     return () => window.removeEventListener('storage', syncAuth);
+  97 |   }, []);  react-hooks/set-state-in-effect
+
+✖ 29 problems (4 errors, 25 warnings)
+

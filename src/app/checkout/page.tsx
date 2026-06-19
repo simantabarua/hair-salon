@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -30,7 +30,7 @@ interface FormErrors {
   [key: string]: string;
 }
 
-export default function CheckoutPage() {
+function CheckoutFormContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { items, subtotal } = useSelector((state: RootState) => state.cart);
@@ -61,21 +61,6 @@ export default function CheckoutPage() {
   const [promoApplied, setPromoApplied] = useState(false);
   const [promoError, setPromoError] = useState('');
 
-  // Apply initial promo code if present
-  useEffect(() => {
-    if (initialPromo) {
-      applyPromoCode(initialPromo);
-    }
-  }, [initialPromo]);
-
-  // Redirect to cart if empty
-  useEffect(() => {
-    if (items.length === 0) {
-      toast.error('Your cart is empty. Redirecting to cart...');
-      router.push('/cart');
-    }
-  }, [items, router]);
-
   const applyPromoCode = (code: string) => {
     const cleanCode = code.trim().toUpperCase();
     if (cleanCode === 'GLOW10') {
@@ -94,6 +79,23 @@ export default function CheckoutPage() {
       setDiscount(0);
     }
   };
+
+  // Apply initial promo code if present
+  useEffect(() => {
+    if (initialPromo) {
+      Promise.resolve().then(() => {
+        applyPromoCode(initialPromo);
+      });
+    }
+  }, [initialPromo]);
+
+  // Redirect to cart if empty
+  useEffect(() => {
+    if (items.length === 0) {
+      toast.error('Your cart is empty. Redirecting to cart...');
+      router.push('/cart');
+    }
+  }, [items, router]);
 
   const handleApplyPromo = (e: React.FormEvent) => {
     e.preventDefault();
@@ -540,5 +542,20 @@ export default function CheckoutPage() {
         </div>
       </section>
     </div>
+  );
+}
+
+export default function CheckoutPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-black flex items-center justify-center">
+        <div className="text-center space-y-4">
+          <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto"></div>
+          <p className="text-white/60 font-manrope">Loading checkout details...</p>
+        </div>
+      </div>
+    }>
+      <CheckoutFormContent />
+    </Suspense>
   );
 }

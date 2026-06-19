@@ -288,10 +288,12 @@ export default function AboutPage() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 items-center justify-center opacity-60 hover:opacity-85 transition-opacity">
           {BRANDS.map((brand, idx) => (
             <div key={idx} className="relative h-12 md:h-16 w-full flex items-center justify-center">
-              <img
+              <Image
                 src={brand.logo}
                 alt={brand.name}
-                className="max-h-full max-w-[160px] object-contain filter brightness-0 invert"
+                fill
+                sizes="(max-w-768px) 50vw, 25vw"
+                className="object-contain filter brightness-0 invert"
               />
             </div>
           ))}

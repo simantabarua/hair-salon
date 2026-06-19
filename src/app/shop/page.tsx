@@ -1,10 +1,10 @@
 'use client';
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useRef, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useDispatch } from 'react-redux';
-import { ShoppingBag, ArrowRight, Star, Search, SlidersHorizontal, X } from 'lucide-react';
+import { ShoppingBag, ArrowRight, Star, Search, SlidersHorizontal, X, ChevronDown, Check } from 'lucide-react';
 import { addToCart } from '@/store/slices/cartSlice';
 import { products } from '@/data/salonData';
 import PageHeading from '@/components/layout/PageHeading';
@@ -14,6 +14,79 @@ import { toast } from 'sonner';
 
 const ALL_CATEGORIES = ['All', 'Hair Care', 'Skin Care', 'Face', 'Equipment', 'Organic'];
 const ALL_TAGS = ['Cream', 'Face', 'Blonde', 'Make up', 'Organic', 'Gloss', 'Trends', 'Fashion', 'Shampoo', 'Spray'];
+
+const SORT_OPTIONS = [
+  { value: 'default', label: 'Default Sorting' },
+  { value: 'price-low', label: 'Price: Low to High' },
+  { value: 'price-high', label: 'Price: High to Low' },
+  { value: 'rating', label: 'Sort by Rating' },
+];
+
+function SortDropdown({
+  sortBy,
+  setSortBy,
+}: {
+  sortBy: string;
+  setSortBy: (v: string) => void;
+}) {
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (ref.current && !ref.current.contains(e.target as Node)) {
+        setOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handler);
+    return () => document.removeEventListener('mousedown', handler);
+  }, []);
+
+  const current = SORT_OPTIONS.find((o) => o.value === sortBy) ?? SORT_OPTIONS[0];
+
+  return (
+    <div className="relative w-full sm:w-60" ref={ref}>
+      {/* Trigger Button */}
+      <button
+        id="sort-dropdown-trigger"
+        type="button"
+        onClick={() => setOpen((v) => !v)}
+        className="w-full flex items-center justify-between gap-3 bg-secondary border border-primary/30 hover:border-primary text-white px-4 py-2.5 rounded-xl font-manrope text-sm font-medium transition-all duration-200 focus:outline-none focus:border-primary"
+      >
+        <span>{current.label}</span>
+        <ChevronDown
+          className={`w-4 h-4 text-primary flex-shrink-0 transition-transform duration-300 ${open ? 'rotate-180' : ''}`}
+        />
+      </button>
+
+      {/* Dropdown Panel */}
+      <div
+        className={`absolute right-0 top-full mt-2 w-full z-30 bg-secondary border border-primary/20 rounded-xl overflow-hidden shadow-2xl shadow-black/40 transition-all duration-200 origin-top ${
+          open ? 'opacity-100 scale-y-100 translate-y-0 visible' : 'opacity-0 scale-y-90 -translate-y-1 invisible'
+        }`}
+      >
+        {SORT_OPTIONS.map((option) => {
+          const isActive = sortBy === option.value;
+          return (
+            <button
+              key={option.value}
+              type="button"
+              onClick={() => { setSortBy(option.value); setOpen(false); }}
+              className={`w-full flex items-center justify-between gap-3 px-4 py-3 font-manrope text-sm font-medium transition-all duration-150 ${
+                isActive
+                  ? 'bg-primary/15 text-primary border-l-2 border-primary'
+                  : 'text-white/70 hover:text-white hover:bg-white/5 border-l-2 border-transparent'
+              }`}
+            >
+              <span>{option.label}</span>
+              {isActive && <Check className="w-3.5 h-3.5 text-primary flex-shrink-0" />}
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
 
 export default function ShopPage() {
   const dispatch = useDispatch();
@@ -225,19 +298,8 @@ export default function ShopPage() {
                 </p>
               </div>
 
-              {/* Sort Control */}
-              <div className="w-full sm:w-60">
-                <select
-                  value={sortBy}
-                  onChange={(e) => setSortBy(e.target.value)}
-                  className="w-full bg-secondary border border-primary/30 text-white px-4 py-2.5 rounded-xl focus:border-primary outline-none cursor-pointer font-manrope text-sm font-medium"
-                >
-                  <option value="default">Default Sorting</option>
-                  <option value="price-low">Price: Low to High</option>
-                  <option value="price-high">Price: High to Low</option>
-                  <option value="rating">Sort by Rating</option>
-                </select>
-              </div>
+              {/* Sort Control — custom styled dropdown */}
+              <SortDropdown sortBy={sortBy} setSortBy={setSortBy} />
             </div>
 
             {/* Active Filters Summary */}

@@ -6,6 +6,7 @@ import { Calendar } from 'lucide-react';
 import { Facebook, Instagram, Twitter } from '@/components/ui/SocialIcons';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
+import Image from 'next/image';
 
 interface Stylist {
   id: string;
@@ -94,10 +95,12 @@ export default function TeamPage() {
             <div key={stylist.id} className="group relative flex flex-col items-center">
               {/* Image Container with Hover Overlay */}
               <div className="relative w-full h-[350px] rounded-3xl overflow-hidden shadow-xl border border-white/5">
-                <img
+                <Image
                   src={stylist.image}
                   alt={stylist.name}
-                  className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                  fill
+                  sizes="(max-w-768px) 100vw, (max-w-1200px) 50vw, 33vw"
+                  className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
                 />
                 
                 {/* Social Overlay on Hover */}

@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useMemo } from 'react';
-import { useParams, useRouter } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useDispatch } from 'react-redux';
@@ -15,7 +15,6 @@ import { toast } from 'sonner';
 
 export default function ProductDetailsPage() {
   const params = useParams();
-  const router = useRouter();
   const dispatch = useDispatch();
 
   const id = params?.id as string;
@@ -55,21 +54,21 @@ export default function ProductDetailsPage() {
       date: '12 days ago',
       rating: 5,
       image: '/img/Team Members Images/team-4.png',
-      text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam eget erat nec libero hendrerit suscipit. Vestibulum bibendum metus id nisl dapibus, at lacinia erat posuere. Sed ac nulla non velit feugiat malesuada.',
+      text: 'This product transformed my hair completely. After just two weeks of use, my hair feels softer, looks shinier, and the frizz I have been fighting for years is almost entirely gone. Absolutely worth every penny — I have already ordered a second bottle.',
     },
     {
       name: 'Sarah H.',
       date: '17 days ago',
       rating: 5,
       image: '/img/Team Members Images/team-3.png',
-      text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam eget erat nec libero hendrerit suscipit. Vestibulum bibendum metus id nisl dapibus, at lacinia erat posuere. Sed ac nulla non velit feugiat malesuada.',
+      text: 'I have tried so many hair care products over the years, but nothing comes close to this. The organic formula is gentle enough for daily use, and the scent is absolutely luxurious. My stylist even noticed the improvement at my last appointment!',
     },
     {
       name: 'Alex Ha.',
       date: '20 days ago',
       rating: 5,
       image: '/img/Team Members Images/team-2.png',
-      text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam eget erat nec libero hendrerit suscipit. Vestibulum bibendum metus id nisl dapibus, at lacinia erat posuere. Sed ac nulla non velit feugiat malesuada.',
+      text: 'Great packaging, fast delivery, and most importantly — it delivers on its promises. My scalp feels healthier, and my hair has noticeably more volume. Highly recommend to anyone dealing with dryness or breakage.',
     },
   ]);
 
@@ -308,7 +307,7 @@ export default function ProductDetailsPage() {
           {activeTab === 'description' && (
             <div className="space-y-4">
               <p>
-                Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.
+                This product has been carefully developed using a blend of cold-pressed botanical oils, keratin-strengthening proteins, and plant-derived actives that work together to restore hair&apos;s natural vitality. Unlike synthetic alternatives, our formula penetrates deep into the hair shaft — repairing damage from heat styling, chemical treatments, and environmental exposure. The result is hair that not only looks healthier, but genuinely is.
               </p>
               <p>
                 Our formulation features natural components sourced globally from leading organic farms. Perfect for all skin types, it works to naturally elevate standard look parameters while providing deep dermis conditioning and cell protection. Use daily for best results.

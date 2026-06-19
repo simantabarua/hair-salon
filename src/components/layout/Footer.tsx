@@ -5,7 +5,7 @@ import { Facebook, Instagram, Twitter, Github, Dribbble } from '@/components/ui/
 export default function Footer() {
   return (
     <footer className="bg-secondary/40 border-t border-primary/10">
-      <div className="mx-auto container px-4 md:px-8 py-12 md:py-16 text-white/80 font-manrope">
+      <div className="mx-auto w-full max-w-[1400px] px-4 md:px-8 py-12 md:py-16 text-white/80 font-manrope">
         <div className="xl:grid xl:grid-cols-3 xl:gap-12">
           {/* Brand/Description */}
           <div className="space-y-6">
@@ -13,9 +13,7 @@ export default function Footer() {
               Hair <span className="text-primary">Salon</span>
             </h2>
             <p className="max-w-sm text-sm leading-relaxed text-white/60">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Obcaecati ad quibusdam veritatis consectetur, minima porro fuga
-              quas consequuntur! Accusantium iure commodi modi eligendi.
+              Your destination for premium hair care and beauty treatments. We combine expert craftsmanship with the finest organic products to help you look and feel your very best — every single visit.
             </p>
             <div className="flex space-x-5">
               <a href="#" className="text-primary hover:text-primary/70 transition-colors">

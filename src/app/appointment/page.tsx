@@ -1,7 +1,8 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Calendar as CalendarIcon, Clock, User, Check, Scissors, Star, ShieldCheck, Mail, Phone, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Clock, User, Star, ShieldCheck, ChevronLeft, ChevronRight } from 'lucide-react';
+import Image from 'next/image';
 import PageHeading from '@/components/layout/PageHeading';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -72,7 +73,7 @@ export default function AppointmentPage() {
   const startDayIndex = getFirstDayIndex(currentDate.getFullYear(), currentDate.getMonth());
 
   const daysArray = Array.from({ length: daysInMonth }, (_, i) => i + 1);
-  const blanksArray = Array.from({ length: startDayIndex }, (_, i) => null);
+  const blanksArray = Array.from({ length: startDayIndex }, () => null);
   const combinedDays = [...blanksArray, ...daysArray];
 
   const handleMonthPrev = () => {
@@ -131,7 +132,7 @@ export default function AppointmentPage() {
                 }`}
               >
                 <div className="w-16 h-16 mb-4 flex items-center justify-center bg-secondary/80 rounded-xl border border-primary/20 group-hover:scale-105 transition-transform duration-300">
-                  <img src={service.icon} alt={service.name} className="w-10 h-10 object-contain filter invert" />
+                  <Image src={service.icon} alt={service.name} width={40} height={40} className="object-contain filter invert" />
                 </div>
                 <h4 className="font-cormorant text-2xl font-bold mb-1">{service.name}</h4>
                 <p className="text-primary font-bold font-manrope text-sm">${service.price}</p>
@@ -257,7 +258,7 @@ export default function AppointmentPage() {
                       }`}
                     >
                       <div className="relative w-16 h-16 rounded-full overflow-hidden mb-3 border border-primary/10">
-                        <img src={stylist.image} alt={stylist.name} className="w-full h-full object-cover object-top" />
+                        <Image src={stylist.image} alt={stylist.name} fill sizes="64px" className="object-cover object-top" />
                       </div>
                       <span className="font-semibold text-sm text-center leading-tight line-clamp-1">{stylist.name}</span>
                       <span className="text-[10px] text-white/50 mt-0.5 line-clamp-1">{stylist.role}</span>

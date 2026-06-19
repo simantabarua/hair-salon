@@ -1,8 +1,7 @@
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/store';
@@ -74,7 +73,10 @@ export default function CheckoutPaymentPage() {
       router.push('/cart');
       return;
     }
-    setCheckoutData(JSON.parse(dataStr));
+    // Defer state update to avoid synchronous setState inside useEffect warning
+    Promise.resolve().then(() => {
+      setCheckoutData(JSON.parse(dataStr));
+    });
   }, [items, router]);
 
   // Card brand detection

@@ -1,8 +1,8 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Check, Plus, Minus, Calendar, ShoppingCart, HelpCircle } from 'lucide-react';
-import { useDispatch, useSelector } from 'react-redux';
+import { Check, Plus, Calendar } from 'lucide-react';
+import { useDispatch } from 'react-redux';
 import { addToCart } from '@/store/slices/cartSlice';
 import PageHeading from '@/components/layout/PageHeading';
 import { Button } from '@/components/ui/button';

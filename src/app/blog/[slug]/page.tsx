@@ -15,7 +15,7 @@ import {
   Search
 } from 'lucide-react';
 import PageHeading from '@/components/layout/PageHeading';
-import { blogPosts, BlogPost, Comment } from '@/data/blogData';
+import { blogPosts, Comment } from '@/data/blogData';
 
 // Recursive Comment Component
 interface CommentItemProps {
