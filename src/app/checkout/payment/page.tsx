@@ -186,7 +186,7 @@ export default function CheckoutPaymentPage() {
     setTimeout(() => {
       setIsLoading(false);
       // Generate Order number
-      const num = 'GLOW-' + Math.floor(100000 + Math.random() * 900000);
+      const num = 'AURELIA-' + Math.floor(100000 + Math.random() * 900000);
       setOrderNumber(num);
       setShowSuccessOverlay(true);
       toast.success('Payment authorized successfully!');
@@ -328,7 +328,7 @@ export default function CheckoutPaymentPage() {
 
                       {/* Back details */}
                       <div className="px-6 flex justify-between items-center text-[8px] text-white/30 font-manrope z-10">
-                        <span>Luminous Salon & Spa Retail Systems</span>
+                        <span>Aurelia Salon & Spa Retail Systems</span>
                         <span>SSL Secure Code</span>
                       </div>
                     </div>

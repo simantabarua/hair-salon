@@ -13,6 +13,7 @@ import {
   SheetContent,
   SheetTrigger,
 } from '@/components/ui/sheet';
+import AureliaLogo from '@/components/ui/AureliaLogo';
 
 // Primary nav items — visible in desktop bar
 const PRIMARY_NAV = [
@@ -26,10 +27,13 @@ const PRIMARY_NAV = [
 
 // Secondary nav items — tucked into "More" dropdown
 const MORE_NAV = [
-  { label: 'Pricing',    href: '/pricing' },
-  { label: 'FAQ',        href: '/faq' },
-  { label: 'Our Team',   href: '/team' },
-  { label: 'Appointment',href: '/appointment' },
+  { label: 'Pricing',       href: '/pricing' },
+  { label: 'FAQ',           href: '/faq' },
+  { label: 'Our Team',      href: '/team' },
+  { label: 'Style Gallery', href: '/gallery' },
+  { label: 'Gift Cards',    href: '/gift-cards' },
+  { label: 'Reviews',       href: '/reviews' },
+  { label: 'Appointment',   href: '/appointment' },
 ];
 
 export default function Navbar() {
@@ -139,8 +143,9 @@ export default function Navbar() {
             <SheetContent side="left" className="bg-secondary border-r border-primary/20 text-white w-72 p-6 flex flex-col justify-between">
               <div>
                 <div className="border-b border-primary/10 pb-4 mb-6">
-                  <Link href="/" onClick={() => setIsOpen(false)} className="font-cormorant text-2xl tracking-widest text-primary font-semibold">
-                    Hair Salon
+                  <Link href="/" onClick={() => setIsOpen(false)} className="flex items-center gap-2 font-cormorant text-2xl tracking-widest text-primary font-semibold">
+                    <AureliaLogo size={28} className="text-primary" />
+                    <span>Aurelia</span>
                   </Link>
                 </div>
                 <ul className="flex flex-col gap-1 font-manrope text-base">
@@ -195,9 +200,10 @@ export default function Navbar() {
           {/* Logo */}
           <Link
             href="/"
-            className="font-cormorant text-xl md:text-2xl tracking-widest text-white hover:text-primary transition-colors whitespace-nowrap"
+            className="flex items-center gap-2.5 font-cormorant text-xl md:text-2xl tracking-widest text-white hover:text-primary transition-all duration-300 whitespace-nowrap"
           >
-            Hair <span className="text-primary font-semibold">Salon</span>
+            <AureliaLogo size={32} className="text-primary hover:scale-105 transition-transform duration-300" />
+            <span>Aurelia <span className="text-primary font-semibold">Salon</span></span>
           </Link>
         </div>
 

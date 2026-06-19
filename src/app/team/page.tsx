@@ -108,6 +108,11 @@ export default function TeamPage() {
                   <p className="text-white/80 font-manrope text-sm leading-relaxed mb-4 italic">
                     &ldquo;{stylist.bio}&rdquo;
                   </p>
+                  
+                  <Link href={`/team/${stylist.id}`} className="text-xs uppercase tracking-widest text-primary border border-primary/30 bg-primary/5 px-4 py-2 rounded-lg hover:bg-primary hover:text-black transition-all mb-2 font-semibold">
+                    View Profile
+                  </Link>
+
                   <div className="flex gap-4">
                     {stylist.socials.facebook && (
                       <a href={stylist.socials.facebook} className="w-10 h-10 bg-primary/20 hover:bg-primary border border-primary/20 text-primary hover:text-black rounded-full flex items-center justify-center transition-colors">
@@ -129,14 +134,16 @@ export default function TeamPage() {
               </div>
 
               {/* Info Box overlapping Image slightly */}
-              <div className="w-[85%] bg-secondary border border-primary/10 group-hover:border-primary/30 rounded-2xl p-6 text-center z-20 -mt-8 shadow-2xl transition-all duration-300">
-                <h4 className="font-cormorant text-2xl font-bold group-hover:text-primary transition-colors mb-1">
-                  {stylist.name}
-                </h4>
-                <p className="text-primary font-manrope text-xs md:text-sm font-medium uppercase tracking-wider">
-                  {stylist.role}
-                </p>
-              </div>
+              <Link href={`/team/${stylist.id}`} className="w-[85%] z-20 -mt-8">
+                <div className="bg-secondary border border-primary/10 group-hover:border-primary/30 rounded-2xl p-6 text-center shadow-2xl transition-all duration-300 hover:border-primary/60">
+                  <h4 className="font-cormorant text-2xl font-bold group-hover:text-primary transition-colors mb-1">
+                    {stylist.name}
+                  </h4>
+                  <p className="text-primary font-manrope text-xs md:text-sm font-medium uppercase tracking-wider">
+                    {stylist.role}
+                  </p>
+                </div>
+              </Link>
             </div>
           ))}
         </div>

@@ -51,17 +51,17 @@ export default function CartPage() {
   const handleApplyPromo = (e: React.FormEvent) => {
     e.preventDefault();
     setPromoError('');
-    if (promoCode.toUpperCase() === 'GLOW10') {
+    if (promoCode.toUpperCase() === 'AURELIA10') {
       setDiscount(10);
       setPromoApplied(true);
-      toast.success('Promo code GLOW10 applied: 10% Discount!');
+      toast.success('Promo code AURELIA10 applied: 10% Discount!');
     } else if (promoCode.toUpperCase() === 'SALON20') {
       setDiscount(20);
       setPromoApplied(true);
       toast.success('Promo code SALON20 applied: 20% Discount!');
     } else {
-      setPromoError('Invalid promo code. Try "GLOW10" or "SALON20"');
-      toast.error('Invalid promo code. Try "GLOW10" or "SALON20"');
+      setPromoError('Invalid promo code. Try "AURELIA10" or "SALON20"');
+      toast.error('Invalid promo code. Try "AURELIA10" or "SALON20"');
     }
   };
 
@@ -219,7 +219,7 @@ export default function CartPage() {
                 <form onSubmit={handleApplyPromo} className="flex w-full sm:max-w-md gap-3">
                   <Input
                     type="text"
-                    placeholder="Enter Promo Code (e.g. GLOW10)"
+                    placeholder="Enter Promo Code (e.g. AURELIA10)"
                     value={promoCode}
                     onChange={(e) => setPromoCode(e.target.value)}
                     className="bg-secondary/45 text-white border-primary/35 placeholder:text-white/30 h-12 rounded-xl focus:border-primary focus-visible:ring-0 focus-visible:ring-offset-0"

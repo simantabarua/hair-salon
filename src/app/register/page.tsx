@@ -7,6 +7,7 @@ import { Eye, EyeOff, Mail, Lock, User, Sparkles, ArrowRight, UserPlus } from 'l
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { toast } from 'sonner';
+import AureliaLogo from '@/components/ui/AureliaLogo';
 
 function PasswordStrength({ password }: { password: string }) {
   const getStrength = () => {
@@ -106,7 +107,7 @@ export default function RegisterPage() {
     setTimeout(() => {
       setIsLoading(false);
       toast.success('Account created successfully! Please sign in.', {
-        description: 'Welcome to the GLOW family. ✨',
+        description: 'Welcome to the Aurelia family. ✨',
         duration: 5000,
       });
       router.push('/login');
@@ -130,7 +131,8 @@ export default function RegisterPage() {
         {/* Header */}
         <div className="text-center space-y-2">
           <Link href="/" className="inline-flex items-center gap-2 text-3xl font-cormorant tracking-widest text-white hover:text-primary transition-colors">
-            Hair <span className="text-primary font-semibold">Salon</span>
+            <AureliaLogo size={32} className="text-primary" />
+            <span>Aurelia <span className="text-primary font-semibold">Salon</span></span>
           </Link>
           <div className="flex items-center justify-center gap-2">
             <Sparkles className="w-4 h-4 text-primary" />
@@ -144,7 +146,7 @@ export default function RegisterPage() {
 
           <div className="space-y-1">
             <h1 className="font-cormorant text-3xl font-bold text-white">Create Account</h1>
-            <p className="font-manrope text-sm text-white/50">Join GLOW and experience premium beauty.</p>
+            <p className="font-manrope text-sm text-white/50">Join Aurelia and experience premium beauty.</p>
           </div>
 
           <form onSubmit={handleSubmit} noValidate className="space-y-5 font-manrope">

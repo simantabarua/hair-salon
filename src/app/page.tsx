@@ -49,7 +49,7 @@ export default function HomePage() {
       >
         <div className="max-w-8xl w-full mx-auto px-4 md:px-8 flex flex-col items-start justify-center">
           <h1 className="text-4xl md:text-6xl lg:text-8xl font-semibold font-cormorant max-w-4xl text-white leading-tight">
-            Find Your <span className="text-primary font-bold">Signature</span> Look <br className="hidden md:inline" />
+            Find Your <br/><span className="text-primary font-bold">Signature</span> Look <br className="hidden md:inline" />
             with Our Salon
           </h1>
           <p className="max-w-xl text-sm md:text-base text-white/70 py-6 md:py-8 font-manrope leading-relaxed">

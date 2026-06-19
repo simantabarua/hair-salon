@@ -94,7 +94,7 @@ export default function ContactPage() {
           <h4 className="font-cormorant text-2xl font-bold">Quick Contact</h4>
           <div className="font-manrope text-sm text-white/70 space-y-1">
             <p>Mobile: +61 123 456 789</p>
-            <p>Support: support@glowsalon.com</p>
+            <p>Support: support@aureliasalon.com</p>
           </div>
         </div>
 
@@ -166,18 +166,25 @@ export default function ContactPage() {
             />
           </div>
 
-          <div className="flex items-center gap-2 py-1">
-            <input
-              id="remember"
-              type="checkbox"
-              checked={formData.remember}
-              onChange={handleCheckboxChange}
-              className="h-5 w-5 rounded bg-secondary border border-primary text-primary focus:ring-0 focus:outline-none cursor-pointer"
-            />
-            <label htmlFor="remember" className="text-white/50 text-xs md:text-sm cursor-pointer select-none">
+          <label htmlFor="remember" className="flex items-center gap-3 py-1 text-white/50 text-xs md:text-sm cursor-pointer select-none hover:text-white/80 transition-colors">
+            <div className="relative flex items-center justify-center flex-shrink-0">
+              <input
+                id="remember"
+                type="checkbox"
+                checked={formData.remember}
+                onChange={handleCheckboxChange}
+                className="sr-only peer"
+              />
+              <div className="w-5 h-5 rounded-md border border-primary/30 bg-secondary/40 flex items-center justify-center transition-all peer-checked:bg-primary peer-checked:border-primary peer-checked:text-secondary hover:border-primary cursor-pointer">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="w-3.5 h-3.5 hidden peer-checked:block">
+                  <polyline points="20 6 9 17 4 12" />
+                </svg>
+              </div>
+            </div>
+            <span>
               Save my name, email and website details in this browser for the next time I contact.
-            </label>
-          </div>
+            </span>
+          </label>
 
           <div className="pt-2 text-center md:text-left">
             <Button

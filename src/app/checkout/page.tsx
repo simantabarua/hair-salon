@@ -63,11 +63,11 @@ function CheckoutFormContent() {
 
   const applyPromoCode = (code: string) => {
     const cleanCode = code.trim().toUpperCase();
-    if (cleanCode === 'GLOW10') {
+    if (cleanCode === 'AURELIA10') {
       setDiscount(10);
       setPromoApplied(true);
       setPromoError('');
-      toast.success('Promo code GLOW10 applied: 10% Discount!');
+      toast.success('Promo code AURELIA10 applied: 10% Discount!');
     } else if (cleanCode === 'SALON20') {
       setDiscount(20);
       setPromoApplied(true);

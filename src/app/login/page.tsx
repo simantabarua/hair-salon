@@ -7,6 +7,7 @@ import { Eye, EyeOff, Mail, Lock, Sparkles, ArrowRight, LogIn } from 'lucide-rea
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { toast } from 'sonner';
+import AureliaLogo from '@/components/ui/AureliaLogo';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -84,7 +85,8 @@ export default function LoginPage() {
         {/* Header */}
         <div className="text-center space-y-2">
           <Link href="/" className="inline-flex items-center gap-2 text-3xl font-cormorant tracking-widest text-white hover:text-primary transition-colors">
-            Hair <span className="text-primary font-semibold">Salon</span>
+            <AureliaLogo size={32} className="text-primary" />
+            <span>Aurelia <span className="text-primary font-semibold">Salon</span></span>
           </Link>
           <div className="flex items-center justify-center gap-2">
             <Sparkles className="w-4 h-4 text-primary" />

@@ -23,7 +23,7 @@ export default function TermsPage() {
       content: (
         <div className="space-y-4 font-manrope text-sm leading-relaxed text-white/70">
           <p>
-            Welcome to GLOW Hair Salon. By accessing our website, booking appointments, or purchasing products, you agree to comply with and be bound by the following terms and conditions. Please read them carefully.
+            Welcome to Aurelia Premium Salon. By accessing our website, booking appointments, or purchasing products, you agree to comply with and be bound by the following terms and conditions. Please read them carefully.
           </p>
           <p>
             These terms govern your relationship with our website, our salon services, and any physical or digital products sold here. If you disagree with any part of these terms, please do not use our services or website.
@@ -102,7 +102,7 @@ export default function TermsPage() {
       content: (
         <div className="space-y-4 font-manrope text-sm leading-relaxed text-white/70">
           <p>
-            GLOW Hair Salon and its licensed stylists are not liable for any allergic reactions or adverse effects caused by products or chemical treatments, provided that appropriate skin patch testing and allergy history consultations were conducted.
+            Aurelia Premium Salon and its licensed stylists are not liable for any allergic reactions or adverse effects caused by products or chemical treatments, provided that appropriate skin patch testing and allergy history consultations were conducted.
           </p>
           <p>
             We reserve the right to refuse service to anyone demonstrating inappropriate, disrespectful, or abusive behavior toward our staff or other clients.

@@ -326,7 +326,7 @@ export default function ProductDetailsPage() {
                   </tr>
                   <tr className="border-b border-white/10">
                     <td className="py-4 font-bold text-white">Brand</td>
-                    <td className="py-4">Glowing Beauty & Salon Care</td>
+                    <td className="py-4">Aurelia Beauty & Salon Care</td>
                   </tr>
                   <tr className="border-b border-white/10">
                     <td className="py-4 font-bold text-white">Volume / Net Weight</td>
@@ -432,16 +432,23 @@ export default function ProductDetailsPage() {
                     className="w-full bg-secondary/50 border border-primary/20 text-white placeholder:text-white/30 rounded-xl p-4 focus:border-primary focus:ring-0 focus:outline-none text-sm"
                   ></textarea>
 
-                  <div className="flex items-start gap-2">
-                    <input
-                      type="checkbox"
-                      id="save-browser"
-                      className="mt-1 w-4 h-4 rounded border-primary/30 accent-primary text-black bg-secondary"
-                    />
-                    <label htmlFor="save-browser" className="text-xs text-white/50 select-none cursor-pointer">
+                  <label htmlFor="save-browser" className="flex items-start gap-3 text-xs text-white/50 select-none cursor-pointer hover:text-white/80 transition-colors">
+                    <div className="relative flex items-center justify-center mt-0.5 flex-shrink-0">
+                      <input
+                        type="checkbox"
+                        id="save-browser"
+                        className="sr-only peer"
+                      />
+                      <div className="w-4 h-4 rounded border border-primary/30 bg-secondary/40 flex items-center justify-center transition-all peer-checked:bg-primary peer-checked:border-primary peer-checked:text-secondary hover:border-primary cursor-pointer">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="w-2.5 h-2.5 hidden peer-checked:block">
+                          <polyline points="20 6 9 17 4 12" />
+                        </svg>
+                      </div>
+                    </div>
+                    <span>
                       Save my name, email and website in this browser for the next time I comment.
-                    </label>
-                  </div>
+                    </span>
+                  </label>
 
                   <Button type="submit" className="btn-primary px-8 h-12 rounded-xl font-semibold shadow-lg">
                     Submit Review

@@ -6,9 +6,9 @@ import Footer from '@/components/layout/Footer';
 import { Toaster } from 'sonner';
 
 export const metadata: Metadata = {
-  title: 'Hair Salon - Premium Hairstyling & Grooming Services',
-  description: 'Experience premium haircare, styling, and grooming services at our modern luxury salon. Book your appointment online today.',
-  keywords: 'hair salon, barbershop, styling, haircut, grooming, luxury salon, book slot',
+  title: 'Aurelia Premium Salon - Luxury Hair Care & Styling',
+  description: 'Experience premium haircare, styling, and grooming services at Aurelia Premium Salon. Book your luxury salon appointment online today.',
+  keywords: 'Aurelia, hair salon, barbershop, styling, haircut, grooming, luxury salon, book slot, Aurelia Salon',
 };
 
 export default function RootLayout({

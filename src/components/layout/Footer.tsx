@@ -1,6 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { Facebook, Instagram, Twitter, Github, Dribbble } from '@/components/ui/SocialIcons';
+import AureliaLogo from '@/components/ui/AureliaLogo';
 
 export default function Footer() {
   return (
@@ -9,9 +10,12 @@ export default function Footer() {
         <div className="xl:grid xl:grid-cols-3 xl:gap-12">
           {/* Brand/Description */}
           <div className="space-y-6">
-            <h2 className="text-3xl font-cormorant font-semibold tracking-wider text-white">
-              Hair <span className="text-primary">Salon</span>
-            </h2>
+            <div className="flex items-center gap-2">
+              <AureliaLogo size={32} className="text-primary" />
+              <h2 className="text-3xl font-cormorant font-semibold tracking-wider text-white">
+                Aurelia <span className="text-primary font-semibold">Salon</span>
+              </h2>
+            </div>
             <p className="max-w-sm text-sm leading-relaxed text-white/60">
               Your destination for premium hair care and beauty treatments. We combine expert craftsmanship with the finest organic products to help you look and feel your very best — every single visit.
             </p>
@@ -56,7 +60,7 @@ export default function Footer() {
                   <Link href="/services" className="text-sm text-white/60 hover:text-primary transition-colors">Shaving</Link>
                 </li>
                 <li>
-                  <Link href="/services" className="text-sm text-white/60 hover:text-primary transition-colors">Massage</Link>
+                  <Link href="/gift-cards" className="text-sm text-primary/90 font-medium hover:text-primary transition-colors">Gift Cards</Link>
                 </li>
               </ul>
             </div>
@@ -72,7 +76,7 @@ export default function Footer() {
                   <Link href="/faq" className="text-sm text-white/60 hover:text-primary transition-colors">FAQ</Link>
                 </li>
                 <li>
-                  <Link href="/contact" className="text-sm text-white/60 hover:text-primary transition-colors">Booking Guides</Link>
+                  <Link href="/reviews" className="text-sm text-white/60 hover:text-primary transition-colors">Client Reviews</Link>
                 </li>
                 <li>
                   <Link href="/contact" className="text-sm text-white/60 hover:text-primary transition-colors">Help Center</Link>
@@ -94,7 +98,7 @@ export default function Footer() {
                   <Link href="/team" className="text-sm text-white/60 hover:text-primary transition-colors">Meet Stylists</Link>
                 </li>
                 <li>
-                  <Link href="/contact" className="text-sm text-white/60 hover:text-primary transition-colors">Careers</Link>
+                  <Link href="/gallery" className="text-sm text-white/60 hover:text-primary transition-colors">Style Gallery</Link>
                 </li>
               </ul>
             </div>
@@ -104,26 +108,23 @@ export default function Footer() {
               </h3>
               <ul className="mt-4 space-y-3">
                 <li>
-                  <Link href="#" className="text-sm text-white/60 hover:text-primary transition-colors">Claim</Link>
+                  <Link href="/terms" className="text-sm text-white/60 hover:text-primary transition-colors">Terms of Service</Link>
                 </li>
                 <li>
-                  <Link href="#" className="text-sm text-white/60 hover:text-primary transition-colors">Privacy Policy</Link>
-                </li>
-                <li>
-                  <Link href="#" className="text-sm text-white/60 hover:text-primary transition-colors">Terms of Service</Link>
+                  <Link href="/privacy" className="text-sm text-white/60 hover:text-primary transition-colors">Privacy Policy</Link>
                 </li>
               </ul>
             </div>
           </div>
         </div>
-
+ 
         <div className="mt-12 pt-8 border-t border-primary/10 flex flex-col md:flex-row items-center justify-between text-xs text-white/40">
           <p>
-            Copyright © {new Date().getFullYear()} Hair Salon. All Rights Reserved.
+            Copyright © {new Date().getFullYear()} Aurelia Premium Salon. All Rights Reserved.
           </p>
           <div className="mt-4 md:mt-0 flex space-x-6">
-            <a href="#" className="hover:text-primary transition-colors">Privacy Policy</a>
-            <a href="#" className="hover:text-primary transition-colors">Terms of Service</a>
+            <Link href="/privacy" className="hover:text-primary transition-colors">Privacy Policy</Link>
+            <Link href="/terms" className="hover:text-primary transition-colors">Terms of Service</Link>
           </div>
         </div>
       </div>
