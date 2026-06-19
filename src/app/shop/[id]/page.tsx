@@ -432,16 +432,16 @@ export default function ProductDetailsPage() {
                     className="w-full bg-secondary/50 border border-primary/20 text-white placeholder:text-white/30 rounded-xl p-4 focus:border-primary focus:ring-0 focus:outline-none text-sm"
                   ></textarea>
 
-                  <label htmlFor="save-browser" className="flex items-start gap-3 text-xs text-white/50 select-none cursor-pointer hover:text-white/80 transition-colors">
+                  <label htmlFor="save-browser" className="flex items-start gap-3 text-xs text-white/60 select-none cursor-pointer hover:text-white transition-colors">
                     <div className="relative flex items-center justify-center mt-0.5 flex-shrink-0">
                       <input
                         type="checkbox"
                         id="save-browser"
                         className="sr-only peer"
                       />
-                      <div className="w-4 h-4 rounded border border-primary/30 bg-secondary/40 flex items-center justify-center transition-all peer-checked:bg-primary peer-checked:border-primary peer-checked:text-secondary hover:border-primary cursor-pointer">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="w-2.5 h-2.5 hidden peer-checked:block">
-                          <polyline points="20 6 9 17 4 12" />
+                      <div className="w-5 h-5 rounded border flex items-center justify-center transition-all bg-transparent border-white/30 peer-checked:bg-primary peer-checked:border-primary peer-checked:text-black hover:border-primary/60 cursor-pointer">
+                        <svg className="w-3 h-3 text-black hidden peer-checked:block" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                         </svg>
                       </div>
                     </div>

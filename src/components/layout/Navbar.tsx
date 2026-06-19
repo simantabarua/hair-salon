@@ -168,12 +168,21 @@ export default function Navbar() {
               </div>
               <div className="border-t border-primary/10 pt-4 space-y-2">
                 {isLoggedIn ? (
-                  <button
-                    onClick={() => { handleLogout(); setIsOpen(false); }}
-                    className="w-full flex items-center gap-2 px-3 py-2.5 rounded-lg font-manrope text-sm text-red-400 hover:bg-red-500/5 transition-all"
-                  >
-                    <LogOut className="w-4 h-4" /> Sign Out
-                  </button>
+                  <div className="space-y-1">
+                    <Link
+                      href="/dashboard"
+                      onClick={() => setIsOpen(false)}
+                      className="w-full flex items-center gap-2 px-3 py-2.5 rounded-lg font-manrope text-sm text-primary hover:bg-primary/5 transition-all"
+                    >
+                      <User2 className="w-4 h-4" /> Client Dashboard
+                    </Link>
+                    <button
+                      onClick={() => { handleLogout(); setIsOpen(false); }}
+                      className="w-full flex items-center gap-2 px-3 py-2.5 rounded-lg font-manrope text-sm text-red-400 hover:bg-red-500/5 transition-all"
+                    >
+                      <LogOut className="w-4 h-4" /> Sign Out
+                    </button>
+                  </div>
                 ) : (
                   <div className="flex flex-col gap-2">
                     <Link href="/login" onClick={() => setIsOpen(false)}
@@ -315,6 +324,10 @@ export default function Navbar() {
                   <p className="text-[10px] text-white/40 font-manrope uppercase tracking-wider">Signed in as</p>
                   <p className="text-sm text-white font-semibold font-manrope capitalize truncate">{userName}</p>
                 </div>
+                <Link href="/dashboard" onClick={() => setIsUserMenuOpen(false)}
+                  className="flex items-center px-3 py-2 rounded-lg text-sm font-manrope text-white/70 hover:text-white hover:bg-white/5 transition-all">
+                  Client Dashboard
+                </Link>
                 <Link href="/appointment" onClick={() => setIsUserMenuOpen(false)}
                   className="flex items-center px-3 py-2 rounded-lg text-sm font-manrope text-white/70 hover:text-white hover:bg-white/5 transition-all">
                   My Appointments

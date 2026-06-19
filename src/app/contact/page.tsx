@@ -166,7 +166,7 @@ export default function ContactPage() {
             />
           </div>
 
-          <label htmlFor="remember" className="flex items-center gap-3 py-1 text-white/50 text-xs md:text-sm cursor-pointer select-none hover:text-white/80 transition-colors">
+          <label htmlFor="remember" className="flex items-center gap-3 py-1 text-white/60 text-xs md:text-sm cursor-pointer select-none hover:text-white transition-colors">
             <div className="relative flex items-center justify-center flex-shrink-0">
               <input
                 id="remember"
@@ -175,9 +175,9 @@ export default function ContactPage() {
                 onChange={handleCheckboxChange}
                 className="sr-only peer"
               />
-              <div className="w-5 h-5 rounded-md border border-primary/30 bg-secondary/40 flex items-center justify-center transition-all peer-checked:bg-primary peer-checked:border-primary peer-checked:text-secondary hover:border-primary cursor-pointer">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="w-3.5 h-3.5 hidden peer-checked:block">
-                  <polyline points="20 6 9 17 4 12" />
+              <div className="w-5 h-5 rounded border flex items-center justify-center transition-all bg-transparent border-white/30 peer-checked:bg-primary peer-checked:border-primary peer-checked:text-black hover:border-primary/60 cursor-pointer">
+                <svg className="w-3 h-3 text-black hidden peer-checked:block" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                 </svg>
               </div>
             </div>
