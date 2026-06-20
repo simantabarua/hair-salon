@@ -1,9 +1,19 @@
+'use client';
+
 import React from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { Facebook, Instagram, Twitter, Github, Dribbble } from '@/components/ui/SocialIcons';
 import AureliaLogo from '@/components/ui/AureliaLogo';
 
 export default function Footer() {
+  const pathname = usePathname();
+
+  // Hide Footer completely on admin dashboard pages
+  if (pathname.startsWith('/admin')) {
+    return null;
+  }
+
   return (
     <footer className="bg-secondary/40 border-t border-primary/10">
       <div className="mx-auto w-full max-w-[1400px] px-4 md:px-8 py-12 md:py-16 text-white/80 font-manrope">

@@ -1,13 +1,14 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import PageHeading from '@/components/layout/PageHeading';
 import { buttonVariants } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { Check } from 'lucide-react';
-import { services } from '@/data/salonData';
+import { getServices } from '@/lib/db';
+import { Service } from '@/data/salonData';
 
 const packages = [
   {
@@ -45,6 +46,18 @@ const packages = [
 ];
 
 export default function ServicesPage() {
+  const [servicesList, setServicesList] = useState<Service[]>(() => {
+    if (typeof window === 'undefined') return [];
+    return getServices();
+  });
+
+  useEffect(() => {
+    // Live sync handler
+    const sync = () => setServicesList(getServices());
+    window.addEventListener('storage', sync);
+    return () => window.removeEventListener('storage', sync);
+  }, []);
+
   return (
     <div className="relative w-full pb-20 md:pb-32">
       {/* Page Banner */}
@@ -58,13 +71,13 @@ export default function ServicesPage() {
         <div className="text-center max-w-2xl mx-auto mb-16 space-y-4">
           <span className="text-primary font-cormorant text-xl tracking-wider font-semibold">Our Menu</span>
           <h2 className="text-3xl md:text-5xl font-cormorant font-bold text-white tracking-wide">Professional Hair Services</h2>
-          <p className="text-white/60 font-manrope text-sm md:text-base">
+          <p className="text-white/65 font-manrope text-sm md:text-base">
             We provide a wide array of premium styling, cutting, coloring, and hair treatment options tailored specifically to your visual style.
           </p>
         </div>
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {services.map((service) => (
+          {servicesList.map((service) => (
             <div
               key={service.id}
               className="group relative flex flex-col items-center text-center p-8 md:p-10 rounded-2xl bg-secondary/40 border border-primary/20 hover:border-primary hover:bg-secondary/70 transition-all duration-300 shadow-xl"
@@ -85,15 +98,15 @@ export default function ServicesPage() {
                 {service.description}
               </p>
               <div className="mt-auto w-full">
-              <Link
-                href="/appointment"
-                className={cn(
-                  buttonVariants({ variant: "default" }),
-                  "w-full bg-primary text-black hover:bg-primary/80 font-semibold py-5 rounded-xl transition-all duration-300 h-auto text-center"
-                )}
-              >
-                Book now
-              </Link>
+                <Link
+                  href="/appointment"
+                  className={cn(
+                    buttonVariants({ variant: "default" }),
+                    "w-full bg-primary text-black hover:bg-primary/80 font-semibold py-5 rounded-xl transition-all duration-300 h-auto text-center"
+                  )}
+                >
+                  Book now
+                </Link>
               </div>
             </div>
           ))}

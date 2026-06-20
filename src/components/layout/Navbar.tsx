@@ -46,6 +46,7 @@ export default function Navbar() {
   const [isUserMenuOpen,setIsUserMenuOpen]= useState(false);
   const [isLoggedIn,    setIsLoggedIn]    = useState(false);
   const [userName,      setUserName]      = useState('');
+  const [isAdmin,       setIsAdmin]       = useState(false);
 
   const moreRef    = useRef<HTMLDivElement>(null);
   const userMenuRef= useRef<HTMLDivElement>(null);
@@ -62,15 +63,18 @@ export default function Navbar() {
     const stored = localStorage.getItem('salon_user');
     if (stored) {
       try {
-        const parsed = JSON.parse(stored) as { name?: string };
+        const parsed = JSON.parse(stored) as { name?: string; isAdmin?: boolean };
         setIsLoggedIn(true);
         setUserName(parsed.name ?? 'User');
+        setIsAdmin(!!parsed.isAdmin);
       } catch {
         setIsLoggedIn(false);
+        setIsAdmin(false);
       }
     } else {
       setIsLoggedIn(false);
       setUserName('');
+      setIsAdmin(false);
     }
   };
 
@@ -79,11 +83,11 @@ export default function Navbar() {
     localStorage.removeItem('salon_remember');
     setIsLoggedIn(false);
     setUserName('');
+    setIsAdmin(false);
     setIsUserMenuOpen(false);
     toast.success('You have been signed out.');
     router.push('/');
   };
-
   /* ── Effects ── */
   useEffect(() => {
     const onScroll = () => setIsScrolled(window.scrollY > 50);
@@ -114,6 +118,10 @@ export default function Navbar() {
   }, []);
 
   /* ── Render ── */
+  if (pathname.startsWith('/admin')) {
+    return null;
+  }
+
   return (
     <nav
       className={`fixed top-0 left-0 right-0 z-50 h-16 md:h-[68px] transition-all duration-300 ${
@@ -328,6 +336,12 @@ export default function Navbar() {
                   className="flex items-center px-3 py-2 rounded-lg text-sm font-manrope text-white/70 hover:text-white hover:bg-white/5 transition-all">
                   Client Dashboard
                 </Link>
+                {isAdmin && (
+                  <Link href="/admin" onClick={() => setIsUserMenuOpen(false)}
+                    className="flex items-center px-3 py-2 rounded-lg text-sm font-manrope text-primary hover:text-primary hover:bg-primary/10 transition-all font-semibold">
+                    👑 Admin Portal
+                  </Link>
+                )}
                 <Link href="/appointment" onClick={() => setIsUserMenuOpen(false)}
                   className="flex items-center px-3 py-2 rounded-lg text-sm font-manrope text-white/70 hover:text-white hover:bg-white/5 transition-all">
                   My Appointments

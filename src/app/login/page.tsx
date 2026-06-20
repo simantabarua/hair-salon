@@ -49,14 +49,24 @@ export default function LoginPage() {
     toast.info('Signing you in...');
 
     setTimeout(() => {
-      const user = { email, name: email.split('@')[0], loginAt: new Date().toISOString() };
+      const isAdmin = email.toLowerCase().includes('admin') || email.toLowerCase().endsWith('@aurelia.com');
+      const user = { 
+        email, 
+        name: email.split('@')[0], 
+        isAdmin,
+        loginAt: new Date().toISOString() 
+      };
       localStorage.setItem('salon_user', JSON.stringify(user));
       if (rememberMe) {
         localStorage.setItem('salon_remember', 'true');
       }
       setIsLoading(false);
       toast.success(`Welcome back, ${user.name}! 🌟`, { duration: 4000 });
-      router.push('/');
+      if (isAdmin) {
+        router.push('/admin');
+      } else {
+        router.push('/');
+      }
     }, 1800);
   };
 
@@ -228,6 +238,40 @@ export default function LoginPage() {
               <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
             </Link>
           </p>
+
+          {/* Admin Demo Login */}
+          <div className="pt-2 border-t border-white/5 space-y-3 font-manrope">
+            <div className="flex flex-col items-center justify-center p-4 rounded-xl bg-primary/5 border border-primary/20 space-y-2">
+              <span className="text-[10px] text-primary font-bold tracking-widest uppercase">Admin Preview</span>
+              <p className="text-[11px] text-white/50 text-center leading-relaxed">
+                Use our automated shortcut to immediately access the administration panel.
+              </p>
+              <Button
+                type="button"
+                variant="outline"
+                disabled={isLoading}
+                onClick={() => {
+                  setIsLoading(true);
+                  toast.info('Bypassing credentials as Admin...');
+                  setTimeout(() => {
+                    const user = { 
+                      email: 'admin@aurelia.com', 
+                      name: 'Admin', 
+                      isAdmin: true, 
+                      loginAt: new Date().toISOString() 
+                    };
+                    localStorage.setItem('salon_user', JSON.stringify(user));
+                    setIsLoading(false);
+                    toast.success('Welcome to Aurelia Admin Portal! 👑', { duration: 4000 });
+                    router.push('/admin');
+                  }, 1200);
+                }}
+                className="w-full bg-transparent hover:bg-primary border-primary text-primary hover:text-black font-semibold text-xs py-2 h-9 rounded-xl transition-all"
+              >
+                Log In As Admin
+              </Button>
+            </div>
+          </div>
 
         </div>
 

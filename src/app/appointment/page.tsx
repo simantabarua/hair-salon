@@ -1,34 +1,14 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Clock, User, Star, ShieldCheck, ChevronLeft, ChevronRight } from 'lucide-react';
 import Image from 'next/image';
 import PageHeading from '@/components/layout/PageHeading';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { toast } from 'sonner';
-
-interface Stylist {
-  id: string;
-  name: string;
-  role: string;
-  image: string;
-  rating: number;
-}
-
-const STYLISTS: Stylist[] = [
-  { id: '1', name: 'Alexander Cole', role: 'Master Barber', image: '/img/Team/team-1.jpg', rating: 4.9 },
-  { id: '2', name: 'Sophia Sterling', role: 'Hair Stylist & Colorist', image: '/img/Team/team-2.jpg', rating: 4.8 },
-  { id: '3', name: 'Marcus Vance', role: 'Shaving Specialist', image: '/img/Team/team-3.jpg', rating: 4.9 },
-  { id: '4', name: 'Elena Rostova', role: 'Facial & Skin Expert', image: '/img/Team/team-4.jpg', rating: 4.7 }
-];
-
-const SERVICES = [
-  { id: 'haircut', name: 'Hair Cut', price: 40, duration: '45 mins', icon: '/img/Icons/HairCut.svg' },
-  { id: 'shaving', name: 'Premium Shaving', price: 30, duration: '30 mins', icon: '/img/Icons/Shaving.svg' },
-  { id: 'hairdye', name: 'Hair Dyeing', price: 75, duration: '90 mins', icon: '/img/Icons/Hair Dye.svg' },
-  { id: 'facial', name: 'Rejuvenating Facial', price: 60, duration: '60 mins', icon: '/img/Icons/Facial.svg' }
-];
+import { getServices, getTeamMembers, saveAppointment, Appointment } from '@/lib/db';
+import { Service, TeamMember } from '@/data/salonData';
 
 const TIME_SLOTS = [
   '08:30 AM - 09:30 AM',
@@ -42,14 +22,32 @@ const TIME_SLOTS = [
 ];
 
 export default function AppointmentPage() {
+  const [servicesList, setServicesList] = useState<Service[]>(() => {
+    if (typeof window === 'undefined') return [];
+    return getServices();
+  });
+  const [stylistsList, setStylistsList] = useState<TeamMember[]>(() => {
+    if (typeof window === 'undefined') return [];
+    return getTeamMembers();
+  });
+  const [mounted, setMounted] = useState(false);
+
   // Calendar states
   const [currentDate, setCurrentDate] = useState(new Date(2026, 8, 1)); // September 2026
   const [selectedDay, setSelectedDay] = useState<number | null>(7); // Default to Sept 7th
   
   // Selection states
-  const [selectedService, setSelectedService] = useState(SERVICES[0].id);
+  const [selectedService, setSelectedService] = useState(() => {
+    if (typeof window === 'undefined') return '';
+    const svcs = getServices();
+    return svcs.length > 0 ? svcs[0].id : '';
+  });
   const [selectedTimeSlot, setSelectedTimeSlot] = useState(TIME_SLOTS[0]);
-  const [selectedStylist, setSelectedStylist] = useState(STYLISTS[0].id);
+  const [selectedStylist, setSelectedStylist] = useState(() => {
+    if (typeof window === 'undefined') return '';
+    const styls = getTeamMembers();
+    return styls.length > 0 ? styls[0].id : '';
+  });
   
   // Form input states
   const [formData, setFormData] = useState({
@@ -61,6 +59,22 @@ export default function AppointmentPage() {
 
   // Success dialog state
   const [isBooked, setIsBooked] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setMounted(true);
+    }, 0);
+
+    const sync = () => {
+      setServicesList(getServices());
+      setStylistsList(getTeamMembers());
+    };
+    window.addEventListener('storage', sync);
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener('storage', sync);
+    };
+  }, []);
 
   // Month navigation helpers
   const monthName = currentDate.toLocaleString('default', { month: 'long' });
@@ -91,18 +105,46 @@ export default function AppointmentPage() {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  const selectedServiceDetails = servicesList.find(s => s.id === selectedService);
+  const selectedStylistDetails = stylistsList.find(s => s.id === selectedStylist);
+
   const handleBookNow = (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.name || !formData.email || !formData.phone) {
       toast.error('Please fill out all required fields marked with *');
       return;
     }
+    if (!selectedDay) {
+      toast.error('Please select a date from the calendar');
+      return;
+    }
+
+    const apptId = `APT-${Math.floor(1000 + Math.random() * 9000)}`;
+    const dateStr = `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${String(selectedDay).padStart(2, '0')}`;
+    
+    const newAppointment: Appointment = {
+      id: apptId,
+      userEmail: formData.email,
+      service: selectedServiceDetails?.name || 'Hair Cut',
+      stylist: selectedStylistDetails?.name || 'Alexander Cole',
+      date: dateStr,
+      time: selectedTimeSlot,
+      price: selectedServiceDetails?.price || 40,
+      status: 'Confirmed',
+    };
+
+    saveAppointment(newAppointment);
     setIsBooked(true);
     toast.success('Appointment booked successfully!');
   };
 
-  const selectedServiceDetails = SERVICES.find(s => s.id === selectedService);
-  const selectedStylistDetails = STYLISTS.find(s => s.id === selectedStylist);
+  if (!mounted) {
+    return (
+      <div className="min-h-screen bg-black flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+      </div>
+    );
+  }
 
   return (
     <div className="relative w-full pb-24 text-white">
@@ -119,7 +161,7 @@ export default function AppointmentPage() {
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-          {SERVICES.map((service) => {
+          {servicesList.map((service) => {
             const isSelected = selectedService === service.id;
             return (
               <button
@@ -132,7 +174,7 @@ export default function AppointmentPage() {
                 }`}
               >
                 <div className="w-16 h-16 mb-4 flex items-center justify-center bg-secondary/80 rounded-xl border border-primary/20 group-hover:scale-105 transition-transform duration-300">
-                  <Image src={service.icon} alt={service.name} width={40} height={40} className="object-contain filter invert" />
+                  <Image src={service.icon || '/img/Icons/HairCut.svg'} alt={service.name} width={40} height={40} className="object-contain filter invert" />
                 </div>
                 <h4 className="font-cormorant text-2xl font-bold mb-1">{service.name}</h4>
                 <p className="text-primary font-bold font-manrope text-sm">${service.price}</p>
@@ -245,7 +287,7 @@ export default function AppointmentPage() {
                 <User className="w-5 h-5 text-primary" /> Select Stylist / Professional
               </h4>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                {STYLISTS.map((stylist) => {
+                {stylistsList.map((stylist) => {
                   const isSelected = selectedStylist === stylist.id;
                   return (
                     <button
@@ -258,12 +300,12 @@ export default function AppointmentPage() {
                       }`}
                     >
                       <div className="relative w-16 h-16 rounded-full overflow-hidden mb-3 border border-primary/10">
-                        <Image src={stylist.image} alt={stylist.name} fill sizes="64px" className="object-cover object-top" />
+                        <Image src={stylist.image || '/img/Team/team-1.jpg'} alt={stylist.name} fill sizes="64px" className="object-cover object-top" />
                       </div>
                       <span className="font-semibold text-sm text-center leading-tight line-clamp-1">{stylist.name}</span>
                       <span className="text-[10px] text-white/50 mt-0.5 line-clamp-1">{stylist.role}</span>
                       <div className="flex items-center gap-1 text-[10px] text-primary mt-1 font-bold">
-                        <Star className="w-2.5 h-2.5 fill-primary" /> {stylist.rating}
+                        <Star className="w-2.5 h-2.5 fill-primary" /> 4.9
                       </div>
                     </button>
                   );

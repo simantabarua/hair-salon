@@ -1,13 +1,14 @@
 'use client';
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useDispatch } from 'react-redux';
 import { Star, Minus, Plus, ShoppingBag, ArrowLeft } from 'lucide-react';
 import { addToCart } from '@/store/slices/cartSlice';
-import { products } from '@/data/salonData';
+import { Product } from '@/data/salonData';
+import { getProducts } from '@/lib/db';
 import PageHeading from '@/components/layout/PageHeading';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -19,23 +20,41 @@ export default function ProductDetailsPage() {
 
   const id = params?.id as string;
 
+  const [productList, setProductList] = useState<Product[]>(() => {
+    if (typeof window === 'undefined') return [];
+    return getProducts();
+  });
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setMounted(true);
+    }, 0);
+    const sync = () => setProductList(getProducts());
+    window.addEventListener('storage', sync);
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener('storage', sync);
+    };
+  }, []);
+
   // Find the current product
   const product = useMemo(() => {
-    return products.find((p) => p.id === id);
-  }, [id]);
+    return productList.find((p) => p.id === id);
+  }, [productList, id]);
 
   // Gallery main image state
-  const [mainImage, setMainImage] = useState<string>('');
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [activeThumbnail, setActiveThumbnail] = useState<number>(0);
+  const [lastProductId, setLastProductId] = useState<string>('');
 
-  React.useEffect(() => {
-    /* eslint-disable react-hooks/set-state-in-effect */
-    if (product) {
-      setMainImage(product.image);
-      setActiveThumbnail(0);
-    }
-    /* eslint-enable react-hooks/set-state-in-effect */
-  }, [product]);
+  if (product && product.id !== lastProductId) {
+    setLastProductId(product.id);
+    setSelectedImage(null);
+    setActiveThumbnail(0);
+  }
+
+  const currentImage = selectedImage ?? product?.image ?? '';
 
   // Quantity state
   const [quantity, setQuantity] = useState<number>(1);
@@ -71,6 +90,14 @@ export default function ProductDetailsPage() {
       text: 'Great packaging, fast delivery, and most importantly — it delivers on its promises. My scalp feels healthier, and my hair has noticeably more volume. Highly recommend to anyone dealing with dryness or breakage.',
     },
   ]);
+
+  if (!mounted) {
+    return (
+      <div className="min-h-[60vh] flex flex-col justify-center items-center text-white space-y-4 px-4">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+      </div>
+    );
+  }
 
   if (!product) {
     return (
@@ -132,7 +159,7 @@ export default function ProductDetailsPage() {
   };
 
   // Filter out the current product from related products
-  const relatedProducts = products
+  const relatedProducts = productList
     .filter((p) => p.id !== product.id)
     .slice(0, 3);
 
@@ -149,9 +176,9 @@ export default function ProductDetailsPage() {
           <div className="flex-1 space-y-6">
             {/* Main Preview Container */}
             <div className="relative w-full aspect-square md:max-h-[38rem] rounded-2xl overflow-hidden border border-primary/10 bg-secondary/30">
-              {mainImage && (
+              {currentImage && (
                 <Image
-                  src={mainImage}
+                  src={currentImage}
                   alt={product.name}
                   fill
                   className="object-cover object-top transition-all duration-300"
@@ -167,7 +194,7 @@ export default function ProductDetailsPage() {
                 <button
                   key={idx}
                   onClick={() => {
-                    setMainImage(thumb);
+                    setSelectedImage(thumb);
                     setActiveThumbnail(idx);
                   }}
                   className={`relative aspect-square w-full rounded-xl overflow-hidden bg-secondary border transition-all ${

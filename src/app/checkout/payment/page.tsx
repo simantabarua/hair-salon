@@ -10,6 +10,7 @@ import PageHeading from '@/components/layout/PageHeading';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { toast } from 'sonner';
+import { saveOrder, Order } from '@/lib/db';
 import { 
   ArrowLeft, 
   Lock, 
@@ -188,6 +189,24 @@ export default function CheckoutPaymentPage() {
       // Generate Order number
       const num = 'AURELIA-' + Math.floor(100000 + Math.random() * 900000);
       setOrderNumber(num);
+
+      // Save order to local database
+      const itemsSummary = items
+        .map(item => `${item.quantity}x ${item.name}`)
+        .join(', ');
+
+      const newOrder: Order = {
+        id: num,
+        userEmail: shipping.email,
+        customerName: `${shipping.firstName} ${shipping.lastName}`,
+        date: new Date().toISOString().split('T')[0],
+        status: 'Processing',
+        items: itemsSummary,
+        total: pricing.totalCost,
+      };
+
+      saveOrder(newOrder);
+
       setShowSuccessOverlay(true);
       toast.success('Payment authorized successfully!');
       

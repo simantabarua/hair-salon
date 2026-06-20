@@ -3,6 +3,7 @@ import './globals.css';
 import { StoreProvider } from '@/components/providers/store-provider';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
+import MainWrapper from '@/components/layout/MainWrapper';
 import { Toaster } from 'sonner';
 
 export const metadata: Metadata = {
@@ -21,9 +22,9 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col bg-background text-foreground font-manrope">
         <StoreProvider>
           <Navbar />
-          <main className="flex-grow pt-16 md:pt-20">
+          <MainWrapper>
             {children}
-          </main>
+          </MainWrapper>
           <Footer />
           <Toaster 
             richColors 

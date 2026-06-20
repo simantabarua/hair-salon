@@ -8,6 +8,9 @@ export interface Product {
   category: string;
   description: string;
   tags: string[];
+  stock?: number;
+  minStock?: number;
+  sku?: string;
 }
 
 export interface Service {
@@ -97,6 +100,9 @@ export const products: Product[] = [
     category: 'Accessories',
     description: 'A stylish and durable beauty case designed to store and transport your cosmetics and skincare essentials safely.',
     tags: ['Fashion', 'Make up'],
+    stock: 12,
+    minStock: 5,
+    sku: 'AURE-ACC-01',
   },
   {
     id: 'face-wash',
@@ -108,6 +114,9 @@ export const products: Product[] = [
     category: 'Skincare',
     description: 'Gently cleanses and refreshes your skin, removing dirt, oil, and impurities without stripping away essential moisture.',
     tags: ['Face', 'Organic', 'Cream'],
+    stock: 4,
+    minStock: 8,
+    sku: 'AURE-SKN-02',
   },
   {
     id: 'conditioner',
@@ -119,6 +128,9 @@ export const products: Product[] = [
     category: 'Haircare',
     description: 'Formulated to nourish and hydrate your hair, leaving it soft, smooth, shiny, and easy to style.',
     tags: ['Shampoo', 'Gloss', 'Organic'],
+    stock: 0,
+    minStock: 10,
+    sku: 'AURE-HAC-03',
   },
   {
     id: 'face-scrub',
@@ -130,6 +142,9 @@ export const products: Product[] = [
     category: 'Skincare',
     description: 'Exfoliating wash that buff away dead skin cells to reveal a brighter, smoother, and healthier-looking complexion.',
     tags: ['Face', 'Cream', 'Organic'],
+    stock: 25,
+    minStock: 5,
+    sku: 'AURE-SKN-04',
   },
   {
     id: 'shampoo',
@@ -141,6 +156,9 @@ export const products: Product[] = [
     category: 'Haircare',
     description: 'Cleanse and revitalize your scalp and hair, promoting healthy growth and vibrant shine.',
     tags: ['Shampoo', 'Gloss', 'Organic', 'Spray'],
+    stock: 15,
+    minStock: 8,
+    sku: 'AURE-HAC-05',
   },
   {
     id: 'hair-straightener',
@@ -152,6 +170,9 @@ export const products: Product[] = [
     category: 'Styling Tools',
     description: 'Professional-grade flat iron designed to straighten, curl, or wave hair smoothly and efficiently.',
     tags: ['Trends', 'Fashion'],
+    stock: 7,
+    minStock: 3,
+    sku: 'AURE-TLS-06',
   },
 ];
 

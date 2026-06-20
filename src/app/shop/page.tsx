@@ -6,7 +6,8 @@ import Image from 'next/image';
 import { useDispatch } from 'react-redux';
 import { ShoppingBag, ArrowRight, Star, Search, SlidersHorizontal, X, ChevronDown, Check } from 'lucide-react';
 import { addToCart } from '@/store/slices/cartSlice';
-import { products } from '@/data/salonData';
+import { Product } from '@/data/salonData';
+import { getProducts } from '@/lib/db';
 import PageHeading from '@/components/layout/PageHeading';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -90,6 +91,16 @@ function SortDropdown({
 
 export default function ShopPage() {
   const dispatch = useDispatch();
+  const [productList, setProductList] = useState<Product[]>(() => {
+    if (typeof window === 'undefined') return [];
+    return getProducts();
+  });
+
+  useEffect(() => {
+    const sync = () => setProductList(getProducts());
+    window.addEventListener('storage', sync);
+    return () => window.removeEventListener('storage', sync);
+  }, []);
 
   // State for search and filter controls
   const [searchQuery, setSearchQuery] = useState('');
@@ -100,7 +111,7 @@ export default function ShopPage() {
   const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
 
   // Redux action handler
-  const handleAddToCart = (product: typeof products[0]) => {
+  const handleAddToCart = (product: Product) => {
     dispatch(addToCart({
       id: product.id,
       name: product.name,
@@ -112,7 +123,7 @@ export default function ShopPage() {
 
   // Filter & Sort Logic
   const filteredProducts = useMemo(() => {
-    let result = [...products];
+    let result = [...productList];
 
     // Filter by Search Query
     if (searchQuery.trim() !== '') {
@@ -149,7 +160,7 @@ export default function ShopPage() {
     }
 
     return result;
-  }, [searchQuery, selectedCategory, selectedTag, maxPrice, sortBy]);
+  }, [productList, searchQuery, selectedCategory, selectedTag, maxPrice, sortBy]);
 
   // Sidebar Component function for reuse
   const renderSidebarContent = () => (
@@ -197,7 +208,7 @@ export default function ShopPage() {
       <div className="space-y-4">
         <h4 className="font-cormorant text-2xl font-semibold border-b border-primary/20 pb-2">Popular Products</h4>
         <div className="space-y-4">
-          {products.slice(0, 3).map((prod) => (
+          {productList.slice(0, 3).map((prod) => (
             <Link key={prod.id} href={`/shop/${prod.id}`} className="group flex gap-4 items-center">
               <div className="relative w-16 h-16 rounded-xl overflow-hidden bg-secondary border border-primary/10 group-hover:border-primary/40 flex-shrink-0 transition-colors">
                 <Image src={prod.image} alt={prod.name} fill className="object-cover" sizes="64px" />
