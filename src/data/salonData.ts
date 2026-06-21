@@ -3,6 +3,7 @@ export interface Product {
   name: string;
   price: number;
   image: string;
+  images?: string[];
   rating: number;
   ratingCount: number;
   category: string;

@@ -58,6 +58,7 @@ export default function CheckoutPaymentPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [showSuccessOverlay, setShowSuccessOverlay] = useState(false);
   const [orderNumber, setOrderNumber] = useState('');
+  const [isCompleted, setIsCompleted] = useState(false);
 
   // Card input states
   const [cardNumber, setCardNumber] = useState('');
@@ -68,7 +69,7 @@ export default function CheckoutPaymentPage() {
 
   // Load checkout data from localStorage
   useEffect(() => {
-    if (showSuccessOverlay) return;
+    if (showSuccessOverlay || isCompleted) return;
 
     const dataStr = localStorage.getItem('checkout_data');
     if (!dataStr || items.length === 0) {
@@ -80,7 +81,7 @@ export default function CheckoutPaymentPage() {
     Promise.resolve().then(() => {
       setCheckoutData(JSON.parse(dataStr));
     });
-  }, [items, router, showSuccessOverlay]);
+  }, [items, router, showSuccessOverlay, isCompleted]);
 
   // Card brand detection
   const getCardBrand = (num: string): 'visa' | 'mastercard' | 'amex' | 'discover' | 'generic' => {
@@ -207,6 +208,7 @@ export default function CheckoutPaymentPage() {
         toast.success('Payment processed successfully!');
         setOrderNumber(response.orderId);
         setShowSuccessOverlay(true);
+        setIsCompleted(true);
         dispatch(clearCart());
         localStorage.removeItem('checkout_data');
       } else {

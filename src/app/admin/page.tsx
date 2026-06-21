@@ -31,6 +31,8 @@ import {
 import { Appointment, Order } from '@/lib/db';
 import { Service, Product, TeamMember, BlogPost } from '@/data/salonData';
 import { apiClient } from '@/lib/apiClient';
+import { ImageUploader } from '@/components/ImageUploader';
+import { MultiImageUploader } from '@/components/MultiImageUploader';
 import {
   ResponsiveContainer,
   AreaChart,
@@ -167,6 +169,7 @@ export default function AdminDashboard() {
         name: p.name,
         price: p.price,
         image: p.image,
+        images: p.images || [],
         category: p.category,
         rating: p.rating || 5,
         ratingCount: p.ratingCount || 1,
@@ -382,10 +385,12 @@ export default function AdminDashboard() {
       return;
     }
     try {
+      const formImages = productForm.images || (productForm.image ? [productForm.image] : []);
       const payload: any = {
         name: productForm.name,
         price: Number(productForm.price),
-        image: productForm.image || '',
+        image: formImages[0] || '',
+        images: formImages,
         category: productForm.category,
         description: productForm.description || '',
         tags: typeof productForm.tags === 'string'
@@ -1521,12 +1526,10 @@ export default function AdminDashboard() {
                       />
                     </div>
                     <div>
-                      <label className="text-[10px] text-white/40 uppercase tracking-wider block mb-1">Image Path</label>
-                      <input
-                        type="text"
+                      <ImageUploader
+                        label="Service Image"
                         value={serviceForm.image || ''}
-                        onChange={e => setServiceForm({...serviceForm, image: e.target.value})}
-                        className="w-full bg-black border border-white/10 rounded-lg p-2 text-xs focus:border-primary outline-none"
+                        onChange={url => setServiceForm({...serviceForm, image: url})}
                         placeholder="/img/Services Section/Image-1.png"
                       />
                     </div>
@@ -1659,12 +1662,10 @@ export default function AdminDashboard() {
                       />
                     </div>
                     <div>
-                      <label className="text-[10px] text-white/40 uppercase tracking-wider block mb-1">Image Path</label>
-                      <input
-                        type="text"
-                        value={productForm.image || ''}
-                        onChange={e => setProductForm({...productForm, image: e.target.value})}
-                        className="w-full bg-black border border-white/10 rounded-lg p-2 text-xs focus:border-primary outline-none"
+                      <MultiImageUploader
+                        label="Product Images"
+                        value={productForm.images || (productForm.image ? [productForm.image] : [])}
+                        onChange={urls => setProductForm({...productForm, images: urls, image: urls[0] || ''})}
                         placeholder="/img/Products Section/conditioner.png"
                       />
                     </div>
@@ -1784,12 +1785,10 @@ export default function AdminDashboard() {
                       />
                     </div>
                     <div>
-                      <label className="text-[10px] text-white/40 uppercase tracking-wider block mb-1">Profile Photo Path</label>
-                      <input
-                        type="text"
+                      <ImageUploader
+                        label="Profile Photo"
                         value={teamForm.image || ''}
-                        onChange={e => setTeamForm({...teamForm, image: e.target.value})}
-                        className="w-full bg-black border border-white/10 rounded-lg p-2 text-xs focus:border-primary outline-none"
+                        onChange={url => setTeamForm({...teamForm, image: url})}
                         placeholder="/img/About Section/Team-1.png"
                       />
                     </div>
@@ -1921,6 +1920,14 @@ export default function AdminDashboard() {
                         className="w-full bg-black border border-white/10 rounded-lg p-2 text-xs focus:border-primary outline-none"
                         placeholder="A teaser description shown in lists..."
                         required
+                      />
+                    </div>
+                    <div className="sm:col-span-2">
+                      <ImageUploader
+                        label="Article Banner Image"
+                        value={blogForm.image || ''}
+                        onChange={url => setBlogForm({...blogForm, image: url})}
+                        placeholder="/img/Blog Section/Post-1.png"
                       />
                     </div>
                     <div className="sm:col-span-2">

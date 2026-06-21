@@ -85,13 +85,11 @@ export default function ProductDetailsPage() {
   // Gallery main image state
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [activeThumbnail, setActiveThumbnail] = useState<number>(0);
-  const [lastProductId, setLastProductId] = useState<string>('');
 
-  if (product && product.id !== lastProductId) {
-    setLastProductId(product.id);
+  useEffect(() => {
     setSelectedImage(null);
     setActiveThumbnail(0);
-  }
+  }, [id]);
 
   const currentImage = selectedImage ?? product?.image ?? '';
 
@@ -130,7 +128,13 @@ export default function ProductDetailsPage() {
     },
   ]);
 
-  // Auto-populate name and email if session is available
+  const thumbnails = useMemo(() => {
+    if (product?.images && product.images.length > 0) {
+      return product.images;
+    }
+    return product?.image ? [product.image] : [];
+  }, [product]);
+
   useEffect(() => {
     if (session?.user) {
       setReviewName(session.user.name || '');
@@ -163,13 +167,6 @@ export default function ProductDetailsPage() {
       </div>
     );
   }
-
-  // Thumbnails: main image, and two other images
-  const thumbnails = [
-    product.image,
-    '/img/Products Images/product-3.png',
-    '/img/Products Images/product-4.png',
-  ];
 
   const handleQuantityChange = (val: number) => {
     setQuantity(Math.max(1, val));
@@ -216,9 +213,6 @@ export default function ProductDetailsPage() {
         text: reviewMessage,
       };
 
-      // Check if we are currently displaying only mock reviews (e.g. if reviewsList matches the initial mock reviews).
-      // If the first item in reviewsList is "John Doe" (our mock review), let's replace the whole array with our new review
-      // so we don't mix mock reviews with real reviews once a real review is posted.
       setReviewsList((prev) => {
         const isShowingMockOnly = prev.length === 3 && prev[0].name === 'John Doe' && prev[1].name === 'Sarah H.';
         if (isShowingMockOnly) {
@@ -235,7 +229,6 @@ export default function ProductDetailsPage() {
     }
   };
 
-  // Filter out the current product from related products
   const relatedProducts = productList
     .filter((p) => p.id !== product.id)
     .slice(0, 3);
@@ -252,7 +245,7 @@ export default function ProductDetailsPage() {
           {/* Gallery Left Column */}
           <div className="flex-1 space-y-6">
             {/* Main Preview Container */}
-            <div className="relative w-full aspect-square md:max-h-[38rem] rounded-2xl overflow-hidden border border-primary/10 bg-secondary/30">
+            <div className="relative w-full aspect-square rounded-2xl overflow-hidden border border-primary/10 bg-secondary/30">
               {currentImage && (
                 <Image
                   src={currentImage}

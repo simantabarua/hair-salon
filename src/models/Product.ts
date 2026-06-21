@@ -4,6 +4,7 @@ export interface IProduct extends Document {
   name: string;
   price: number;
   image: string;
+  images: string[];
   rating: number;
   ratingCount: number;
   category: string;
@@ -23,6 +24,7 @@ const ProductSchema = new Schema<IProduct>(
     name: { type: String, required: true, trim: true },
     price: { type: Number, required: true, min: 0 },
     image: { type: String, required: true },
+    images: { type: [String], default: [] },
     rating: { type: Number, default: 5, min: 1, max: 5 },
     ratingCount: { type: Number, default: 0, min: 0 },
     category: { type: String, required: true, trim: true, index: true },
@@ -40,6 +42,9 @@ const ProductSchema = new Schema<IProduct>(
       virtuals: true,
       transform(_doc, ret: any) {
         ret.id = ret._id?.toString();
+        if (!ret.images || ret.images.length === 0) {
+          ret.images = ret.image ? [ret.image] : [];
+        }
         delete ret._id;
         delete ret.__v;
         return ret;
@@ -48,7 +53,14 @@ const ProductSchema = new Schema<IProduct>(
   }
 );
 
-// Create compound text index on name and description for search support
+ProductSchema.pre("validate", function () {
+  if (this.images && this.images.length > 0) {
+    this.image = this.images[0];
+  } else if (this.image) {
+    this.images = [this.image];
+  }
+});
+
 ProductSchema.index({ name: "text", description: "text" });
 
 export const Product: Model<IProduct> =

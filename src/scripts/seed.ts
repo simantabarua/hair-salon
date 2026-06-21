@@ -120,7 +120,7 @@ async function seed() {
     {
       name: "Premium Matte Clay",
       price: 24,
-      image: "https://images.unsplash.com/photo-1608248597481-496100c8c836?w=600",
+      image: "https://images.unsplash.com/photo-1526947425960-945c6e72858f?w=600",
       category: "Styling",
       description: "High hold, matte finish styling clay. Infused with natural minerals for maximum volume and texture.",
       tags: ["matte", "high hold", "clay"],
