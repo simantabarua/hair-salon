@@ -6,12 +6,13 @@ import Image from 'next/image';
 import { useDispatch } from 'react-redux';
 import { ShoppingBag, ArrowRight, Star, Search, SlidersHorizontal, X, ChevronDown, Check } from 'lucide-react';
 import { addToCart } from '@/store/slices/cartSlice';
-import { Product } from '@/data/salonData';
 import { getProducts } from '@/lib/db';
 import PageHeading from '@/components/layout/PageHeading';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { toast } from 'sonner';
+import { apiClient } from '@/lib/apiClient';
+import { ProductDTO } from '@/types/api';
 
 const ALL_CATEGORIES = ['All', 'Hair Care', 'Skin Care', 'Face', 'Equipment', 'Organic'];
 const ALL_TAGS = ['Cream', 'Face', 'Blonde', 'Make up', 'Organic', 'Gloss', 'Trends', 'Fashion', 'Shampoo', 'Spray'];
@@ -91,15 +92,23 @@ function SortDropdown({
 
 export default function ShopPage() {
   const dispatch = useDispatch();
-  const [productList, setProductList] = useState<Product[]>(() => {
-    if (typeof window === 'undefined') return [];
-    return getProducts();
-  });
+  const [productList, setProductList] = useState<ProductDTO[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const sync = () => setProductList(getProducts());
-    window.addEventListener('storage', sync);
-    return () => window.removeEventListener('storage', sync);
+    const loadProducts = async () => {
+      try {
+        const data = await apiClient.get<ProductDTO[]>('/api/v1/products');
+        setProductList(data);
+      } catch (err) {
+        console.error('Failed to fetch products:', err);
+        // Fallback to local products
+        setProductList(getProducts() as any);
+      } finally {
+        setLoading(false);
+      }
+    };
+    loadProducts();
   }, []);
 
   // State for search and filter controls
@@ -111,7 +120,7 @@ export default function ShopPage() {
   const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
 
   // Redux action handler
-  const handleAddToCart = (product: Product) => {
+  const handleAddToCart = (product: ProductDTO) => {
     dispatch(addToCart({
       id: product.id,
       name: product.name,
@@ -356,7 +365,15 @@ export default function ShopPage() {
             )}
 
             {/* Products Grid */}
-            {filteredProducts.length === 0 ? (
+            {loading ? (
+              <div className="flex flex-col items-center justify-center py-32 space-y-6">
+                <div className="relative w-16 h-16">
+                  <div className="absolute inset-0 rounded-full border-2 border-primary/20"></div>
+                  <div className="absolute inset-0 rounded-full border-2 border-t-primary animate-spin"></div>
+                </div>
+                <p className="text-white/60 font-manrope text-sm animate-pulse">Loading curated collection...</p>
+              </div>
+            ) : filteredProducts.length === 0 ? (
               <div className="text-center py-20 bg-secondary/20 rounded-2xl border border-primary/10 space-y-4">
                 <SlidersHorizontal className="w-12 h-12 text-primary/45 mx-auto" />
                 <h3 className="font-cormorant text-2xl font-bold text-white">No Products Found</h3>

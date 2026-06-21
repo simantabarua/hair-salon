@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -15,7 +15,8 @@ import {
   Search
 } from 'lucide-react';
 import PageHeading from '@/components/layout/PageHeading';
-import { blogPosts, Comment } from '@/data/blogData';
+import { blogPosts, Comment, BlogPost } from '@/data/blogData';
+import { apiClient } from '@/lib/apiClient';
 
 // Recursive Comment Component
 interface CommentItemProps {
@@ -70,15 +71,50 @@ export default function BlogDetailsPage() {
   const router = useRouter();
   const slug = params.slug as string;
 
-  // Retrieve post
-  const post = useMemo(() => {
-    return blogPosts.find(p => p.slug === slug);
-  }, [slug]);
+  const [post, setPost] = useState<BlogPost | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [comments, setComments] = useState<Comment[]>([]);
 
-  // Comments state initialized from post comments
-  const [comments, setComments] = useState<Comment[]>(() => {
-    return post ? post.comments : [];
-  });
+  useEffect(() => {
+    const staticPost = blogPosts.find(p => p.slug === slug);
+    if (staticPost) {
+      setPost(staticPost);
+      setComments(staticPost.comments);
+      setLoading(false);
+      return;
+    }
+
+    // Otherwise, fetch dynamic post from DB (using ID)
+    const fetchPost = async () => {
+      try {
+        setLoading(true);
+        const b = await apiClient.get<any>(`/api/v1/blogs/${slug}`);
+        if (b) {
+          const mapped: BlogPost = {
+            slug: b.id || b._id,
+            title: b.title,
+            excerpt: b.excerpt,
+            content: typeof b.content === 'string' ? b.content.split('\n\n') : b.content || [],
+            quote: b.quote || '',
+            author: b.author || 'Staff',
+            date: new Date(b.createdAt).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }),
+            category: b.category || 'Organic',
+            tags: b.tags || [b.category || 'Organic'],
+            image: b.image || '/img/Blog Section/Image.png',
+            readTime: b.readTime || '5 min read',
+            comments: b.comments || []
+          };
+          setPost(mapped);
+          setComments(mapped.comments);
+        }
+      } catch (err) {
+        console.error('Failed to load dynamic blog post:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchPost();
+  }, [slug]);
 
   // Main Form fields state
   const [name, setName] = useState('');
@@ -176,6 +212,15 @@ export default function BlogDetailsPage() {
       router.push(`/blog?search=${encodeURIComponent(searchQuery.trim())}`);
     }
   };
+
+  if (loading) {
+    return (
+      <div className="min-h-[60vh] flex flex-col items-center justify-center text-center p-8">
+        <div className="w-10 h-10 border-4 border-primary border-t-transparent rounded-full animate-spin mb-4"></div>
+        <p className="text-white/60 text-sm">Loading article details...</p>
+      </div>
+    );
+  }
 
   if (!post) {
     return (

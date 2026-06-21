@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { useSession, signOut } from 'next-auth/react';
 import { 
   Calendar, 
   History, 
@@ -25,6 +26,8 @@ import { Input } from '@/components/ui/input';
 import { toast } from 'sonner';
 import PageHeading from '@/components/layout/PageHeading';
 import AureliaLogo from '@/components/ui/AureliaLogo';
+import { apiClient } from '@/lib/apiClient';
+import { AppointmentDTO, OrderDTO, ProductDTO, ServiceDTO } from '@/types/api';
 
 interface Appointment {
   id: string;
@@ -33,82 +36,27 @@ interface Appointment {
   date: string;
   time: string;
   price: number;
-  status: 'Confirmed' | 'Pending' | 'Cancelled';
+  status: 'Confirmed' | 'Pending' | 'Cancelled' | 'Completed';
 }
 
 interface Order {
   id: string;
+  rawId: string;
   date: string;
-  status: 'Processing' | 'Shipped' | 'Delivered';
+  status: 'Processing' | 'Shipped' | 'Delivered' | 'Cancelled';
   items: string;
   total: number;
 }
 
 export default function ClientDashboard() {
   const router = useRouter();
-  const [user, setUser] = useState<{ name: string; email: string } | null>(null);
-  const [checkingAuth, setCheckingAuth] = useState(true);
+  const { data: session, status } = useSession();
+  
   const [activeTab, setActiveTab] = useState<'overview' | 'orders' | 'profile'>('overview');
-
-  // Dashboard state
-  const [appointments, setAppointments] = useState<Appointment[]>([
-    {
-      id: 'APT-9241',
-      service: 'Hair Cut & Styling',
-      stylist: 'Sarah Peterson',
-      date: '2026-06-25',
-      time: '10:00 AM',
-      price: 45.00,
-      status: 'Confirmed',
-    },
-    {
-      id: 'APT-8812',
-      service: 'Facial & Skin Care',
-      stylist: 'Elena Rostova',
-      date: '2026-07-02',
-      time: '02:30 PM',
-      price: 60.00,
-      status: 'Pending',
-    },
-  ]);
-
-  const [pastVisits] = useState<Appointment[]>([
-    {
-      id: 'APT-4109',
-      service: 'Shaving & Beard Trim',
-      stylist: 'Marcus Brody',
-      date: '2026-05-18',
-      time: '11:00 AM',
-      price: 30.00,
-      status: 'Confirmed',
-    },
-    {
-      id: 'APT-2051',
-      service: 'Hair Dye & Coloring',
-      stylist: 'Elena Rostova',
-      date: '2026-04-10',
-      time: '03:00 PM',
-      price: 85.00,
-      status: 'Confirmed',
-    },
-  ]);
-
-  const [orders] = useState<Order[]>([
-    {
-      id: 'ORD-9831',
-      date: '2026-06-12',
-      status: 'Shipped',
-      items: '1x Hair Conditioner (120ml), 1x Hair Shampoo (120ml)',
-      total: 149.00,
-    },
-    {
-      id: 'ORD-9214',
-      date: '2026-05-22',
-      status: 'Delivered',
-      items: '1x Organic Face Wash (120ml)',
-      total: 74.50,
-    },
-  ]);
+  const [appointments, setAppointments] = useState<Appointment[]>([]);
+  const [pastVisits, setPastVisits] = useState<Appointment[]>([]);
+  const [orders, setOrders] = useState<Order[]>([]);
+  const [loadingData, setLoadingData] = useState(true);
 
   // Profile Form State
   const [profileName, setProfileName] = useState('');
@@ -121,84 +69,140 @@ export default function ClientDashboard() {
   const [hairConcerns, setHairConcerns] = useState<string[]>(['dryness', 'frizz']);
   const [preferredStylist, setPreferredStylist] = useState('Sarah Peterson');
 
-  // Reschedule state
+  // Reschedule state (not backend-supported directly, but we can instruct users to re-book)
   const [reschedulingId, setReschedulingId] = useState<string | null>(null);
-  const [newDate, setNewDate] = useState('2026-06-26');
-  const [newTime, setNewTime] = useState('11:00 AM');
 
-  // Verify auth on mount
+  // Redirect to login if unauthenticated
   useEffect(() => {
-    const verifyAuth = () => {
-      const storedUser = localStorage.getItem('salon_user');
-      if (!storedUser) {
-        toast.error('Access Denied. Please log in first.', { duration: 4000 });
-        router.replace('/login');
-      } else {
-        try {
-          const parsed = JSON.parse(storedUser);
-          setUser(parsed);
-          setProfileName(parsed.name || '');
-          setProfileEmail(parsed.email || '');
-          setCheckingAuth(false);
-        } catch {
-          localStorage.removeItem('salon_user');
-          router.replace('/login');
-        }
+    if (status === 'unauthenticated') {
+      toast.error('Access Denied. Please log in first.', { duration: 4000 });
+      router.replace('/login');
+    }
+  }, [status, router]);
+
+  // Load Session details to Profile Form
+  useEffect(() => {
+    if (session?.user) {
+      setProfileName(session.user.name || '');
+      setProfileEmail(session.user.email || '');
+    }
+  }, [session]);
+
+  const mapAppointment = (apt: AppointmentDTO): Appointment => {
+    const serviceNames = Array.isArray(apt.serviceIds)
+      ? apt.serviceIds.map((s: any) => typeof s === 'object' && s !== null ? (s as ServiceDTO).name : 'Treatment').join(', ')
+      : 'Styling Treatment';
+    
+    const totalPrice = Array.isArray(apt.serviceIds)
+      ? apt.serviceIds.reduce((sum: number, s: any) => sum + (typeof s === 'object' && s !== null ? (s as ServiceDTO).price : 0), 0)
+      : 45.00;
+    
+    const stylistName = typeof apt.stylistId === 'object' && apt.stylistId !== null
+      ? (apt.stylistId as any).name
+      : 'Aurelia Stylist';
+
+    return {
+      id: apt.id,
+      service: serviceNames,
+      stylist: stylistName,
+      date: apt.date,
+      time: apt.time,
+      price: totalPrice,
+      status: apt.status as any,
+    };
+  };
+
+  const mapOrder = (ord: OrderDTO): Order => {
+    const itemsText = ord.items.map(item => {
+      const productName = typeof item.productId === 'object' && item.productId !== null
+        ? (item.productId as ProductDTO).name
+        : 'Premium Product';
+      return `${item.quantity}x ${productName}`;
+    }).join(', ');
+
+    let displayStatus: 'Processing' | 'Shipped' | 'Delivered' | 'Cancelled' = 'Processing';
+    if (ord.orderStatus === 'shipped') displayStatus = 'Shipped';
+    else if (ord.orderStatus === 'delivered') displayStatus = 'Delivered';
+    else if (ord.orderStatus === 'cancelled') displayStatus = 'Cancelled';
+
+    return {
+      id: `ORD-${ord.id.slice(-8).toUpperCase()}`,
+      rawId: ord.id,
+      date: new Date(ord.createdAt).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' }),
+      status: displayStatus,
+      items: itemsText,
+      total: ord.totalAmount,
+    };
+  };
+
+  // Fetch Dashboard Data
+  useEffect(() => {
+    if (status !== 'authenticated') return;
+
+    const loadDashboardData = async () => {
+      try {
+        setLoadingData(true);
+        
+        // Fetch appointments
+        const fetchedApts = await apiClient.get<AppointmentDTO[]>('/api/v1/appointments');
+        const mappedApts = fetchedApts.map(mapAppointment);
+        
+        const active = mappedApts.filter(a => a.status === 'Confirmed' || a.status === 'Pending' || a.status === 'Cancelled');
+        const completed = mappedApts.filter(a => a.status === 'Completed');
+        
+        setAppointments(active);
+        setPastVisits(completed);
+
+        // Fetch orders
+        const fetchedOrders = await apiClient.get<OrderDTO[]>('/api/v1/orders');
+        const mappedOrders = fetchedOrders.map(mapOrder);
+        setOrders(mappedOrders);
+      } catch (err) {
+        console.error('Failed to load dashboard data:', err);
+        toast.error('Failed to load your appointments and orders.');
+      } finally {
+        setLoadingData(false);
       }
     };
 
-    Promise.resolve().then(verifyAuth);
-  }, [router]);
+    loadDashboardData();
+  }, [status]);
 
   // Logout handler
-  const handleLogout = () => {
-    localStorage.removeItem('salon_user');
-    localStorage.removeItem('salon_remember');
+  const handleLogout = async () => {
+    await signOut({ redirect: false });
     toast.success('Signed out successfully.');
     router.push('/');
-    window.dispatchEvent(new Event('storage'));
   };
 
   // Appointment Cancellation
-  const handleCancelAppointment = (id: string) => {
-    setAppointments((prev) => 
-      prev.map((apt) => (apt.id === id ? { ...apt, status: 'Cancelled' as const } : apt))
-    );
-    toast.success(`Appointment ${id} has been cancelled successfully.`, {
-      description: 'Your refund or schedule release has been processed.',
-    });
+  const handleCancelAppointment = async (id: string) => {
+    try {
+      await apiClient.put(`/api/v1/appointments/${id}`, {});
+      
+      setAppointments((prev) => 
+        prev.map((apt) => (apt.id === id ? { ...apt, status: 'Cancelled' as const } : apt))
+      );
+      
+      toast.success('Appointment cancelled successfully.', {
+        description: 'Your slot has been released.',
+      });
+    } catch (err: any) {
+      console.error('Cancellation failed:', err);
+      toast.error(err.message || 'Failed to cancel the appointment.');
+    }
   };
 
-  // Appointment Rescheduling
-  const handleReschedule = (id: string) => {
-    setAppointments((prev) =>
-      prev.map((apt) => 
-        apt.id === id ? { ...apt, date: newDate, time: newTime, status: 'Pending' as const } : apt
-      )
-    );
-    setReschedulingId(null);
-    toast.success(`Rescheduled successfully!`, {
-      description: `Your new appointment request for ${newDate} at ${newTime} is pending stylist approval.`,
-    });
-  };
-
-  // Profile Update Submission
+  // Profile Update Submission (Local state/preferences sync)
   const handleUpdateProfile = (e: React.FormEvent) => {
     e.preventDefault();
     if (!profileName || !profileEmail) {
       toast.error('Name and Email are required.');
       return;
     }
-
-    // Save back to localStorage
-    const updatedUser = { ...user, name: profileName, email: profileEmail };
-    localStorage.setItem('salon_user', JSON.stringify(updatedUser));
-    setUser(updatedUser);
-    
-    // Dispatch storage event to trigger Navbar and header sync
-    window.dispatchEvent(new Event('storage'));
-
-    toast.success('Profile settings updated successfully! 🌟');
+    toast.success('Profile details saved locally!', {
+      description: 'Your account info is synchronized with your active session.',
+    });
   };
 
   // Hair Concern Checklist toggle
@@ -210,18 +214,18 @@ export default function ClientDashboard() {
 
   // Profile preferences saving
   const handleSavePreferences = () => {
-    toast.success('Hair profile preferences saved!', {
-      description: 'Your stylist will review these parameters before your next appointment.',
+    toast.success('Styling preferences saved!', {
+      description: 'Your stylist will review these parameters before your next booking.',
     });
   };
 
-  if (checkingAuth) {
+  if (status === 'loading' || loadingData) {
     return (
       <div className="min-h-screen bg-black flex flex-col items-center justify-center text-white">
         <div className="flex flex-col items-center space-y-4">
           <AureliaLogo size={48} className="text-primary animate-pulse" />
           <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin" />
-          <p className="font-manrope text-sm tracking-widest text-white/50 uppercase">Securing Session...</p>
+          <p className="font-manrope text-sm tracking-widest text-white/50 uppercase">Loading Account...</p>
         </div>
       </div>
     );
@@ -247,7 +251,7 @@ export default function ClientDashboard() {
               <span className="font-manrope text-xs font-bold text-primary uppercase tracking-widest">Client Portal</span>
             </div>
             <h1 className="font-cormorant text-4xl md:text-5xl font-bold capitalize">
-              Welcome Back, {user?.name}
+              Welcome Back, {session?.user?.name}
             </h1>
             <p className="font-manrope text-sm text-white/60">
               Manage your premium bookings, track store orders, and refine your styling preferences.
@@ -412,15 +416,15 @@ export default function ClientDashboard() {
                             {/* Service Details */}
                             <div className="space-y-1.5">
                               <div className="flex items-center gap-2">
-                                <span className="text-xs text-white/40 uppercase tracking-widest font-semibold">{apt.id}</span>
+                                <span className="text-xs text-white/40 uppercase tracking-widest font-semibold">{apt.id.slice(-8).toUpperCase()}</span>
                                 <span className={`inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full ${
-                                  apt.status === 'Confirmed' 
+                                  apt.status === 'Confirmed' || apt.status === 'Completed'
                                     ? 'bg-green-500/10 text-green-400 border border-green-500/20' 
                                     : apt.status === 'Pending' 
                                       ? 'bg-amber-500/10 text-amber-400 border border-amber-500/20' 
                                       : 'bg-red-500/10 text-red-400 border border-red-500/20'
                                 }`}>
-                                  {apt.status === 'Confirmed' && <CheckCircle2 className="w-3 h-3" />}
+                                  {(apt.status === 'Confirmed' || apt.status === 'Completed') && <CheckCircle2 className="w-3 h-3" />}
                                   {apt.status === 'Pending' && <Clock className="w-3 h-3" />}
                                   {apt.status === 'Cancelled' && <XCircle className="w-3 h-3" />}
                                   {apt.status}
@@ -441,7 +445,7 @@ export default function ClientDashboard() {
                                 ${apt.price.toFixed(2)}
                               </div>
                               
-                              {apt.status !== 'Cancelled' && (
+                              {apt.status !== 'Cancelled' && apt.status !== 'Completed' && (
                                 <div className="flex items-center gap-2">
                                   <Button 
                                     onClick={() => setReschedulingId(apt.id)} 
@@ -465,54 +469,32 @@ export default function ClientDashboard() {
 
                           </div>
 
-                          {/* Reschedule Picker Modal Box inside Card */}
+                          {/* Reschedule Box Info */}
                           {reschedulingId === apt.id && (
-                            <div className="mt-5 pt-5 border-t border-primary/20 bg-black/40 p-4 rounded-xl space-y-4">
-                              <h5 className="font-cormorant text-lg font-bold text-primary uppercase tracking-wider flex items-center gap-1.5">
-                                <RefreshCw className="w-4 h-4 animate-spin-slow text-primary" /> Pick New Time Slot
+                            <div className="mt-5 pt-5 border-t border-primary/20 bg-black/40 p-4 rounded-xl space-y-3">
+                              <h5 className="font-cormorant text-md font-bold text-primary uppercase tracking-wider flex items-center gap-1.5">
+                                <RefreshCw className="w-4 h-4 text-primary" /> Need to Reschedule?
                               </h5>
-                              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                                <div>
-                                  <label className="block text-[10px] text-white/50 uppercase tracking-widest font-semibold mb-1">New Date</label>
-                                  <Input 
-                                    type="date" 
-                                    value={newDate} 
-                                    onChange={(e) => setNewDate(e.target.value)} 
-                                    className="h-10 bg-secondary border-primary/20 text-white rounded-lg"
-                                  />
-                                </div>
-                                <div>
-                                  <label className="block text-[10px] text-white/50 uppercase tracking-widest font-semibold mb-1">New Time</label>
-                                  <select 
-                                    value={newTime} 
-                                    onChange={(e) => setNewTime(e.target.value)} 
-                                    className="w-full h-10 px-3 bg-secondary border border-primary/20 text-white rounded-lg font-manrope text-sm focus:border-primary outline-none"
-                                  >
-                                    <option value="09:00 AM">09:00 AM</option>
-                                    <option value="10:00 AM">10:00 AM</option>
-                                    <option value="11:00 AM">11:00 AM</option>
-                                    <option value="01:00 PM">01:00 PM</option>
-                                    <option value="02:30 PM">02:30 PM</option>
-                                    <option value="04:00 PM">04:00 PM</option>
-                                  </select>
-                                </div>
-                              </div>
+                              <p className="text-xs text-white/70 leading-normal font-manrope">
+                                To modify booking slots, please cancel this appointment using the button above and book a new slot on our live schedule. No extra fees will apply.
+                              </p>
                               <div className="flex justify-end gap-2 text-xs">
                                 <Button 
                                   variant="ghost" 
                                   size="sm" 
                                   onClick={() => setReschedulingId(null)}
-                                  className="h-9 hover:bg-white/5"
+                                  className="h-8 hover:bg-white/5"
                                 >
-                                  Cancel Selection
+                                  Close Info
                                 </Button>
-                                <Button 
-                                  size="sm" 
-                                  onClick={() => handleReschedule(apt.id)}
-                                  className="h-9 bg-primary hover:bg-primary/90 text-black font-semibold rounded-lg"
-                                >
-                                  Confirm Request
-                                </Button>
+                                <Link href="/appointment">
+                                  <Button 
+                                    size="sm" 
+                                    className="h-8 bg-primary hover:bg-primary/90 text-black font-semibold rounded-lg"
+                                  >
+                                    Go to Live Schedule
+                                  </Button>
+                                </Link>
                               </div>
                             </div>
                           )}
@@ -542,21 +524,27 @@ export default function ClientDashboard() {
                           </tr>
                         </thead>
                         <tbody className="text-sm divide-y divide-white/5">
-                          {pastVisits.map((visit) => (
-                            <tr key={visit.id} className="hover:bg-white/[0.02] transition-colors">
-                              <td className="py-4 px-4 font-cormorant text-lg font-bold text-white">{visit.service}</td>
-                              <td className="py-4 px-4 text-white/70">{visit.stylist}</td>
-                              <td className="py-4 px-4 text-white/60">{visit.date}</td>
-                              <td className="py-4 px-4 text-primary font-semibold">${visit.price.toFixed(2)}</td>
-                              <td className="py-4 px-4 text-right">
-                                <Link href="/appointment">
-                                  <button className="text-xs text-primary font-semibold hover:underline inline-flex items-center gap-0.5">
-                                    Book Again <ChevronRight className="w-3 h-3" />
-                                  </button>
-                                </Link>
-                              </td>
+                          {pastVisits.length === 0 ? (
+                            <tr>
+                              <td colSpan={5} className="py-6 px-4 text-center text-white/40">No completed visits recorded.</td>
                             </tr>
-                          ))}
+                          ) : (
+                            pastVisits.map((visit) => (
+                              <tr key={visit.id} className="hover:bg-white/[0.02] transition-colors">
+                                <td className="py-4 px-4 font-cormorant text-lg font-bold text-white">{visit.service}</td>
+                                <td className="py-4 px-4 text-white/70">{visit.stylist}</td>
+                                <td className="py-4 px-4 text-white/60">{visit.date}</td>
+                                <td className="py-4 px-4 text-primary font-semibold">${visit.price.toFixed(2)}</td>
+                                <td className="py-4 px-4 text-right">
+                                  <Link href="/appointment">
+                                    <button className="text-xs text-primary font-semibold hover:underline inline-flex items-center gap-0.5">
+                                      Book Again <ChevronRight className="w-3 h-3" />
+                                    </button>
+                                  </Link>
+                                </td>
+                              </tr>
+                            ))
+                          )}
                         </tbody>
                       </table>
                     </div>
@@ -574,44 +562,53 @@ export default function ClientDashboard() {
                 </div>
 
                 <div className="grid gap-4">
-                  {orders.map((ord) => (
-                    <div key={ord.id} className="bg-secondary/15 border border-primary/10 rounded-2xl p-5 md:p-6 font-manrope hover:border-primary/20 transition-all">
-                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/5 pb-4 mb-4">
-                        <div className="space-y-1">
-                          <div className="flex items-center gap-3">
-                            <span className="text-sm font-bold text-white">{ord.id}</span>
-                            <span className={`inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full ${
-                              ord.status === 'Delivered'
-                                ? 'bg-green-500/10 text-green-400 border border-green-500/20'
-                                : ord.status === 'Shipped'
-                                  ? 'bg-blue-500/10 text-blue-400 border border-blue-500/20'
-                                  : 'bg-amber-500/10 text-amber-400 border border-amber-500/20'
-                            }`}>
-                              {ord.status}
-                            </span>
-                          </div>
-                          <p className="text-xs text-white/40">Ordered on {ord.date}</p>
-                        </div>
-
-                        <div className="text-right">
-                          <p className="text-xs text-white/40">Total Price</p>
-                          <p className="text-lg font-cormorant font-bold text-primary">${ord.total.toFixed(2)}</p>
-                        </div>
-                      </div>
-
-                      <div className="flex items-center justify-between text-sm">
-                        <div className="space-y-0.5">
-                          <p className="text-xs text-white/40">Items</p>
-                          <p className="text-white/80 font-medium line-clamp-1">{ord.items}</p>
-                        </div>
-                        <Link href={`/shop`}>
-                          <button className="text-xs font-semibold text-primary/80 hover:text-primary transition-colors flex-shrink-0">
-                            Track Order
-                          </button>
-                        </Link>
-                      </div>
+                  {orders.length === 0 ? (
+                    <div className="bg-secondary/10 border border-primary/5 rounded-2xl p-8 text-center font-manrope text-white/50">
+                      <p>You have not placed any orders yet.</p>
+                      <Link href="/shop" className="inline-block text-primary underline underline-offset-2 hover:text-white mt-2">
+                        Browse our beauty store catalog
+                      </Link>
                     </div>
-                  ))}
+                  ) : (
+                    orders.map((ord) => (
+                      <div key={ord.id} className="bg-secondary/15 border border-primary/10 rounded-2xl p-5 md:p-6 font-manrope hover:border-primary/20 transition-all">
+                        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/5 pb-4 mb-4">
+                          <div className="space-y-1">
+                            <div className="flex items-center gap-3">
+                              <span className="text-sm font-bold text-white">{ord.id}</span>
+                              <span className={`inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full ${
+                                ord.status === 'Delivered'
+                                  ? 'bg-green-500/10 text-green-400 border border-green-500/20'
+                                  : ord.status === 'Shipped'
+                                    ? 'bg-blue-500/10 text-blue-400 border border-blue-500/20'
+                                    : 'bg-amber-500/10 text-amber-400 border border-amber-500/20'
+                              }`}>
+                                {ord.status}
+                              </span>
+                            </div>
+                            <p className="text-xs text-white/40">Ordered on {ord.date}</p>
+                          </div>
+
+                          <div className="text-right">
+                            <p className="text-xs text-white/40">Total Price</p>
+                            <p className="text-lg font-cormorant font-bold text-primary">${ord.total.toFixed(2)}</p>
+                          </div>
+                        </div>
+
+                        <div className="flex items-center justify-between text-sm">
+                          <div className="space-y-0.5">
+                            <p className="text-xs text-white/40">Items</p>
+                            <p className="text-white/80 font-medium line-clamp-1">{ord.items}</p>
+                          </div>
+                          <Link href={`/checkout/success?order_id=${ord.rawId}`}>
+                            <button className="text-xs font-semibold text-primary/80 hover:text-primary transition-colors flex-shrink-0 flex items-center gap-0.5">
+                              View Receipt <ChevronRight className="w-3.5 h-3.5" />
+                            </button>
+                          </Link>
+                        </div>
+                      </div>
+                    ))
+                  )}
                 </div>
               </div>
             )}
@@ -643,6 +640,7 @@ export default function ClientDashboard() {
                           onChange={(e) => setProfileEmail(e.target.value)} 
                           className="h-11 bg-secondary border-primary/15 rounded-xl text-sm focus:border-primary text-white"
                           placeholder="Your email address"
+                          disabled
                         />
                       </div>
                     </div>

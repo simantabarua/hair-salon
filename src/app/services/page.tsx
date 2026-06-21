@@ -6,9 +6,10 @@ import Link from 'next/link';
 import PageHeading from '@/components/layout/PageHeading';
 import { buttonVariants } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import { Check } from 'lucide-react';
+import { Check, Scissors } from 'lucide-react';
 import { getServices } from '@/lib/db';
-import { Service } from '@/data/salonData';
+import { apiClient } from '@/lib/apiClient';
+import { ServiceDTO } from '@/types/api';
 
 const packages = [
   {
@@ -46,16 +47,30 @@ const packages = [
 ];
 
 export default function ServicesPage() {
-  const [servicesList, setServicesList] = useState<Service[]>(() => {
-    if (typeof window === 'undefined') return [];
-    return getServices();
-  });
+  const [servicesList, setServicesList] = useState<ServiceDTO[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Live sync handler
-    const sync = () => setServicesList(getServices());
-    window.addEventListener('storage', sync);
-    return () => window.removeEventListener('storage', sync);
+    let active = true;
+    apiClient.get<ServiceDTO[]>('/api/v1/services')
+      .then((data) => {
+        if (active) {
+          setServicesList(data);
+          setLoading(false);
+        }
+      })
+      .catch((err) => {
+        console.error('Failed to fetch services:', err);
+        if (active) {
+          // Fallback to offline services
+          setServicesList(getServices() as any);
+          setLoading(false);
+        }
+      });
+
+    return () => {
+      active = false;
+    };
   }, []);
 
   return (
@@ -76,41 +91,51 @@ export default function ServicesPage() {
           </p>
         </div>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {servicesList.map((service) => (
-            <div
-              key={service.id}
-              className="group relative flex flex-col items-center text-center p-8 md:p-10 rounded-2xl bg-secondary/40 border border-primary/20 hover:border-primary hover:bg-secondary/70 transition-all duration-300 shadow-xl"
-            >
-              <div className="relative w-20 h-20 mb-6 flex items-center justify-center bg-primary/5 rounded-2xl group-hover:bg-primary/10 transition-colors border border-primary/10">
-                <Image
-                  className="object-contain p-2"
-                  src={service.icon}
-                  alt={service.name}
-                  fill
-                  sizes="80px"
-                />
-              </div>
-              <h4 className="font-cormorant text-2xl md:text-3xl font-semibold text-white mb-3 group-hover:text-primary transition-colors">
-                {service.name}
-              </h4>
-              <p className="text-white/60 text-sm font-manrope leading-relaxed mb-6">
-                {service.description}
-              </p>
-              <div className="mt-auto w-full">
-                <Link
-                  href="/appointment"
-                  className={cn(
-                    buttonVariants({ variant: "default" }),
-                    "w-full bg-primary text-black hover:bg-primary/80 font-semibold py-5 rounded-xl transition-all duration-300 h-auto text-center"
-                  )}
-                >
-                  Book now
-                </Link>
-              </div>
+        {loading ? (
+          <div className="flex flex-col items-center justify-center py-20 w-full space-y-4">
+            <div className="relative w-16 h-16 flex items-center justify-center">
+              <div className="absolute inset-0 rounded-full border-2 border-t-primary border-r-primary border-b-transparent border-l-transparent animate-spin" />
+              <Scissors className="w-6 h-6 text-primary animate-pulse" />
             </div>
-          ))}
-        </div>
+            <p className="text-white/50 text-sm font-manrope tracking-wider uppercase pl-1 animate-pulse">Loading Services...</p>
+          </div>
+        ) : (
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {servicesList.map((service) => (
+              <div
+                key={service.id}
+                className="group relative flex flex-col items-center text-center p-8 md:p-10 rounded-2xl bg-secondary/40 border border-primary/20 hover:border-primary hover:bg-secondary/70 transition-all duration-300 shadow-xl"
+              >
+                <div className="relative w-20 h-20 mb-6 flex items-center justify-center bg-primary/5 rounded-2xl group-hover:bg-primary/10 transition-colors border border-primary/10">
+                  <Image
+                    className="object-contain p-2"
+                    src={service.icon}
+                    alt={service.name}
+                    fill
+                    sizes="80px"
+                  />
+                </div>
+                <h4 className="font-cormorant text-2xl md:text-3xl font-semibold text-white mb-3 group-hover:text-primary transition-colors">
+                  {service.name}
+                </h4>
+                <p className="text-white/60 text-sm font-manrope leading-relaxed mb-6">
+                  {service.description}
+                </p>
+                <div className="mt-auto w-full">
+                  <Link
+                    href="/appointment"
+                    className={cn(
+                      buttonVariants({ variant: "default" }),
+                      "w-full bg-primary text-black hover:bg-primary/80 font-semibold py-5 rounded-xl transition-all duration-300 h-auto text-center"
+                    )}
+                  >
+                    Book now
+                  </Link>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
       </section>
 
       {/* Pricing Packages */}

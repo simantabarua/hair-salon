@@ -17,7 +17,8 @@ import {
   Filter 
 } from 'lucide-react';
 import PageHeading from '@/components/layout/PageHeading';
-import { blogPosts } from '@/data/blogData';
+import { blogPosts, BlogPost } from '@/data/blogData';
+import { apiClient } from '@/lib/apiClient';
 
 const ITEMS_PER_PAGE = 6;
 
@@ -31,6 +32,42 @@ function BlogListContent() {
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [currentPage, setCurrentPage] = useState(1);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [allPosts, setAllPosts] = useState<BlogPost[]>(blogPosts);
+
+  useEffect(() => {
+    const fetchBlogs = async () => {
+      try {
+        const dbBlogs = await apiClient.get<any[]>('/api/v1/blogs');
+        if (dbBlogs && Array.isArray(dbBlogs)) {
+          const mappedBlogs: BlogPost[] = dbBlogs.map(b => ({
+            slug: b.id || b._id,
+            title: b.title,
+            excerpt: b.excerpt,
+            content: typeof b.content === 'string' ? b.content.split('\n\n') : b.content || [],
+            quote: b.quote || '',
+            author: b.author || 'Staff',
+            date: new Date(b.createdAt).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }),
+            category: b.category || 'Organic',
+            tags: b.tags || [b.category || 'Organic'],
+            image: b.image || '/img/Blog Section/Image.png',
+            readTime: b.readTime || '5 min read',
+            comments: b.comments || []
+          }));
+
+          setAllPosts(prev => {
+            const combined = [...mappedBlogs, ...blogPosts];
+            const unique = combined.filter((post, index, self) => 
+              self.findIndex(p => p.slug === post.slug) === index
+            );
+            return unique;
+          });
+        }
+      } catch (err) {
+        console.error('Failed to load dynamic blog posts:', err);
+      }
+    };
+    fetchBlogs();
+  }, []);
 
   useEffect(() => {
     /* eslint-disable react-hooks/set-state-in-effect */
@@ -51,20 +88,27 @@ function BlogListContent() {
     /* eslint-enable react-hooks/set-state-in-effect */
   }, [searchParams]);
 
-  // Categories & Tags Extracted
-  const categories = ['Face', 'Equipment', 'Organic'];
-  const allTags = ['Cream', 'Face', 'Blonde', 'Make up', 'Organic', 'Gloss', 'Trends', 'Fashion'];
+  // Categories & Tags Extracted Dynamically
+  const categories = useMemo(() => {
+    return Array.from(new Set(allPosts.map(p => p.category)));
+  }, [allPosts]);
+
+  const allTags = useMemo(() => {
+    const tagsSet = new Set<string>();
+    allPosts.forEach(p => p.tags?.forEach(t => tagsSet.add(t)));
+    return Array.from(tagsSet);
+  }, [allPosts]);
 
   // Latest 3 posts for the sidebar
   const recentPosts = useMemo(() => {
-    return [...blogPosts]
+    return [...allPosts]
       .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
       .slice(0, 3);
-  }, []);
+  }, [allPosts]);
 
   // Filter & Search Logic
   const filteredPosts = useMemo(() => {
-    let result = blogPosts;
+    let result = allPosts;
 
     if (selectedCategory) {
       result = result.filter(post => post.category === selectedCategory);
@@ -84,7 +128,7 @@ function BlogListContent() {
     }
 
     return result;
-  }, [selectedCategory, selectedTag, searchQuery]);
+  }, [allPosts, selectedCategory, selectedTag, searchQuery]);
 
   // Reset pagination when filters change
   const totalPages = Math.ceil(filteredPosts.length / ITEMS_PER_PAGE) || 1;

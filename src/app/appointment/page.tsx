@@ -1,53 +1,33 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Clock, User, Star, ShieldCheck, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Clock, User, Star, ShieldCheck, ChevronLeft, ChevronRight, Scissors } from 'lucide-react';
 import Image from 'next/image';
 import PageHeading from '@/components/layout/PageHeading';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { toast } from 'sonner';
-import { getServices, getTeamMembers, saveAppointment, Appointment } from '@/lib/db';
-import { Service, TeamMember } from '@/data/salonData';
-
-const TIME_SLOTS = [
-  '08:30 AM - 09:30 AM',
-  '09:30 AM - 10:30 AM',
-  '10:30 AM - 11:30 AM',
-  '11:30 AM - 12:30 PM',
-  '01:30 PM - 02:30 PM',
-  '02:30 PM - 03:30 PM',
-  '03:30 PM - 04:30 PM',
-  '04:30 PM - 05:30 PM'
-];
+import { useSession } from 'next-auth/react';
+import { apiClient } from '@/lib/apiClient';
+import { ServiceDTO, UserDTO, AppointmentDTO } from '@/types/api';
+import { getServices, getTeamMembers } from '@/lib/db';
 
 export default function AppointmentPage() {
-  const [servicesList, setServicesList] = useState<Service[]>(() => {
-    if (typeof window === 'undefined') return [];
-    return getServices();
-  });
-  const [stylistsList, setStylistsList] = useState<TeamMember[]>(() => {
-    if (typeof window === 'undefined') return [];
-    return getTeamMembers();
-  });
+  const { data: session } = useSession();
+  const [servicesList, setServicesList] = useState<ServiceDTO[]>([]);
+  const [stylistsList, setStylistsList] = useState<UserDTO[]>([]);
+  const [availableSlots, setAvailableSlots] = useState<Array<{ time: string; availableStylists: string[] }>>([]);
+  const [loading, setLoading] = useState(true);
   const [mounted, setMounted] = useState(false);
 
   // Calendar states
-  const [currentDate, setCurrentDate] = useState(new Date(2026, 8, 1)); // September 2026
-  const [selectedDay, setSelectedDay] = useState<number | null>(7); // Default to Sept 7th
+  const [currentDate, setCurrentDate] = useState(new Date());
+  const [selectedDay, setSelectedDay] = useState<number | null>(new Date().getDate());
   
   // Selection states
-  const [selectedService, setSelectedService] = useState(() => {
-    if (typeof window === 'undefined') return '';
-    const svcs = getServices();
-    return svcs.length > 0 ? svcs[0].id : '';
-  });
-  const [selectedTimeSlot, setSelectedTimeSlot] = useState(TIME_SLOTS[0]);
-  const [selectedStylist, setSelectedStylist] = useState(() => {
-    if (typeof window === 'undefined') return '';
-    const styls = getTeamMembers();
-    return styls.length > 0 ? styls[0].id : '';
-  });
+  const [selectedService, setSelectedService] = useState('');
+  const [selectedTimeSlot, setSelectedTimeSlot] = useState('');
+  const [selectedStylist, setSelectedStylist] = useState('');
   
   // Form input states
   const [formData, setFormData] = useState({
@@ -60,21 +40,109 @@ export default function AppointmentPage() {
   // Success dialog state
   const [isBooked, setIsBooked] = useState(false);
 
+  // Auto-populate user details from session
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setMounted(true);
-    }, 0);
+    if (session?.user) {
+      setFormData((prev) => ({
+        ...prev,
+        name: session.user.name ?? '',
+        email: session.user.email ?? ''
+      }));
+    }
+  }, [session]);
 
-    const sync = () => {
-      setServicesList(getServices());
-      setStylistsList(getTeamMembers());
+  // Load initial services & stylists
+  useEffect(() => {
+    const loadInitialData = async () => {
+      try {
+        const [servicesData, stylistsData] = await Promise.all([
+          apiClient.get<ServiceDTO[]>('/api/v1/services'),
+          apiClient.get<UserDTO[]>('/api/v1/users?role=staff')
+        ]);
+        setServicesList(servicesData);
+        setStylistsList(stylistsData);
+        if (servicesData.length > 0) {
+          setSelectedService(servicesData[0].id);
+        }
+        if (stylistsData.length > 0) {
+          setSelectedStylist(stylistsData[0].id);
+        }
+      } catch (err) {
+        console.error('Failed to load booking data:', err);
+        // Fallback to offline defaults
+        const localServices = getServices() as any;
+        const localTeam = getTeamMembers() as any;
+        setServicesList(localServices);
+        setStylistsList(localTeam);
+        if (localServices.length > 0) {
+          setSelectedService(localServices[0].id);
+        }
+        if (localTeam.length > 0) {
+          setSelectedStylist(localTeam[0].id);
+        }
+      } finally {
+        setLoading(false);
+        setMounted(true);
+      }
     };
-    window.addEventListener('storage', sync);
-    return () => {
-      clearTimeout(timer);
-      window.removeEventListener('storage', sync);
-    };
+    loadInitialData();
   }, []);
+
+  const dateStr = selectedDay 
+    ? `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${String(selectedDay).padStart(2, '0')}`
+    : '';
+
+  // Load slots dynamically
+  useEffect(() => {
+    if (!dateStr) return;
+
+    let active = true;
+    let url = `/api/v1/appointments/slots?date=${dateStr}`;
+    if (selectedStylist) {
+      url += `&stylistId=${selectedStylist}`;
+    }
+
+    apiClient.get<Array<{ time: string; availableStylists: string[] }>>(url)
+      .then((data) => {
+        if (!active) return;
+        setAvailableSlots(data);
+        
+        // Find if there is any available slots
+        const validSlots = data.filter(s => s.availableStylists.length > 0);
+        if (validSlots.length > 0) {
+          const stillValid = validSlots.some(s => s.time === selectedTimeSlot);
+          if (!stillValid) {
+            setSelectedTimeSlot(validSlots[0].time);
+          }
+        } else {
+          setSelectedTimeSlot('');
+        }
+      })
+      .catch((err) => {
+        console.error('Failed to fetch available slots:', err);
+        if (!active) return;
+        // Fallback to standard slots
+        const dummySlots = [
+          "09:00 AM",
+          "10:00 AM",
+          "11:00 AM",
+          "12:00 PM",
+          "01:00 PM",
+          "02:00 PM",
+          "03:00 PM",
+          "04:00 PM",
+          "05:00 PM",
+        ].map(time => ({ time, availableStylists: [selectedStylist] }));
+        setAvailableSlots(dummySlots);
+        if (dummySlots.length > 0 && !dummySlots.some(s => s.time === selectedTimeSlot)) {
+          setSelectedTimeSlot(dummySlots[0].time);
+        }
+      });
+
+    return () => {
+      active = false;
+    };
+  }, [dateStr, selectedStylist]);
 
   // Month navigation helpers
   const monthName = currentDate.toLocaleString('default', { month: 'long' });
@@ -108,8 +176,12 @@ export default function AppointmentPage() {
   const selectedServiceDetails = servicesList.find(s => s.id === selectedService);
   const selectedStylistDetails = stylistsList.find(s => s.id === selectedStylist);
 
-  const handleBookNow = (e: React.FormEvent) => {
+  const handleBookNow = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!session) {
+      toast.error('Please log in to book an appointment.');
+      return;
+    }
     if (!formData.name || !formData.email || !formData.phone) {
       toast.error('Please fill out all required fields marked with *');
       return;
@@ -118,24 +190,27 @@ export default function AppointmentPage() {
       toast.error('Please select a date from the calendar');
       return;
     }
+    if (!selectedTimeSlot) {
+      toast.error('Please select an available time slot');
+      return;
+    }
 
-    const apptId = `APT-${Math.floor(1000 + Math.random() * 9000)}`;
-    const dateStr = `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${String(selectedDay).padStart(2, '0')}`;
-    
-    const newAppointment: Appointment = {
-      id: apptId,
-      userEmail: formData.email,
-      service: selectedServiceDetails?.name || 'Hair Cut',
-      stylist: selectedStylistDetails?.name || 'Alexander Cole',
-      date: dateStr,
-      time: selectedTimeSlot,
-      price: selectedServiceDetails?.price || 40,
-      status: 'Confirmed',
-    };
+    try {
+      const payload = {
+        stylistId: selectedStylist,
+        serviceIds: [selectedService],
+        date: dateStr,
+        time: selectedTimeSlot,
+        notes: formData.notes
+      };
 
-    saveAppointment(newAppointment);
-    setIsBooked(true);
-    toast.success('Appointment booked successfully!');
+      await apiClient.post<AppointmentDTO>('/api/v1/appointments', payload);
+      setIsBooked(true);
+      toast.success('Appointment booked successfully!');
+    } catch (err: any) {
+      console.error('Booking failed:', err);
+      toast.error(err.message || 'Failed to book appointment. Please try again.');
+    }
   };
 
   if (!mounted) {
@@ -234,7 +309,10 @@ export default function AppointmentPage() {
                   }
 
                   const isSelected = selectedDay === day;
-                  const isPast = day < 7 && currentDate.getMonth() === 8 && currentDate.getFullYear() === 2026; // Sample past check
+                  const checkDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), day);
+                  const today = new Date();
+                  today.setHours(0, 0, 0, 0);
+                  const isPast = checkDate < today;
                   
                   return (
                     <button
@@ -262,22 +340,32 @@ export default function AppointmentPage() {
                 <Clock className="w-5 h-5 text-primary" /> Select Available Time Slot
               </h4>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                {TIME_SLOTS.map((slot) => {
-                  const isSelected = selectedTimeSlot === slot;
-                  return (
-                    <button
-                      key={slot}
-                      onClick={() => setSelectedTimeSlot(slot)}
-                      className={`p-3 rounded-xl border text-xs font-semibold font-manrope transition-all text-center ${
-                        isSelected
-                          ? 'bg-primary text-secondary border-primary font-bold shadow-md'
-                          : 'bg-secondary/40 border-primary/10 hover:border-primary/30 text-white/70'
-                      }`}
-                    >
-                      {slot}
-                    </button>
-                  );
-                })}
+                {availableSlots.length > 0 ? (
+                  availableSlots.map((slot) => {
+                    const isSelected = selectedTimeSlot === slot.time;
+                    const isAvailable = slot.availableStylists.length > 0;
+                    return (
+                      <button
+                        key={slot.time}
+                        disabled={!isAvailable}
+                        onClick={() => setSelectedTimeSlot(slot.time)}
+                        className={`p-3 rounded-xl border text-xs font-semibold font-manrope transition-all text-center ${
+                          !isAvailable
+                            ? 'bg-secondary/10 border-primary/5 text-white/20 cursor-not-allowed'
+                            : isSelected
+                            ? 'bg-primary text-secondary border-primary font-bold shadow-md'
+                            : 'bg-secondary/40 border-primary/10 hover:border-primary/30 text-white/70'
+                        }`}
+                      >
+                        {slot.time}
+                      </button>
+                    );
+                  })
+                ) : (
+                  <p className="col-span-4 text-sm text-white/40 italic text-center py-4">
+                    No time slots available for the selected date/stylist.
+                  </p>
+                )}
               </div>
             </div>
 
@@ -444,7 +532,7 @@ export default function AppointmentPage() {
               <div className="text-white font-medium space-y-1.5 pt-1">
                 <div>• <span className="text-primary">Service:</span> {selectedServiceDetails?.name}</div>
                 <div>• <span className="text-primary">Stylist:</span> {selectedStylistDetails?.name}</div>
-                <div>• <span className="text-primary">Time:</span> {selectedDay} Sept at {selectedTimeSlot}</div>
+                <div>• <span className="text-primary">Time:</span> {monthName} {selectedDay} at {selectedTimeSlot}</div>
                 <div>• <span className="text-primary">Customer:</span> {formData.name}</div>
               </div>
             </div>

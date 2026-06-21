@@ -10,7 +10,7 @@ import PageHeading from '@/components/layout/PageHeading';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { toast } from 'sonner';
-import { saveOrder, Order } from '@/lib/db';
+import { apiClient } from '@/lib/apiClient';
 import { 
   ArrowLeft, 
   Lock, 
@@ -159,7 +159,7 @@ export default function CheckoutPaymentPage() {
     setCardCvv(value);
   };
 
-  const handlePayNow = (e: React.FormEvent) => {
+  const handlePayNow = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (activeTab === 'card') {
@@ -184,38 +184,31 @@ export default function CheckoutPaymentPage() {
     setIsLoading(true);
     toast.info('Connecting to secure payment gateway...');
 
-    setTimeout(() => {
-      setIsLoading(false);
-      // Generate Order number
-      const num = 'AURELIA-' + Math.floor(100000 + Math.random() * 900000);
-      setOrderNumber(num);
-
-      // Save order to local database
-      const itemsSummary = items
-        .map(item => `${item.quantity}x ${item.name}`)
-        .join(', ');
-
-      const newOrder: Order = {
-        id: num,
-        userEmail: shipping.email,
-        customerName: `${shipping.firstName} ${shipping.lastName}`,
-        date: new Date().toISOString().split('T')[0],
-        status: 'Processing',
-        items: itemsSummary,
-        total: pricing.totalCost,
+    try {
+      if (!checkoutData) {
+        throw new Error('Checkout session not initialized.');
+      }
+      const { shipping } = checkoutData;
+      const body = {
+        items: items.map(item => ({
+          productId: item.id,
+          quantity: item.quantity
+        })),
+        customerName: `${shipping.firstName} ${shipping.lastName}`
       };
 
-      saveOrder(newOrder);
-
-      setShowSuccessOverlay(true);
-      toast.success('Payment authorized successfully!');
+      const response = await apiClient.post<{ url: string }>('/api/v1/checkout/session', body);
       
-      // Clear redux cart
-      dispatch(clearCart());
-      
-      // Clear storage
-      localStorage.removeItem('checkout_data');
-    }, 2500);
+      if (response && response.url) {
+        toast.success('Redirecting to secure Stripe payment page...');
+        window.location.href = response.url;
+      } else {
+        throw new Error('Failed to retrieve checkout URL.');
+      }
+    } catch (error: any) {
+      toast.error(error.message || 'An error occurred during payment initialization.');
+      setIsLoading(false);
+    }
   };
 
   const cardBrand = getCardBrand(cardNumber);

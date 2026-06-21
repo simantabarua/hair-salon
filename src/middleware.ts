@@ -27,6 +27,6 @@ export const config = {
   matcher: [
     "/admin/:path*",
     "/dashboard/:path*",
-    "/checkout/payment", // protect payment flow
+    "/checkout/:path*", // protect checkout flow
   ],
 };

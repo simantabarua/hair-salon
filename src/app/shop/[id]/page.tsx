@@ -5,43 +5,76 @@ import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useDispatch } from 'react-redux';
+import { useSession } from 'next-auth/react';
 import { Star, Minus, Plus, ShoppingBag, ArrowLeft } from 'lucide-react';
 import { addToCart } from '@/store/slices/cartSlice';
-import { Product } from '@/data/salonData';
 import { getProducts } from '@/lib/db';
 import PageHeading from '@/components/layout/PageHeading';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { toast } from 'sonner';
+import { apiClient } from '@/lib/apiClient';
+import { ProductDTO, ReviewDTO } from '@/types/api';
 
 export default function ProductDetailsPage() {
   const params = useParams();
   const dispatch = useDispatch();
+  const { data: session, status } = useSession();
 
   const id = params?.id as string;
 
-  const [productList, setProductList] = useState<Product[]>(() => {
-    if (typeof window === 'undefined') return [];
-    return getProducts();
-  });
+  const [product, setProduct] = useState<ProductDTO | null>(null);
+  const [productList, setProductList] = useState<ProductDTO[]>([]);
+  const [loading, setLoading] = useState(true);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setMounted(true);
-    }, 0);
-    const sync = () => setProductList(getProducts());
-    window.addEventListener('storage', sync);
-    return () => {
-      clearTimeout(timer);
-      window.removeEventListener('storage', sync);
-    };
+    setMounted(true);
   }, []);
 
-  // Find the current product
-  const product = useMemo(() => {
-    return productList.find((p) => p.id === id);
-  }, [productList, id]);
+  useEffect(() => {
+    if (!id) return;
+    const fetchProductDetails = async () => {
+      setLoading(true);
+      try {
+        const prodData = await apiClient.get<ProductDTO>(`/api/v1/products/${id}`);
+        setProduct(prodData);
+      } catch (err) {
+        console.error('Failed to fetch product details:', err);
+        // Fallback
+        const fallbackList = getProducts() as any[];
+        const found = fallbackList.find((p) => p.id === id);
+        setProduct(found || null);
+      }
+
+      try {
+        const listData = await apiClient.get<ProductDTO[]>('/api/v1/products');
+        setProductList(listData);
+      } catch (err) {
+        console.error('Failed to fetch related products:', err);
+        setProductList(getProducts() as any[]);
+      }
+
+      try {
+        const fetchedReviews = await apiClient.get<ReviewDTO[]>(`/api/v1/reviews?targetType=product&targetId=${id}`);
+        if (fetchedReviews && fetchedReviews.length > 0) {
+          const mappedReviews = fetchedReviews.map((rev) => ({
+            name: rev.userName,
+            date: new Date(rev.createdAt).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' }),
+            rating: rev.rating,
+            image: '/img/Team Members Images/team-4.png',
+            text: rev.comment,
+          }));
+          setReviewsList(mappedReviews);
+        }
+      } catch (err) {
+        console.error('Failed to fetch reviews:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchProductDetails();
+  }, [id]);
 
   // Gallery main image state
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
@@ -91,10 +124,22 @@ export default function ProductDetailsPage() {
     },
   ]);
 
-  if (!mounted) {
+  // Auto-populate name and email if session is available
+  useEffect(() => {
+    if (session?.user) {
+      setReviewName(session.user.name || '');
+      setReviewEmail(session.user.email || '');
+    }
+  }, [session]);
+
+  if (!mounted || loading) {
     return (
       <div className="min-h-[60vh] flex flex-col justify-center items-center text-white space-y-4 px-4">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+        <div className="relative w-16 h-16">
+          <div className="absolute inset-0 rounded-full border-2 border-primary/20"></div>
+          <div className="absolute inset-0 rounded-full border-2 border-t-primary animate-spin"></div>
+        </div>
+        <p className="text-white/60 font-manrope text-sm animate-pulse">Loading product details...</p>
       </div>
     );
   }
@@ -138,24 +183,50 @@ export default function ProductDetailsPage() {
     toast.success(`Successfully added ${quantity} x ${product.name} to your cart!`);
   };
 
-  const handleAddReview = (e: React.FormEvent) => {
+  const handleAddReview = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!reviewName || !reviewEmail || !reviewMessage) {
-      toast.error('Please fill out all fields.');
+    if (status !== 'authenticated') {
+      toast.error('You must be logged in to leave a review.');
       return;
     }
-    const newReview = {
-      name: reviewName,
-      date: 'Just now',
-      rating: ratingInput,
-      image: '/img/Team Members Images/team-1.png',
-      text: reviewMessage,
-    };
-    setReviewsList([newReview, ...reviewsList]);
-    setReviewName('');
-    setReviewEmail('');
-    setReviewMessage('');
-    toast.success('Thank you for your review!');
+    if (!reviewMessage.trim()) {
+      toast.error('Please enter a review message.');
+      return;
+    }
+
+    try {
+      await apiClient.post('/api/v1/reviews', {
+        rating: ratingInput,
+        comment: reviewMessage,
+        targetType: 'product',
+        targetId: product.id,
+      });
+
+      const newReview = {
+        name: session?.user?.name || 'You',
+        date: 'Just now',
+        rating: ratingInput,
+        image: '/img/Team Members Images/team-1.png',
+        text: reviewMessage,
+      };
+
+      // Check if we are currently displaying only mock reviews (e.g. if reviewsList matches the initial mock reviews).
+      // If the first item in reviewsList is "John Doe" (our mock review), let's replace the whole array with our new review
+      // so we don't mix mock reviews with real reviews once a real review is posted.
+      setReviewsList((prev) => {
+        const isShowingMockOnly = prev.length === 3 && prev[0].name === 'John Doe' && prev[1].name === 'Sarah H.';
+        if (isShowingMockOnly) {
+          return [newReview];
+        }
+        return [newReview, ...prev];
+      });
+
+      setReviewMessage('');
+      toast.success('Thank you for your review!');
+    } catch (err: any) {
+      console.error('Failed to submit review:', err);
+      toast.error(err.message || 'Failed to submit review. Make sure you purchased this product.');
+    }
   };
 
   // Filter out the current product from related products
@@ -438,7 +509,8 @@ export default function ProductDetailsPage() {
                       required
                       value={reviewName}
                       onChange={(e) => setReviewName(e.target.value)}
-                      className="bg-secondary/50 border-primary/20 text-white placeholder:text-white/30 h-12 rounded-xl focus:border-primary focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0"
+                      disabled={status === 'authenticated'}
+                      className="bg-secondary/50 border-primary/20 text-white placeholder:text-white/30 h-12 rounded-xl focus:border-primary focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0 disabled:opacity-50 disabled:cursor-not-allowed"
                     />
                     <Input
                       type="email"
@@ -446,7 +518,8 @@ export default function ProductDetailsPage() {
                       required
                       value={reviewEmail}
                       onChange={(e) => setReviewEmail(e.target.value)}
-                      className="bg-secondary/50 border-primary/20 text-white placeholder:text-white/30 h-12 rounded-xl focus:border-primary focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0"
+                      disabled={status === 'authenticated'}
+                      className="bg-secondary/50 border-primary/20 text-white placeholder:text-white/30 h-12 rounded-xl focus:border-primary focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0 disabled:opacity-50 disabled:cursor-not-allowed"
                     />
                   </div>
 
@@ -477,9 +550,18 @@ export default function ProductDetailsPage() {
                     </span>
                   </label>
 
-                  <Button type="submit" className="btn-primary px-8 h-12 rounded-xl font-semibold shadow-lg">
-                    Submit Review
-                  </Button>
+                  {status !== 'authenticated' ? (
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-secondary/20 border border-primary/10 p-5 rounded-xl">
+                      <p className="text-white/60 text-sm">You must be logged in to leave a review.</p>
+                      <Link href="/login">
+                        <Button type="button" className="btn-primary text-xs px-6 py-2 h-10 rounded-xl">Log In</Button>
+                      </Link>
+                    </div>
+                  ) : (
+                    <Button type="submit" className="btn-primary px-8 h-12 rounded-xl font-semibold shadow-lg">
+                      Submit Review
+                    </Button>
+                  )}
                 </form>
               </div>
             </div>

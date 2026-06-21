@@ -1,11 +1,15 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import Link from 'next/link';
 import PageHeading from '@/components/layout/PageHeading';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Star, Check, MessageSquare } from 'lucide-react';
 import { toast } from 'sonner';
+import { useSession } from 'next-auth/react';
+import { apiClient } from '@/lib/apiClient';
+import { ServiceDTO, ReviewDTO } from '@/types/api';
 
 interface Review {
   id: string;
@@ -66,59 +70,140 @@ const SERVICES = [
 ];
 
 export default function ReviewsPage() {
+  const { data: session, status } = useSession();
   const [reviews, setReviews] = useState<Review[]>(INITIAL_REVIEWS);
+  const [servicesList, setServicesList] = useState<ServiceDTO[]>(() =>
+    SERVICES.map((s, idx) => ({
+      id: `mock-srv-${idx}`,
+      name: s,
+      price: 0,
+      duration: '',
+      image: '',
+      icon: '',
+      description: '',
+      createdAt: '',
+      updatedAt: '',
+    }))
+  );
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    service: '',
+    serviceId: '',
+    serviceName: '',
     rating: 5,
     text: '',
   });
   const [submitted, setSubmitted] = useState(false);
   const [isSelectOpen, setIsSelectOpen] = useState(false);
 
+  // Load services and their reviews dynamically
+  useEffect(() => {
+    const loadServicesAndReviews = async () => {
+      try {
+        const servicesData = await apiClient.get<ServiceDTO[]>('/api/v1/services');
+        setServicesList(servicesData);
+
+        // Fetch reviews for each service in parallel
+        const reviewsPromises = servicesData.map((service) =>
+          apiClient
+            .get<ReviewDTO[]>(`/api/v1/reviews?targetType=service&targetId=${service.id}`)
+            .catch(() => [] as ReviewDTO[])
+        );
+
+        const results = await Promise.all(reviewsPromises);
+        const allFetchedReviews = results.flat();
+
+        if (allFetchedReviews.length > 0) {
+          const mappedReviews = allFetchedReviews.map((rev) => {
+            const relatedService = servicesData.find((s) => s.id === rev.targetId);
+            return {
+              id: rev.id,
+              name: rev.userName,
+              rating: rev.rating,
+              service: relatedService ? relatedService.name : 'Salon Service',
+              date: new Date(rev.createdAt).toISOString().split('T')[0],
+              text: rev.comment,
+              verified: true,
+            };
+          });
+          setReviews(mappedReviews);
+        }
+      } catch (err) {
+        console.error('Failed to load services or reviews:', err);
+      }
+    };
+    loadServicesAndReviews();
+  }, []);
+
+  // Auto-populate name and email if session is available
+  useEffect(() => {
+    if (session?.user) {
+      setFormData((prev) => ({
+        ...prev,
+        name: session.user.name || '',
+        email: session.user.email || '',
+      }));
+    }
+  }, [session]);
+
   // Form handlers
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+  ) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleRatingChange = (rating: number) => {
-    setFormData(prev => ({ ...prev, rating }));
+    setFormData((prev) => ({ ...prev, rating }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.name || !formData.email || !formData.service || !formData.text) {
-      toast.error('Please fill out all required fields.');
+    if (status !== 'authenticated') {
+      toast.error('You must be logged in to leave a review.');
+      return;
+    }
+    if (!formData.serviceId || !formData.text.trim()) {
+      toast.error('Please select a service and write your review.');
       return;
     }
 
-    const newReview: Review = {
-      id: `rev-${Date.now()}`,
-      name: formData.name,
-      rating: formData.rating,
-      service: formData.service,
-      date: new Date().toISOString().split('T')[0],
-      text: formData.text,
-      verified: true,
-    };
-
-    setReviews(prev => [newReview, ...prev]);
-    setSubmitted(true);
-    toast.success('Thank you for sharing your experience!');
-
-    // Reset Form
-    setTimeout(() => {
-      setSubmitted(false);
-      setFormData({
-        name: '',
-        email: '',
-        service: '',
-        rating: 5,
-        text: '',
+    try {
+      setSubmitted(true);
+      await apiClient.post('/api/v1/reviews', {
+        rating: formData.rating,
+        comment: formData.text,
+        targetType: 'service',
+        targetId: formData.serviceId,
       });
-    }, 1500);
+
+      const newReview: Review = {
+        id: `rev-${Date.now()}`,
+        name: session?.user?.name || formData.name,
+        rating: formData.rating,
+        service: formData.serviceName,
+        date: new Date().toISOString().split('T')[0],
+        text: formData.text,
+        verified: true,
+      };
+
+      setReviews((prev) => [newReview, ...prev]);
+      toast.success('Thank you for sharing your experience!');
+
+      setFormData((prev) => ({
+        ...prev,
+        text: '',
+      }));
+    } catch (err: any) {
+      console.error('Failed to submit service review:', err);
+      toast.error(
+        err.message || 'Failed to submit review. Make sure you have completed appointments for this service.'
+      );
+    } finally {
+      setSubmitted(false);
+    }
   };
 
   // Helper to render stars
@@ -291,8 +376,9 @@ export default function ReviewsPage() {
                     value={formData.name}
                     onChange={handleInputChange}
                     required
+                    disabled={!!session}
                     placeholder="Enter your name"
-                    className="bg-secondary/45 text-white border-primary/35 placeholder:text-white/20 h-11 rounded-xl focus:border-primary focus-visible:ring-0"
+                    className="bg-secondary/45 text-white border-primary/35 placeholder:text-white/20 h-11 rounded-xl focus:border-primary focus-visible:ring-0 disabled:opacity-75"
                   />
                 </div>
 
@@ -307,8 +393,9 @@ export default function ReviewsPage() {
                     value={formData.email}
                     onChange={handleInputChange}
                     required
+                    disabled={!!session}
                     placeholder="Enter your email"
-                    className="bg-secondary/45 text-white border-primary/35 placeholder:text-white/20 h-11 rounded-xl focus:border-primary focus-visible:ring-0"
+                    className="bg-secondary/45 text-white border-primary/35 placeholder:text-white/20 h-11 rounded-xl focus:border-primary focus-visible:ring-0 disabled:opacity-75"
                   />
                 </div>
 
@@ -324,8 +411,8 @@ export default function ReviewsPage() {
                     onClick={() => setIsSelectOpen(!isSelectOpen)}
                     className="w-full bg-secondary/45 text-left text-white border border-primary/35 rounded-xl h-11 px-3 focus:border-primary focus:outline-none transition-colors text-xs cursor-pointer flex items-center justify-between"
                   >
-                    <span className={formData.service ? "text-white" : "text-white/40"}>
-                      {formData.service || "Select a styling service"}
+                    <span className={formData.serviceId ? "text-white" : "text-white/40"}>
+                      {formData.serviceName || "Select a styling service"}
                     </span>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -343,17 +430,22 @@ export default function ReviewsPage() {
 
                   {/* Hidden native select for form validation/accessibility */}
                   <select
-                    name="service"
-                    value={formData.service}
-                    onChange={handleInputChange}
+                    name="serviceId"
+                    value={formData.serviceId}
+                    onChange={(e) => {
+                      const selected = servicesList.find(s => s.id === e.target.value);
+                      if (selected) {
+                        setFormData(prev => ({ ...prev, serviceId: selected.id, serviceName: selected.name }));
+                      }
+                    }}
                     required
                     className="sr-only"
                     tabIndex={-1}
                   >
                     <option value="" disabled>Select a styling service</option>
-                    {SERVICES.map(service => (
-                      <option key={service} value={service}>
-                        {service}
+                    {servicesList.map(service => (
+                      <option key={service.id} value={service.id}>
+                        {service.name}
                       </option>
                     ))}
                   </select>
@@ -368,21 +460,21 @@ export default function ReviewsPage() {
                       />
                       
                       <div className="absolute left-0 right-0 mt-1 bg-[#1a1510] border border-primary/30 rounded-xl shadow-2xl z-20 overflow-hidden py-1 max-h-60 overflow-y-auto animate-in fade-in-50 slide-in-from-top-2 duration-200">
-                        {SERVICES.map(service => (
+                        {servicesList.map(service => (
                           <button
-                            key={service}
+                            key={service.id}
                             type="button"
                             onClick={() => {
-                              setFormData(prev => ({ ...prev, service }));
+                              setFormData(prev => ({ ...prev, serviceId: service.id, serviceName: service.name }));
                               setIsSelectOpen(false);
                             }}
                             className={`w-full text-left px-4 py-2.5 text-xs transition-colors hover:bg-primary hover:text-secondary block ${
-                              formData.service === service 
+                              formData.serviceId === service.id 
                                 ? 'bg-primary/20 text-primary font-semibold' 
                                 : 'text-white/80'
                             }`}
                           >
-                            {service}
+                            {service.name}
                           </button>
                         ))}
                       </div>
@@ -406,23 +498,37 @@ export default function ReviewsPage() {
                   />
                 </div>
 
-                {/* Submit button */}
+                {/* Submit button / Authentication Prompt */}
                 <div className="pt-2">
-                  <Button
-                    type="submit"
-                    disabled={submitted}
-                    className="w-full btn-primary h-12 rounded-xl font-bold font-manrope text-sm flex items-center justify-center gap-2 cursor-pointer"
-                  >
-                    {submitted ? (
-                      <>
-                        <Check className="w-4 h-4" /> Submitting...
-                      </>
-                    ) : (
-                      <>
-                        Submit Review <MessageSquare className="w-3.5 h-3.5" />
-                      </>
-                    )}
-                  </Button>
+                  {status === 'authenticated' ? (
+                    <Button
+                      type="submit"
+                      disabled={submitted}
+                      className="w-full btn-primary h-12 rounded-xl font-bold font-manrope text-sm flex items-center justify-center gap-2 cursor-pointer"
+                    >
+                      {submitted ? (
+                        <>
+                          <Check className="w-4 h-4 animate-bounce" /> Submitting...
+                        </>
+                      ) : (
+                        <>
+                          Submit Review <MessageSquare className="w-3.5 h-3.5" />
+                        </>
+                      )}
+                    </Button>
+                  ) : (
+                    <div className="text-center p-4 bg-primary/5 rounded-xl border border-primary/20">
+                      <p className="text-xs text-white/70 mb-3">You must be signed in to leave a review.</p>
+                      <Link href="/auth/signin">
+                        <Button
+                          type="button"
+                          className="w-full btn-primary h-10 rounded-xl font-bold font-manrope text-xs flex items-center justify-center cursor-pointer"
+                        >
+                          Sign In to Review
+                        </Button>
+                      </Link>
+                    </div>
+                  )}
                 </div>
 
               </form>

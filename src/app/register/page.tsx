@@ -3,11 +3,13 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { useSession } from 'next-auth/react';
 import { Eye, EyeOff, Mail, Lock, User, Sparkles, ArrowRight, UserPlus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { toast } from 'sonner';
 import AureliaLogo from '@/components/ui/AureliaLogo';
+import { apiClient } from '@/lib/apiClient';
 
 function PasswordStrength({ password }: { password: string }) {
   const getStrength = () => {
@@ -51,6 +53,7 @@ function PasswordStrength({ password }: { password: string }) {
 
 export default function RegisterPage() {
   const router = useRouter();
+  const { data: session, status } = useSession();
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -63,10 +66,10 @@ export default function RegisterPage() {
 
   // Redirect if already logged in
   useEffect(() => {
-    if (localStorage.getItem('salon_user')) {
+    if (status === 'authenticated' || localStorage.getItem('salon_user')) {
       router.replace('/');
     }
-  }, [router]);
+  }, [status, router]);
 
   const validate = () => {
     const newErrors: Record<string, string> = {};
@@ -97,21 +100,33 @@ export default function RegisterPage() {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!validate()) return;
 
     setIsLoading(true);
-    toast.info('Creating your account...');
+    const toastId = toast.loading('Creating your account...');
 
-    setTimeout(() => {
-      setIsLoading(false);
+    try {
+      await apiClient.post('/api/v1/auth/register', {
+        name: fullName,
+        email,
+        password,
+      });
+
       toast.success('Account created successfully! Please sign in.', {
+        id: toastId,
         description: 'Welcome to the Aurelia family. ✨',
         duration: 5000,
       });
       router.push('/login');
-    }, 2000);
+    } catch (err: any) {
+      const message = err.message || 'Failed to create account.';
+      toast.error(message, { id: toastId });
+      setErrors((prev) => ({ ...prev, email: message }));
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const clearError = (field: string) =>

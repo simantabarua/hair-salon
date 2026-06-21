@@ -2,6 +2,7 @@
 
 import React, { useRef } from 'react';
 import { Provider } from 'react-redux';
+import { SessionProvider } from 'next-auth/react';
 import { store, AppStore } from '@/store';
 
 interface StoreProviderProps {
@@ -16,5 +17,9 @@ export function StoreProvider({ children }: StoreProviderProps) {
   }
 
   // eslint-disable-next-line react-hooks/refs
-  return <Provider store={storeRef.current}>{children}</Provider>;
+  return (
+    <Provider store={storeRef.current}>
+      <SessionProvider>{children}</SessionProvider>
+    </Provider>
+  );
 }

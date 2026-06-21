@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useSelector } from 'react-redux';
+import { useSession, signOut } from 'next-auth/react';
 import { ShoppingBag, Menu, ChevronDown, User2, LogOut, LogIn, UserPlus } from 'lucide-react';
 import { RootState } from '@/store';
 import { Button } from '@/components/ui/button';
@@ -39,6 +40,7 @@ const MORE_NAV = [
 export default function Navbar() {
   const pathname = usePathname();
   const router   = useRouter();
+  const { data: session, status } = useSession();
 
   const [isScrolled,    setIsScrolled]    = useState(false);
   const [isOpen,        setIsOpen]        = useState(false);
@@ -78,16 +80,18 @@ export default function Navbar() {
     }
   };
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
     localStorage.removeItem('salon_user');
     localStorage.removeItem('salon_remember');
     setIsLoggedIn(false);
     setUserName('');
     setIsAdmin(false);
     setIsUserMenuOpen(false);
+    await signOut({ redirect: false });
     toast.success('You have been signed out.');
     router.push('/');
   };
+
   /* ── Effects ── */
   useEffect(() => {
     const onScroll = () => setIsScrolled(window.scrollY > 50);
@@ -97,10 +101,16 @@ export default function Navbar() {
   }, []);
 
   useEffect(() => {
-    // Sync auth state asynchronously to avoid warning of setState inside useEffect
-    Promise.resolve().then(() => {
+    if (status === 'authenticated' && session?.user) {
+      setIsLoggedIn(true);
+      setUserName(session.user.name ?? 'User');
+      setIsAdmin(session.user.role === 'admin');
+    } else if (status === 'unauthenticated') {
       syncAuth();
-    });
+    }
+  }, [session, status]);
+
+  useEffect(() => {
     window.addEventListener('storage', syncAuth);
     return () => window.removeEventListener('storage', syncAuth);
   }, []);

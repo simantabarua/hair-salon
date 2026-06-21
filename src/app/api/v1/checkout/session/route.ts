@@ -41,6 +41,7 @@ export const POST = apiHandler(
       payment_method_types: ["card"],
       line_items: lineItems,
       mode: "payment",
+      customer_email: session.user.email || undefined,
       success_url: `${env.NEXTAUTH_URL}/checkout/success?session_id={CHECKOUT_SESSION_ID}&order_id=${order._id}`,
       cancel_url: `${env.NEXTAUTH_URL}/checkout/cancel?order_id=${order._id}`,
       metadata: {
