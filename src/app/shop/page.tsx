@@ -14,8 +14,8 @@ import { toast } from 'sonner';
 import { apiClient } from '@/lib/apiClient';
 import { ProductDTO } from '@/types/api';
 
-const ALL_CATEGORIES = ['All', 'Hair Care', 'Skin Care', 'Face', 'Equipment', 'Organic'];
-const ALL_TAGS = ['Cream', 'Face', 'Blonde', 'Make up', 'Organic', 'Gloss', 'Trends', 'Fashion', 'Shampoo', 'Spray'];
+const FALLBACK_CATEGORIES = ['All', 'Haircare', 'Styling', 'Skincare', 'Accessories', 'Styling Tools'];
+const FALLBACK_TAGS = ['Cream', 'Face', 'Blonde', 'Make up', 'Organic', 'Gloss', 'Trends', 'Fashion', 'Shampoo', 'Spray'];
 
 const SORT_OPTIONS = [
   { value: 'default', label: 'Default Sorting' },
@@ -94,6 +94,22 @@ export default function ShopPage() {
   const dispatch = useDispatch();
   const [productList, setProductList] = useState<ProductDTO[]>([]);
   const [loading, setLoading] = useState(true);
+
+  // Dynamic categories derived from productList
+  const categories = useMemo(() => {
+    if (productList.length === 0) return FALLBACK_CATEGORIES;
+    const list = Array.from(new Set(productList.map(p => p.category).filter(Boolean)));
+    list.sort();
+    return ['All', ...list];
+  }, [productList]);
+
+  // Dynamic tags derived from productList
+  const tags = useMemo(() => {
+    if (productList.length === 0) return FALLBACK_TAGS;
+    const list = Array.from(new Set(productList.flatMap(p => p.tags || []).filter(Boolean)));
+    list.sort();
+    return list;
+  }, [productList]);
 
   useEffect(() => {
     const loadProducts = async () => {
@@ -184,7 +200,7 @@ export default function ShopPage() {
       <div className="space-y-4">
         <h4 className="font-cormorant text-2xl font-semibold border-b border-primary/20 pb-2">Category</h4>
         <ul className="space-y-2.5 font-manrope text-sm text-white/70">
-          {ALL_CATEGORIES.map((cat) => (
+          {categories.map((cat) => (
             <li key={cat}>
               <button
                 onClick={() => setSelectedCategory(cat)}
@@ -241,7 +257,7 @@ export default function ShopPage() {
       <div className="space-y-4">
         <h4 className="font-cormorant text-2xl font-semibold border-b border-primary/20 pb-2">Tags</h4>
         <div className="flex flex-wrap gap-2">
-          {ALL_TAGS.map((tag) => (
+          {tags.map((tag) => (
             <button
               key={tag}
               onClick={() => setSelectedTag(selectedTag === tag ? null : tag)}

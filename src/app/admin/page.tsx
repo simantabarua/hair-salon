@@ -26,7 +26,8 @@ import {
   Bell,
   LogOut,
   ChevronDown,
-  Package
+  Package,
+  Search
 } from 'lucide-react';
 import { Appointment, Order } from '@/lib/db';
 import { Service, Product, TeamMember, BlogPost } from '@/data/salonData';
@@ -117,6 +118,10 @@ export default function AdminDashboard() {
   const [inventoryStatusFilter, setInventoryStatusFilter] = useState('All');
   const [editingInventoryId, setEditingInventoryId] = useState<string | null>(null);
   const [inventoryForm, setInventoryForm] = useState<{ stock: number; minStock: number; sku: string } | null>(null);
+
+  // Products Tab Filter States
+  const [productSearch, setProductSearch] = useState('');
+  const [productCategoryFilter, setProductCategoryFilter] = useState('All');
 
   const fetchAllData = async () => {
     try {
@@ -1648,8 +1653,14 @@ export default function AdminDashboard() {
                         onChange={e => setProductForm({...productForm, category: e.target.value})}
                         className="w-full bg-black border border-white/10 rounded-lg p-2 text-xs focus:border-primary outline-none"
                         placeholder="Hair Care"
+                        list="existing-categories"
                         required
                       />
+                      <datalist id="existing-categories">
+                        {Array.from(new Set(products.map(p => p.category).filter(Boolean))).map(cat => (
+                          <option key={cat} value={cat} />
+                        ))}
+                      </datalist>
                     </div>
                     <div>
                       <label className="text-[10px] text-white/40 uppercase tracking-wider block mb-1">Tags (Comma Separated)</label>
@@ -1685,6 +1696,44 @@ export default function AdminDashboard() {
                 </form>
               )}
 
+              {/* Search & Filter Controls */}
+              <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white/5 p-4 rounded-xl border border-white/5">
+                {/* Search Bar */}
+                <div className="relative flex-1">
+                  <input
+                    type="text"
+                    value={productSearch}
+                    onChange={e => setProductSearch(e.target.value)}
+                    placeholder="Search by ID, name, or category..."
+                    className="w-full bg-black border border-white/10 rounded-lg py-2 pl-9 pr-8 text-xs text-white placeholder-white/30 focus:border-primary outline-none"
+                  />
+                  <Search className="w-4 h-4 text-white/30 absolute left-3 top-2.5" />
+                  {productSearch && (
+                    <button onClick={() => setProductSearch('')} className="absolute right-3 top-2.5 text-white/40 hover:text-white">
+                      <X className="w-3.5 h-3.5" />
+                    </button>
+                  )}
+                </div>
+
+                {/* Filters */}
+                <div className="flex flex-wrap items-center gap-3">
+                  {/* Category Filter */}
+                  <div className="flex items-center gap-2">
+                    <span className="text-[10px] text-white/40 uppercase tracking-wider">Category:</span>
+                    <select
+                      value={productCategoryFilter}
+                      onChange={e => setProductCategoryFilter(e.target.value)}
+                      className="bg-black border border-white/10 text-xs text-white rounded-lg p-1.5 focus:border-primary outline-none"
+                    >
+                      <option value="All">All Categories</option>
+                      {Array.from(new Set(products.map(p => p.category).filter(Boolean))).map(cat => (
+                        <option key={cat} value={cat}>{cat}</option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+              </div>
+
               {/* Products Table */}
               <div className="overflow-x-auto border border-white/5 rounded-xl">
                 <table className="w-full text-left border-collapse text-xs">
@@ -1699,35 +1748,47 @@ export default function AdminDashboard() {
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-white/5">
-                    {products.map(p => (
-                      <tr key={p.id} className="hover:bg-white/5 transition-all">
-                        <td className="p-3.5 font-mono text-white/60">{p.id}</td>
-                        <td className="p-3.5 font-semibold text-white">{p.name}</td>
-                        <td className="p-3.5">{p.category}</td>
-                        <td className="p-3.5 text-primary font-semibold">${p.price}</td>
-                        <td className="p-3.5 text-white/70">⭐ {p.rating} ({p.ratingCount} reviews)</td>
-                        <td className="p-3.5 text-right space-x-1.5 whitespace-nowrap">
-                          <button
-                            onClick={() => {
-                              setEditingItem({ type: 'product', data: p });
-                              setProductForm(p);
-                              setIsAdding(null);
-                            }}
-                            className="p-1 bg-white/5 text-white/50 hover:bg-primary/25 hover:text-primary rounded transition-all"
-                          >
-                            <Edit2 className="w-3.5 h-3.5" />
-                          </button>
-                          <button onClick={() => handleProductDelete(p.id)} className="p-1 bg-white/5 text-white/50 hover:bg-red-500/25 hover:text-red-400 rounded transition-all">
-                            <Trash2 className="w-3.5 h-3.5" />
-                          </button>
-                        </td>
-                      </tr>
-                    ))}
-                    {products.length === 0 && (
-                      <tr>
-                        <td colSpan={6} className="p-8 text-center text-white/30 italic">No products listed.</td>
-                      </tr>
-                    )}
+                    {(() => {
+                      const filtered = products.filter(p => {
+                        const searchStr = `${p.name} ${p.id} ${p.category || ''}`.toLowerCase();
+                        const matchesSearch = searchStr.includes(productSearch.toLowerCase());
+                        const matchesCategory = productCategoryFilter === 'All' || p.category === productCategoryFilter;
+                        return matchesSearch && matchesCategory;
+                      });
+                      return (
+                        <>
+                          {filtered.map(p => (
+                            <tr key={p.id} className="hover:bg-white/5 transition-all">
+                              <td className="p-3.5 font-mono text-white/60">{p.id}</td>
+                              <td className="p-3.5 font-semibold text-white">{p.name}</td>
+                              <td className="p-3.5">{p.category}</td>
+                              <td className="p-3.5 text-primary font-semibold">${p.price}</td>
+                              <td className="p-3.5 text-white/70">⭐ {p.rating} ({p.ratingCount} reviews)</td>
+                              <td className="p-3.5 text-right space-x-1.5 whitespace-nowrap">
+                                <button
+                                  onClick={() => {
+                                    setEditingItem({ type: 'product', data: p });
+                                    setProductForm(p);
+                                    setIsAdding(null);
+                                  }}
+                                  className="p-1 bg-white/5 text-white/50 hover:bg-primary/25 hover:text-primary rounded transition-all"
+                                >
+                                  <Edit2 className="w-3.5 h-3.5" />
+                                </button>
+                                <button onClick={() => handleProductDelete(p.id)} className="p-1 bg-white/5 text-white/50 hover:bg-red-500/25 hover:text-red-400 rounded transition-all">
+                                  <Trash2 className="w-3.5 h-3.5" />
+                                </button>
+                              </td>
+                            </tr>
+                          ))}
+                          {filtered.length === 0 && (
+                            <tr>
+                              <td colSpan={6} className="p-8 text-center text-white/30 italic">No products matched the search/filter criteria.</td>
+                            </tr>
+                          )}
+                        </>
+                      );
+                    })()}
                   </tbody>
                 </table>
               </div>
@@ -1909,7 +1970,13 @@ export default function AdminDashboard() {
                         onChange={e => setBlogForm({...blogForm, category: e.target.value})}
                         className="w-full bg-black border border-white/10 rounded-lg p-2 text-xs focus:border-primary outline-none"
                         placeholder="Hairstyle Advice"
+                        list="existing-blog-categories"
                       />
+                      <datalist id="existing-blog-categories">
+                        {Array.from(new Set(blogs.map(b => b.category).filter(Boolean))).map(cat => (
+                          <option key={cat} value={cat} />
+                        ))}
+                      </datalist>
                     </div>
                     <div className="sm:col-span-2">
                       <label className="text-[10px] text-white/40 uppercase tracking-wider block mb-1">Short Excerpt (Teaser)</label>
