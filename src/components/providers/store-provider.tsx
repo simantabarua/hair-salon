@@ -12,7 +12,6 @@ export function StoreProvider({ children }: StoreProviderProps) {
   const storeRef = useRef<AppStore | null>(null);
   // eslint-disable-next-line react-hooks/refs
   if (!storeRef.current) {
-    // Create the store instance the first time this renders
     storeRef.current = store;
   }
 
