@@ -40,10 +40,24 @@ export const cartSlice = createSlice({
         state.items.push({ ...action.payload, quantity: qtyToAdd });
       }
       calculateCartTotals(state);
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('salon_cart', JSON.stringify({
+          items: state.items,
+          subtotal: state.subtotal,
+          totalItems: state.totalItems,
+        }));
+      }
     },
     removeFromCart: (state, action: PayloadAction<string>) => {
       state.items = state.items.filter(item => item.id !== action.payload);
       calculateCartTotals(state);
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('salon_cart', JSON.stringify({
+          items: state.items,
+          subtotal: state.subtotal,
+          totalItems: state.totalItems,
+        }));
+      }
     },
     updateQuantity: (state, action: PayloadAction<{ id: string; quantity: number }>) => {
       const item = state.items.find(item => item.id === action.payload.id);
@@ -51,15 +65,42 @@ export const cartSlice = createSlice({
         item.quantity = Math.max(1, action.payload.quantity);
       }
       calculateCartTotals(state);
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('salon_cart', JSON.stringify({
+          items: state.items,
+          subtotal: state.subtotal,
+          totalItems: state.totalItems,
+        }));
+      }
     },
     clearCart: (state) => {
       state.items = [];
       state.subtotal = 0;
       state.totalItems = 0;
+      if (typeof window !== 'undefined') {
+        localStorage.removeItem('salon_cart');
+      }
+    },
+    initializeCart: (state) => {
+      if (typeof window !== 'undefined') {
+        try {
+          const savedCart = localStorage.getItem('salon_cart');
+          if (savedCart) {
+            const parsed = JSON.parse(savedCart);
+            if (parsed && Array.isArray(parsed.items)) {
+              state.items = parsed.items;
+              state.subtotal = parsed.subtotal;
+              state.totalItems = parsed.totalItems;
+            }
+          }
+        } catch (e) {
+          console.error('Failed to initialize cart from localStorage', e);
+        }
+      }
     },
   },
 });
 
-export const { addToCart, removeFromCart, updateQuantity, clearCart } = cartSlice.actions;
+export const { addToCart, removeFromCart, updateQuantity, clearCart, initializeCart } = cartSlice.actions;
 
 export default cartSlice.reducer;

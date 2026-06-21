@@ -4,6 +4,7 @@ import { PaymentRepository } from "@/repositories/PaymentRepository";
 import { IOrder } from "@/models/Order";
 import { BadRequestError, ConflictError, NotFoundError } from "@/lib/exceptions";
 import mongoose from "mongoose";
+import { dbSupportsTransactions } from "@/lib/mongoose";
 
 export class OrderService {
   private orderRepository = new OrderRepository();
@@ -22,13 +23,16 @@ export class OrderService {
     // Try starting a session for multi-document transaction (fail-safe for standalone MongoDB development)
     let session: mongoose.ClientSession | undefined;
     let useTransaction = false;
-    try {
-      session = await mongoose.startSession();
-      session.startTransaction();
-      useTransaction = true;
-    } catch (e) {
-      // Transactions not supported (e.g. local standalone mongo), proceed without transaction safety
-      session = undefined;
+    if (dbSupportsTransactions()) {
+      try {
+        session = await mongoose.startSession();
+        session.startTransaction();
+        useTransaction = true;
+      } catch (e) {
+        // Transactions not supported (e.g. local standalone mongo), proceed without transaction safety
+        session = undefined;
+        useTransaction = false;
+      }
     }
 
     try {
@@ -109,12 +113,15 @@ export class OrderService {
   ): Promise<IOrder> {
     let session: mongoose.ClientSession | undefined;
     let useTransaction = false;
-    try {
-      session = await mongoose.startSession();
-      session.startTransaction();
-      useTransaction = true;
-    } catch (e) {
-      session = undefined;
+    if (dbSupportsTransactions()) {
+      try {
+        session = await mongoose.startSession();
+        session.startTransaction();
+        useTransaction = true;
+      } catch (e) {
+        session = undefined;
+        useTransaction = false;
+      }
     }
 
     try {

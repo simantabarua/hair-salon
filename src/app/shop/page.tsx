@@ -98,8 +98,14 @@ export default function ShopPage() {
   useEffect(() => {
     const loadProducts = async () => {
       try {
-        const data = await apiClient.get<ProductDTO[]>('/api/v1/products');
-        setProductList(data);
+        const data = await apiClient.get<any>('/api/v1/products?limit=100');
+        if (data && Array.isArray(data.products)) {
+          setProductList(data.products);
+        } else if (Array.isArray(data)) {
+          setProductList(data);
+        } else {
+          setProductList([]);
+        }
       } catch (err) {
         console.error('Failed to fetch products:', err);
         // Fallback to local products

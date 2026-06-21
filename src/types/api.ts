@@ -62,9 +62,11 @@ export interface OrderDTO {
   id: string;
   userId: string;
   items: OrderItemDTO[];
-  totalAmount: number;
+  totalAmount?: number;
+  total?: number;
   paymentStatus: "pending" | "paid" | "failed" | "refunded";
-  orderStatus: "processing" | "shipped" | "delivered" | "cancelled";
+  orderStatus?: "processing" | "shipped" | "delivered" | "cancelled";
+  status?: "Processing" | "Shipped" | "Delivered" | "Cancelled";
   stripeSessionId?: string;
   createdAt: string;
   updatedAt: string;

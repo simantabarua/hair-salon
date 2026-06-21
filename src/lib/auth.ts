@@ -23,7 +23,7 @@ export const authOptions: NextAuthOptions = {
           name: profile.name,
           email: profile.email,
           image: profile.picture,
-          role: "customer", // default role for Google users
+          role: "customer",
         };
       },
     }),
@@ -40,14 +40,12 @@ export const authOptions: NextAuthOptions = {
 
         await connectToDatabase();
 
-        // Find user by email
         const user = await UserModel.findOne({ email: credentials.email.toLowerCase() });
 
         if (!user || !user.password) {
           throw new Error("Invalid credentials");
         }
 
-        // Compare password hash
         const isPasswordMatch = await bcrypt.compare(credentials.password, user.password);
 
         if (!isPasswordMatch) {
@@ -70,7 +68,6 @@ export const authOptions: NextAuthOptions = {
         token.id = user.id;
         token.role = user.role || "customer";
       } else {
-        // If it's a session refresh, fetch the user from database to ensure up-to-date role
         try {
           await connectToDatabase();
           const dbUser = await UserModel.findById(token.id);

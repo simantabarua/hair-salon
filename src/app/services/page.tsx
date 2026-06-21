@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import Image from 'next/image';
+import { LucideIcon } from '@/components/ui/LucideIcon';
 import Link from 'next/link';
 import PageHeading from '@/components/layout/PageHeading';
 import { buttonVariants } from '@/components/ui/button';
@@ -107,13 +107,7 @@ export default function ServicesPage() {
                 className="group relative flex flex-col items-center text-center p-8 md:p-10 rounded-2xl bg-secondary/40 border border-primary/20 hover:border-primary hover:bg-secondary/70 transition-all duration-300 shadow-xl"
               >
                 <div className="relative w-20 h-20 mb-6 flex items-center justify-center bg-primary/5 rounded-2xl group-hover:bg-primary/10 transition-colors border border-primary/10">
-                  <Image
-                    className="object-contain p-2"
-                    src={service.icon}
-                    alt={service.name}
-                    fill
-                    sizes="80px"
-                  />
+                  <LucideIcon name={service.icon} className="w-10 h-10 text-primary" />
                 </div>
                 <h4 className="font-cormorant text-2xl md:text-3xl font-semibold text-white mb-3 group-hover:text-primary transition-colors">
                   {service.name}

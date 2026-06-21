@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
-import { connectToDatabase } from "../lib/mongoose";
 import { User } from "../models/User";
 import { Service } from "../models/Service";
 import { Product } from "../models/Product";
@@ -10,9 +9,16 @@ import { Order } from "../models/Order";
 import { Payment } from "../models/Payment";
 import { Review } from "../models/Review";
 
+const MONGODB_URI = process.env.MONGODB_URI;
+
+if (!MONGODB_URI) {
+  console.error("❌ MONGODB_URI environment variable is not set.");
+  process.exit(1);
+}
+
 async function seed() {
-  console.log("Connecting to database...");
-  await connectToDatabase();
+  console.log(`Connecting to database: ${MONGODB_URI!.replace(/:([^@]+)@/, ":****@")}...`);
+  await mongoose.connect(MONGODB_URI!, { bufferCommands: false });
   console.log("Database connected successfully.");
 
   // Clear existing collections
@@ -29,34 +35,34 @@ async function seed() {
 
   // 1. Seed Users (Admin, Staff, Customer)
   console.log("Seeding users...");
-  const adminPassword = await bcrypt.hash("AdminPassword123", 12);
-  const staffPassword = await bcrypt.hash("StaffPassword123", 12);
-  const customerPassword = await bcrypt.hash("CustomerPassword123", 12);
+  const adminPassword = await bcrypt.hash("Admin@123", 12);
+  const staffPassword = await bcrypt.hash("Staff@123", 12);
+  const customerPassword = await bcrypt.hash("Customer@123", 12);
 
   const admin = await User.create({
     name: "System Administrator",
-    email: "admin@salon.com",
+    email: "admin@aurelia.com",
     password: adminPassword,
     role: "admin",
   });
 
   const stylist1 = await User.create({
     name: "Alex Mercer",
-    email: "alex@salon.com",
+    email: "staff@aurelia.com",
     password: staffPassword,
     role: "staff",
   });
 
   const stylist2 = await User.create({
     name: "Maria Santos",
-    email: "maria@salon.com",
+    email: "maria@aurelia.com",
     password: staffPassword,
     role: "staff",
   });
 
   const customer = await User.create({
     name: "John Doe",
-    email: "john@example.com",
+    email: "customer@aurelia.com",
     password: customerPassword,
     role: "customer",
   });

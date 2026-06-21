@@ -17,26 +17,22 @@ export const POST = apiHandler(
       throw new Error("Missing items in checkout request.");
     }
 
-    // 1. Create order and validate/reserve stock atomically
     const order = await orderService.createOrder(
       session.user.id,
       customerName || session.user.name || "Customer",
       items
     );
 
-    // 2. Build Stripe line items
     const lineItems = order.items.map((item) => ({
       price_data: {
         currency: "usd",
         product_data: {
           name: item.name,
         },
-        unit_amount: Math.round(item.price * 100), // convert dollars to cents
+        unit_amount: Math.round(item.price * 100),
       },
       quantity: item.quantity,
     }));
-
-    // 3. Create Stripe Checkout Session
     const stripeSession = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
       line_items: lineItems,

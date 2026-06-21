@@ -43,6 +43,10 @@ async function request<T>(
     throw new APIError(errorMessage, response.status, data);
   }
 
+  if (data && typeof data === "object" && "success" in data && "data" in data) {
+    return data.data as T;
+  }
+
   return data as T;
 }
 

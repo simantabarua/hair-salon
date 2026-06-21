@@ -1,13 +1,13 @@
 import { LRUCache } from "lru-cache";
 
 const rateLimitCache = new LRUCache<string, number[]>({
-  max: 1000, // max distinct IPs to track
-  ttl: 15 * 60 * 1000, // 15 minutes default TTL
+  max: 1000,
+  ttl: 15 * 60 * 1000,
 });
 
 interface RateLimiterOptions {
-  limit: number; // max requests allowed per window
-  windowMs: number; // window size in milliseconds
+  limit: number;
+  windowMs: number;
 }
 
 export function rateLimiter(options: RateLimiterOptions) {
@@ -17,7 +17,6 @@ export function rateLimiter(options: RateLimiterOptions) {
 
     let requestTimestamps = rateLimitCache.get(ip) || [];
 
-    // Filter out timestamps outside the current sliding window
     requestTimestamps = requestTimestamps.filter((timestamp) => timestamp > windowStart);
 
     if (requestTimestamps.length >= options.limit) {
@@ -30,7 +29,6 @@ export function rateLimiter(options: RateLimiterOptions) {
       };
     }
 
-    // Add current timestamp
     requestTimestamps.push(now);
     rateLimitCache.set(ip, requestTimestamps);
 

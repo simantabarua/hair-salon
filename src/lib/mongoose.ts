@@ -6,6 +6,7 @@ const MONGODB_URI = env.MONGODB_URI;
 interface MongooseCache {
   conn: typeof mongoose | null;
   promise: Promise<typeof mongoose> | null;
+  supportsTransactions?: boolean;
 }
 
 declare global {
@@ -16,7 +17,7 @@ declare global {
 let cached = global.mongoose;
 
 if (!cached) {
-  cached = global.mongoose = { conn: null, promise: null };
+  cached = global.mongoose = { conn: null, promise: null, supportsTransactions: false };
 }
 
 export async function connectToDatabase(): Promise<typeof mongoose> {
@@ -29,7 +30,18 @@ export async function connectToDatabase(): Promise<typeof mongoose> {
       bufferCommands: false,
     };
 
-    cached!.promise = mongoose.connect(MONGODB_URI, opts).then((mongooseInstance) => {
+    cached!.promise = mongoose.connect(MONGODB_URI, opts).then(async (mongooseInstance) => {
+      try {
+        const db = mongooseInstance.connection.db;
+        if (db) {
+          const hello = await db.command({ hello: 1 });
+          cached!.supportsTransactions = !!hello.setName;
+        } else {
+          cached!.supportsTransactions = false;
+        }
+      } catch (e) {
+        cached!.supportsTransactions = false;
+      }
       return mongooseInstance;
     });
   }
@@ -42,4 +54,8 @@ export async function connectToDatabase(): Promise<typeof mongoose> {
   }
 
   return cached!.conn;
+}
+
+export function dbSupportsTransactions(): boolean {
+  return !!cached?.supportsTransactions;
 }

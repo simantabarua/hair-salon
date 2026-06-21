@@ -66,7 +66,7 @@ export default function RegisterPage() {
 
   // Redirect if already logged in
   useEffect(() => {
-    if (status === 'authenticated' || localStorage.getItem('salon_user')) {
+    if (status === 'authenticated') {
       router.replace('/');
     }
   }, [status, router]);

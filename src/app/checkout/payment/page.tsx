@@ -68,6 +68,8 @@ export default function CheckoutPaymentPage() {
 
   // Load checkout data from localStorage
   useEffect(() => {
+    if (showSuccessOverlay) return;
+
     const dataStr = localStorage.getItem('checkout_data');
     if (!dataStr || items.length === 0) {
       toast.error('Session expired or cart is empty.');
@@ -78,7 +80,7 @@ export default function CheckoutPaymentPage() {
     Promise.resolve().then(() => {
       setCheckoutData(JSON.parse(dataStr));
     });
-  }, [items, router]);
+  }, [items, router, showSuccessOverlay]);
 
   // Card brand detection
   const getCardBrand = (num: string): 'visa' | 'mastercard' | 'amex' | 'discover' | 'generic' => {
@@ -188,22 +190,27 @@ export default function CheckoutPaymentPage() {
       if (!checkoutData) {
         throw new Error('Checkout session not initialized.');
       }
-      const { shipping } = checkoutData;
+      const { shipping, pricing } = checkoutData;
       const body = {
         items: items.map(item => ({
           productId: item.id,
           quantity: item.quantity
         })),
-        customerName: `${shipping.firstName} ${shipping.lastName}`
+        customerName: `${shipping.firstName} ${shipping.lastName}`,
+        discount: pricing.discount,
+        shippingMethod: shipping.shippingMethod
       };
 
-      const response = await apiClient.post<{ url: string }>('/api/v1/checkout/session', body);
+      const response = await apiClient.post<{ success: boolean; orderId: string }>('/api/v1/checkout/charge', body);
       
-      if (response && response.url) {
-        toast.success('Redirecting to secure Stripe payment page...');
-        window.location.href = response.url;
+      if (response && response.success) {
+        toast.success('Payment processed successfully!');
+        setOrderNumber(response.orderId);
+        setShowSuccessOverlay(true);
+        dispatch(clearCart());
+        localStorage.removeItem('checkout_data');
       } else {
-        throw new Error('Failed to retrieve checkout URL.');
+        throw new Error('Failed to process payment.');
       }
     } catch (error: any) {
       toast.error(error.message || 'An error occurred during payment initialization.');

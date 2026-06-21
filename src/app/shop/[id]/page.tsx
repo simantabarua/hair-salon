@@ -48,8 +48,14 @@ export default function ProductDetailsPage() {
       }
 
       try {
-        const listData = await apiClient.get<ProductDTO[]>('/api/v1/products');
-        setProductList(listData);
+        const listData = await apiClient.get<any>('/api/v1/products?limit=100');
+        if (listData && Array.isArray(listData.products)) {
+          setProductList(listData.products);
+        } else if (Array.isArray(listData)) {
+          setProductList(listData);
+        } else {
+          setProductList([]);
+        }
       } catch (err) {
         console.error('Failed to fetch related products:', err);
         setProductList(getProducts() as any[]);

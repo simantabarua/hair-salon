@@ -31,7 +31,6 @@ export function apiHandler(handler: ApiHandlerFunction, options: ApiHandlerOptio
 
         if (options.requiredRole) {
           const userRole = session.user.role;
-          // admin can access all roles
           if (userRole !== options.requiredRole && userRole !== "admin") {
             return NextResponse.json(
               { success: false, error: "Forbidden. Insufficient permissions." },
@@ -41,7 +40,10 @@ export function apiHandler(handler: ApiHandlerFunction, options: ApiHandlerOptio
         }
       }
 
-      const data = await handler(req, context, session);
+      const resolvedParams = context?.params ? await context.params : {};
+      const resolvedContext = { params: resolvedParams };
+
+      const data = await handler(req, resolvedContext, session);
       if (data instanceof NextResponse) {
         return data;
       }
@@ -56,7 +58,6 @@ export function apiHandler(handler: ApiHandlerFunction, options: ApiHandlerOptio
         );
       }
 
-      // Zod Validation Error handler
       if (error.name === "ValidationError" || error.name === "ZodError") {
         return NextResponse.json(
           { success: false, error: error.message || "Validation failed.", details: error.errors || error.details },
@@ -64,7 +65,6 @@ export function apiHandler(handler: ApiHandlerFunction, options: ApiHandlerOptio
         );
       }
 
-      // MongoDB Duplicate Key Error handler
       if (error.code === 11000) {
         return NextResponse.json(
           { success: false, error: "Resource conflict: Duplicated entry." },

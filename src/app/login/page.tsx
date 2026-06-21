@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { signIn, useSession } from 'next-auth/react';
-import { Eye, EyeOff, Mail, Lock, Sparkles, ArrowRight, LogIn } from 'lucide-react';
+import { Eye, EyeOff, Mail, Lock, Sparkles, ArrowRight, LogIn, Shield, UserCog, User } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { toast } from 'sonner';
@@ -22,22 +22,18 @@ export default function LoginPage() {
 
   // Redirect if already logged in
   useEffect(() => {
-    if (status === 'authenticated' || localStorage.getItem('salon_user')) {
-      if (session?.user) {
-        const isAdmin = session.user.role === 'admin';
-        const user = {
-          email: session.user.email,
-          name: session.user.name,
-          isAdmin,
-          loginAt: new Date().toISOString()
-        };
-        localStorage.setItem('salon_user', JSON.stringify(user));
-        window.dispatchEvent(new Event('storage'));
-        if (isAdmin) {
-          router.replace('/admin');
-        } else {
-          router.replace('/');
-        }
+    if (status === 'authenticated' && session?.user) {
+      const isAdmin = session.user.role === 'admin';
+      const user = {
+        email: session.user.email,
+        name: session.user.name,
+        isAdmin,
+        loginAt: new Date().toISOString()
+      };
+      localStorage.setItem('salon_user', JSON.stringify(user));
+      window.dispatchEvent(new Event('storage'));
+      if (isAdmin) {
+        router.replace('/admin');
       } else {
         router.replace('/');
       }
@@ -79,26 +75,8 @@ export default function LoginPage() {
         setErrors({ email: 'Invalid email or password.' });
         setIsLoading(false);
       } else {
-        const isAdmin = email.toLowerCase().includes('admin') || email.toLowerCase().endsWith('@aurelia.com');
-        const user = { 
-          email, 
-          name: email.split('@')[0], 
-          isAdmin,
-          loginAt: new Date().toISOString() 
-        };
-        localStorage.setItem('salon_user', JSON.stringify(user));
-        window.dispatchEvent(new Event('storage'));
-
-        if (rememberMe) {
-          localStorage.setItem('salon_remember', 'true');
-        }
-
-        toast.success(`Welcome back, ${user.name}! 🌟`, { id: toastId, duration: 4000 });
-        if (isAdmin) {
-          router.push('/admin');
-        } else {
-          router.push('/');
-        }
+        toast.success('Welcome back! 🌟', { id: toastId, duration: 4000 });
+        router.push('/');
       }
     } catch (err: any) {
       toast.error(err.message || 'An unexpected error occurred.', { id: toastId });
@@ -216,7 +194,7 @@ export default function LoginPage() {
                 role="checkbox"
                 aria-checked={rememberMe}
                 onClick={() => setRememberMe((v) => !v)}
-                className={`w-4.5 h-4.5 w-5 h-5 rounded border flex items-center justify-center transition-all ${
+                className={`w-4.5 h-4.5 rounded border flex items-center justify-center transition-all ${
                   rememberMe ? 'bg-primary border-primary' : 'bg-transparent border-white/30 hover:border-primary/60'
                 }`}
               >
@@ -304,37 +282,31 @@ export default function LoginPage() {
             </Link>
           </p>
 
-          {/* Admin Demo Login */}
+          {/* Demo Credentials */}
           <div className="pt-2 border-t border-white/5 space-y-3 font-manrope">
-            <div className="flex flex-col items-center justify-center p-4 rounded-xl bg-primary/5 border border-primary/20 space-y-2">
-              <span className="text-[10px] text-primary font-bold tracking-widest uppercase">Admin Preview</span>
-              <p className="text-[11px] text-white/50 text-center leading-relaxed">
-                Use our automated shortcut to immediately access the administration panel.
-              </p>
-              <Button
-                type="button"
-                variant="outline"
-                disabled={isLoading}
-                onClick={() => {
-                  setIsLoading(true);
-                  toast.info('Bypassing credentials as Admin...');
-                  setTimeout(() => {
-                    const user = { 
-                      email: 'admin@aurelia.com', 
-                      name: 'Admin', 
-                      isAdmin: true, 
-                      loginAt: new Date().toISOString() 
-                    };
-                    localStorage.setItem('salon_user', JSON.stringify(user));
-                    setIsLoading(false);
-                    toast.success('Welcome to Aurelia Admin Portal! 👑', { duration: 4000 });
-                    router.push('/admin');
-                  }, 1200);
-                }}
-                className="w-full bg-transparent hover:bg-primary border-primary text-primary hover:text-black font-semibold text-xs py-2 h-9 rounded-xl transition-all"
-              >
-                Log In As Admin
-              </Button>
+            <p className="text-center text-[10px] text-white/40 font-bold tracking-widest uppercase">Demo Credentials</p>
+            <div className="grid grid-cols-3 gap-2">
+              {[
+                { label: 'Admin', email: 'admin@aurelia.com', password: 'Admin@123', icon: Shield, color: 'text-amber-400 border-amber-400/30 hover:bg-amber-400/10' },
+                { label: 'Staff', email: 'staff@aurelia.com', password: 'Staff@123', icon: UserCog, color: 'text-sky-400 border-sky-400/30 hover:bg-sky-400/10' },
+                { label: 'Customer', email: 'customer@aurelia.com', password: 'Customer@123', icon: User, color: 'text-emerald-400 border-emerald-400/30 hover:bg-emerald-400/10' },
+              ].map((demo) => (
+                <button
+                  key={demo.label}
+                  type="button"
+                  disabled={isLoading}
+                  onClick={() => {
+                    setEmail(demo.email);
+                    setPassword(demo.password);
+                    setErrors({});
+                    toast.info(`${demo.label} credentials filled.`);
+                  }}
+                  className={`flex flex-col items-center gap-1.5 p-3 rounded-xl border bg-transparent transition-all ${demo.color}`}
+                >
+                  <demo.icon className="w-4 h-4" />
+                  <span className="text-[11px] font-semibold">{demo.label}</span>
+                </button>
+              ))}
             </div>
           </div>
 

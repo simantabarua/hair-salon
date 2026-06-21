@@ -2,6 +2,8 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useSession, signOut } from 'next-auth/react';
 import { toast } from 'sonner';
 import {
   Calendar,
@@ -66,21 +68,16 @@ import {
 type TabType = 'overview' | 'appointments' | 'orders' | 'services' | 'products' | 'inventory' | 'stylists' | 'blogs';
 
 export default function AdminDashboard() {
-  const [isAdmin] = useState<boolean | null>(() => {
-    if (typeof window === 'undefined') return null;
-    const stored = localStorage.getItem('salon_user');
-    if (!stored) return false;
-    try {
-      const parsed = JSON.parse(stored);
-      return !!parsed.isAdmin;
-    } catch {
-      return false;
-    }
-  });
+  const router = useRouter();
+  const { data: session, status } = useSession();
+
+  const isAdmin = status === 'loading' ? null : (session?.user?.role === 'admin' ? true : false);
+  const userProfile = session?.user ? { name: session.user.name || 'Admin', email: session.user.email || '' } : null;
+
   const [activeTab, setActiveTab] = useState<TabType>('overview');
   const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
   const [mounted, setMounted] = useState(false);
-  
+
   const [showNotifications, setShowNotifications] = useState(false);
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [notifications, setNotifications] = useState([
@@ -88,17 +85,6 @@ export default function AdminDashboard() {
     { id: 2, title: 'Inventory Warning', desc: 'Hydrating Conditioner is running low on stock.', time: '2h ago', read: false },
     { id: 3, title: 'Order Completed', desc: 'Order #ORD-8492 has been dispatched.', time: '5h ago', read: true },
   ]);
-
-  const [userProfile] = useState<{ name: string; email: string } | null>(() => {
-    if (typeof window === 'undefined') return null;
-    const stored = localStorage.getItem('salon_user');
-    if (!stored) return null;
-    try {
-      return JSON.parse(stored);
-    } catch {
-      return null;
-    }
-  });
 
   const notificationRef = useRef<HTMLDivElement>(null);
   const userMenuRef = useRef<HTMLDivElement>(null);
@@ -716,9 +702,11 @@ export default function AdminDashboard() {
                       <span>Back to Site</span>
                     </Link>
                     <button 
-                      onClick={() => {
+                    onClick={async () => {
                         localStorage.removeItem('salon_user');
-                        window.location.href = '/login';
+                        localStorage.removeItem('salon_remember');
+                        await signOut({ redirect: false });
+                        router.push('/login');
                       }}
                       className="w-full flex items-center gap-2 px-4 py-2 text-xs text-red-400 hover:text-red-300 hover:bg-red-500/10 transition-colors text-left"
                     >

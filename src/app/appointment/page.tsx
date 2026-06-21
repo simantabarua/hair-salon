@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { Clock, User, Star, ShieldCheck, ChevronLeft, ChevronRight, Scissors } from 'lucide-react';
 import Image from 'next/image';
+import { LucideIcon } from '@/components/ui/LucideIcon';
 import PageHeading from '@/components/layout/PageHeading';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -121,7 +122,6 @@ export default function AppointmentPage() {
       .catch((err) => {
         console.error('Failed to fetch available slots:', err);
         if (!active) return;
-        // Fallback to standard slots
         const dummySlots = [
           "09:00 AM",
           "10:00 AM",
@@ -249,7 +249,7 @@ export default function AppointmentPage() {
                 }`}
               >
                 <div className="w-16 h-16 mb-4 flex items-center justify-center bg-secondary/80 rounded-xl border border-primary/20 group-hover:scale-105 transition-transform duration-300">
-                  <Image src={service.icon || '/img/Icons/HairCut.svg'} alt={service.name} width={40} height={40} className="object-contain filter invert" />
+                  <LucideIcon name={service.icon || 'Scissors'} className="w-8 h-8 text-primary" />
                 </div>
                 <h4 className="font-cormorant text-2xl font-bold mb-1">{service.name}</h4>
                 <p className="text-primary font-bold font-manrope text-sm">${service.price}</p>

@@ -10,6 +10,7 @@ import { services, products, teamMembers, blogPosts, faqItems } from '@/data/sal
 import { Button, buttonVariants } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
+import { LucideIcon } from '@/components/ui/LucideIcon';
 import {
   Accordion,
   AccordionContent,
@@ -170,13 +171,7 @@ export default function HomePage() {
                 className="group relative flex flex-col items-center text-center p-8 md:p-10 rounded-2xl bg-secondary/40 border border-primary/20 hover:border-primary hover:bg-secondary/70 transition-all duration-300 shadow-xl"
               >
                 <div className="relative w-20 h-20 mb-6 flex items-center justify-center bg-primary/5 rounded-2xl group-hover:bg-primary/10 transition-colors border border-primary/10">
-                  <Image
-                    className="object-contain p-2"
-                    src={service.icon}
-                    alt={service.name}
-                    fill
-                    sizes="80px"
-                  />
+                  <LucideIcon name={service.icon} className="w-10 h-10 text-primary" />
                 </div>
                 <h4 className="font-cormorant text-2xl md:text-3xl font-semibold text-white mb-3 group-hover:text-primary transition-colors">
                   {service.name}
@@ -303,7 +298,7 @@ export default function HomePage() {
       <section id="business-hour" className="py-20 md:py-32 relative">
         <div className="max-w-4xl mx-auto px-4 md:px-8">
           <div className="text-center mb-12 space-y-4">
-            <span className="text-primary font-cormorant text-xl tracking-wider font-semibold font-cormorant">Schedule</span>
+            <span className="text-primary  text-xl tracking-wider font-semibold font-cormorant">Schedule</span>
             <h2 className="text-3xl md:text-5xl font-cormorant font-bold text-white tracking-wide">Working Hours</h2>
             <p className="text-white/60 font-manrope text-sm md:text-base">
               Plan your visit around our weekly operational hours. We recommend booking in advance.
