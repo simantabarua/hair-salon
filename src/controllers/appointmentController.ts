@@ -19,8 +19,8 @@ export class AppointmentController {
     return bookingService.getAvailableSlots(date, stylistId);
   }
 
-  async createAppointment(req: NextRequest, context: any, session: any) {
-    const body = await req.json();
+  async createAppointment(req: NextRequest, context: any, session: any, parsedBody?: any) {
+    const body = parsedBody || await req.json();
     const { stylistId, serviceIds, date, time } = body;
     const userId = session.user.id;
 

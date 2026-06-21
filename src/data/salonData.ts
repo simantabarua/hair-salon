@@ -31,6 +31,10 @@ export interface TeamMember {
   facebook: string;
   instagram: string;
   tiktok: string;
+  bio?: string;
+  specialties?: string[] | string;
+  achievements?: string[] | string;
+  schedule?: string;
 }
 
 export interface BlogPost {

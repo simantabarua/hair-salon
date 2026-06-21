@@ -11,7 +11,6 @@ import { toast } from 'sonner';
 import { useSession } from 'next-auth/react';
 import { apiClient } from '@/lib/apiClient';
 import { ServiceDTO, UserDTO, AppointmentDTO } from '@/types/api';
-import { getServices, getTeamMembers } from '@/lib/db';
 
 export default function AppointmentPage() {
   const { data: session } = useSession();
@@ -70,17 +69,7 @@ export default function AppointmentPage() {
         }
       } catch (err) {
         console.error('Failed to load booking data:', err);
-        // Fallback to offline defaults
-        const localServices = getServices() as any;
-        const localTeam = getTeamMembers() as any;
-        setServicesList(localServices);
-        setStylistsList(localTeam);
-        if (localServices.length > 0) {
-          setSelectedService(localServices[0].id);
-        }
-        if (localTeam.length > 0) {
-          setSelectedStylist(localTeam[0].id);
-        }
+        toast.error('Failed to load salon services or stylists. Please refresh the page.');
       } finally {
         setLoading(false);
         setMounted(true);
@@ -122,21 +111,9 @@ export default function AppointmentPage() {
       .catch((err) => {
         console.error('Failed to fetch available slots:', err);
         if (!active) return;
-        const dummySlots = [
-          "09:00 AM",
-          "10:00 AM",
-          "11:00 AM",
-          "12:00 PM",
-          "01:00 PM",
-          "02:00 PM",
-          "03:00 PM",
-          "04:00 PM",
-          "05:00 PM",
-        ].map(time => ({ time, availableStylists: [selectedStylist] }));
-        setAvailableSlots(dummySlots);
-        if (dummySlots.length > 0 && !dummySlots.some(s => s.time === selectedTimeSlot)) {
-          setSelectedTimeSlot(dummySlots[0].time);
-        }
+        setAvailableSlots([]);
+        setSelectedTimeSlot('');
+        toast.error('Failed to fetch available time slots for the selected date.');
       });
 
     return () => {
@@ -349,11 +326,11 @@ export default function AppointmentPage() {
                         key={slot.time}
                         disabled={!isAvailable}
                         onClick={() => setSelectedTimeSlot(slot.time)}
-                        className={`p-3 rounded-xl border text-xs font-semibold font-manrope transition-all text-center ${
+                        className={`relative p-3 rounded-xl border text-xs font-semibold font-manrope transition-all text-center overflow-hidden ${
                           !isAvailable
-                            ? 'bg-secondary/10 border-primary/5 text-white/20 cursor-not-allowed'
+                            ? 'bg-secondary/10 border-red-500/10 text-white/20 line-through decoration-red-500/30 bg-[linear-gradient(135deg,transparent_45%,rgba(239,68,68,0.15)_49%,rgba(239,68,68,0.15)_51%,transparent_55%)] cursor-not-allowed'
                             : isSelected
-                            ? 'bg-primary text-secondary border-primary font-bold shadow-md'
+                            ? 'bg-primary text-secondary border-primary font-bold shadow-md shadow-primary/20 scale-105'
                             : 'bg-secondary/40 border-primary/10 hover:border-primary/30 text-white/70'
                         }`}
                       >

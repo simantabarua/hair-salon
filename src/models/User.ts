@@ -6,6 +6,13 @@ export interface IUser extends Document {
   password?: string;
   role: "customer" | "staff" | "admin";
   image?: string;
+  bio?: string;
+  specialties?: string[];
+  achievements?: string[];
+  schedule?: string;
+  facebook?: string;
+  instagram?: string;
+  tiktok?: string;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -29,6 +36,13 @@ const UserSchema = new Schema<IUser>(
       index: true,
     },
     image: { type: String },
+    bio: { type: String },
+    specialties: [{ type: String }],
+    achievements: [{ type: String }],
+    schedule: { type: String },
+    facebook: { type: String },
+    instagram: { type: String },
+    tiktok: { type: String },
   },
   {
     timestamps: true,

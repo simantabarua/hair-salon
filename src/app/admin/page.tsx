@@ -28,28 +28,9 @@ import {
   ChevronDown,
   Package
 } from 'lucide-react';
-import {
-  Appointment,
-  Order,
-  getAppointments,
-  saveAppointment,
-  deleteAppointment,
-  getOrders,
-  saveOrder,
-  getServices,
-  saveService,
-  deleteService,
-  getProducts,
-  saveProduct,
-  deleteProduct,
-  getTeamMembers,
-  saveTeamMember,
-  deleteTeamMember,
-  getBlogPosts,
-  saveBlogPost,
-  deleteBlogPost
-} from '@/lib/db';
+import { Appointment, Order } from '@/lib/db';
 import { Service, Product, TeamMember, BlogPost } from '@/data/salonData';
+import { apiClient } from '@/lib/apiClient';
 import {
   ResponsiveContainer,
   AreaChart,
@@ -106,30 +87,13 @@ export default function AdminDashboard() {
   }, []);
 
   // Database States
-  const [appointments, setAppointments] = useState<Appointment[]>(() => {
-    if (typeof window === 'undefined') return [];
-    return getAppointments();
-  });
-  const [orders, setOrders] = useState<Order[]>(() => {
-    if (typeof window === 'undefined') return [];
-    return getOrders();
-  });
-  const [services, setServices] = useState<Service[]>(() => {
-    if (typeof window === 'undefined') return [];
-    return getServices();
-  });
-  const [products, setProducts] = useState<Product[]>(() => {
-    if (typeof window === 'undefined') return [];
-    return getProducts();
-  });
-  const [team, setTeam] = useState<TeamMember[]>(() => {
-    if (typeof window === 'undefined') return [];
-    return getTeamMembers();
-  });
-  const [blogs, setBlogs] = useState<BlogPost[]>(() => {
-    if (typeof window === 'undefined') return [];
-    return getBlogPosts();
-  });
+  const [appointments, setAppointments] = useState<Appointment[]>([]);
+  const [orders, setOrders] = useState<Order[]>([]);
+  const [services, setServices] = useState<Service[]>([]);
+  const [products, setProducts] = useState<Product[]>([]);
+  const [team, setTeam] = useState<TeamMember[]>([]);
+  const [blogs, setBlogs] = useState<BlogPost[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
 
   // Edit / Add States
   const [editingItem, setEditingItem] = useState<{
@@ -152,59 +116,144 @@ export default function AdminDashboard() {
   const [editingInventoryId, setEditingInventoryId] = useState<string | null>(null);
   const [inventoryForm, setInventoryForm] = useState<{ stock: number; minStock: number; sku: string } | null>(null);
 
-  const handleInventorySubmit = (e: React.FormEvent, productId: string) => {
-    e.preventDefault();
-    if (!inventoryForm) return;
-    const item = products.find(p => p.id === productId);
-    if (!item) return;
-    
-    const updatedProduct = {
-      ...item,
-      stock: inventoryForm.stock,
-      minStock: inventoryForm.minStock,
-      sku: inventoryForm.sku
-    };
-    
-    saveProduct(updatedProduct);
-    setProducts(getProducts());
-    setEditingInventoryId(null);
-    setInventoryForm(null);
-    toast.success('Inventory settings updated successfully.');
+  const fetchAllData = async () => {
+    try {
+      setLoading(true);
+      const [apptsRes, ordersRes, servicesRes, productsRes, usersRes, blogsRes] = await Promise.all([
+        apiClient.get<any>('/api/v1/appointments'),
+        apiClient.get<any>('/api/v1/orders'),
+        apiClient.get<any>('/api/v1/services'),
+        apiClient.get<any>('/api/v1/products'),
+        apiClient.get<any>('/api/v1/users?role=staff'),
+        apiClient.get<any>('/api/v1/blogs'),
+      ]);
+
+      const apptsData = apptsRes.appointments || apptsRes || [];
+      setAppointments(apptsData.map((a: any) => ({
+        id: a.id || a._id,
+        userEmail: a.userId?.email || 'N/A',
+        service: a.serviceIds?.map((s: any) => s.name).join(', ') || 'N/A',
+        stylist: a.stylistId?.name || 'N/A',
+        date: a.date,
+        time: a.time,
+        price: a.price,
+        status: a.status
+      })));
+
+      const ordersData = ordersRes.orders || ordersRes || [];
+      setOrders(ordersData.map((o: any) => ({
+        id: o.id || o._id,
+        customerName: o.customerName || (o.userId?.name || 'N/A'),
+        userEmail: o.userId?.email || 'N/A',
+        items: o.items?.map((item: any) => `${item.quantity}x ${item.name}`).join(', ') || 'N/A',
+        total: o.total,
+        status: o.status
+      })));
+
+      const servicesData = servicesRes.services || servicesRes || [];
+      setServices(servicesData.map((s: any) => ({
+        id: s.id || s._id,
+        name: s.name,
+        price: s.price,
+        duration: s.duration,
+        image: s.image,
+        icon: s.icon,
+        description: s.description || '',
+      })));
+
+      const productsData = productsRes.products || productsRes || [];
+      setProducts(productsData.map((p: any) => ({
+        id: p.id || p._id,
+        name: p.name,
+        price: p.price,
+        image: p.image,
+        category: p.category,
+        rating: p.rating || 5,
+        ratingCount: p.ratingCount || 1,
+        description: p.description || '',
+        tags: p.tags || [],
+        stock: p.stock ?? 0,
+        minStock: p.minStock ?? 0,
+        sku: p.sku || '',
+      })));
+
+      setTeam((usersRes || []).map((u: any) => ({
+        id: u.id || u._id,
+        name: u.name,
+        role: u.role || 'staff',
+        image: u.image || '/img/About Section/Team-1.png',
+        facebook: u.facebook || '#',
+        instagram: u.instagram || '#',
+        tiktok: u.tiktok || '#',
+        bio: u.bio || '',
+        specialties: u.specialties || [],
+        achievements: u.achievements || [],
+        schedule: u.schedule || '',
+      })));
+
+      const blogsData = blogsRes.posts || blogsRes || [];
+      setBlogs(blogsData.map((b: any) => ({
+        id: b.id || b._id,
+        title: b.title,
+        excerpt: b.excerpt,
+        content: b.content,
+        author: b.author,
+        date: b.createdAt ? new Date(b.createdAt).toISOString().split('T')[0] : new Date().toISOString().split('T')[0],
+        image: b.image,
+        category: b.category,
+      })));
+    } catch (err) {
+      console.error("Error fetching admin data:", err);
+      toast.error("Failed to load administration data from server.");
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const adjustStock = (productId: string, amount: number) => {
+  useEffect(() => {
+    if (isAdmin === true) {
+      fetchAllData();
+    } else if (isAdmin === false) {
+      setLoading(false);
+    }
+  }, [isAdmin]);
+
+  const handleInventorySubmit = async (e: React.FormEvent, productId: string) => {
+    e.preventDefault();
+    if (!inventoryForm) return;
+    try {
+      await apiClient.put(`/api/v1/products/${productId}`, {
+        stock: inventoryForm.stock,
+        minStock: inventoryForm.minStock,
+        sku: inventoryForm.sku
+      });
+      setEditingInventoryId(null);
+      setInventoryForm(null);
+      toast.success('Inventory settings updated successfully.');
+      await fetchAllData();
+    } catch (err: any) {
+      toast.error(err.message || 'Failed to update inventory.');
+    }
+  };
+
+  const adjustStock = async (productId: string, amount: number) => {
     const item = products.find(p => p.id === productId);
     if (!item) return;
     
     const newStock = Math.max(0, (item.stock ?? 0) + amount);
-    const updatedProduct = {
-      ...item,
-      stock: newStock
-    };
-    
-    saveProduct(updatedProduct);
-    setProducts(getProducts());
-    toast.success(`Stock adjusted for ${item.name}.`);
+    try {
+      await apiClient.put(`/api/v1/products/${productId}`, {
+        stock: newStock
+      });
+      toast.success(`Stock adjusted for ${item.name}.`);
+      await fetchAllData();
+    } catch (err: any) {
+      toast.error(err.message || 'Failed to adjust stock.');
+    }
   };
 
-  // Sync handler on storage changes
-  useEffect(() => {
-    if (isAdmin === true) {
-      const handleStorageUpdate = () => {
-        setAppointments(getAppointments());
-        setOrders(getOrders());
-        setServices(getServices());
-        setProducts(getProducts());
-        setTeam(getTeamMembers());
-        setBlogs(getBlogPosts());
-      };
-      window.addEventListener('storage', handleStorageUpdate);
-      return () => window.removeEventListener('storage', handleStorageUpdate);
-    }
-  }, [isAdmin]);
-
   // Loading Screen
-  if (isAdmin === null) {
+  if (isAdmin === null || loading) {
     return (
       <div className="min-h-screen bg-black flex flex-col items-center justify-center">
         <Loader2 className="w-12 h-12 text-primary animate-spin mb-4" />
@@ -281,182 +330,267 @@ export default function AdminDashboard() {
   // --- CRUD ACTIONS ---
 
   // Service Handlers
-  const handleServiceSubmit = (e: React.FormEvent) => {
+  const handleServiceSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!serviceForm.name || !serviceForm.price || !serviceForm.duration) {
       toast.error('Please complete all mandatory fields.');
       return;
     }
-    const id = serviceForm.id || `srv-${Date.now()}`;
-    const newService: Service = {
-      id,
-      name: serviceForm.name,
-      price: Number(serviceForm.price),
-      duration: serviceForm.duration,
-      image: serviceForm.image || '/img/Services Section/Image-1.png',
-      icon: serviceForm.icon || '/img/Icons/HairCut.svg',
-      description: serviceForm.description || '',
-    };
-    saveService(newService);
-    toast.success(serviceForm.id ? 'Service updated successfully' : 'New service created successfully');
-    setServiceForm({});
-    setIsAdding(null);
-    setEditingItem(null);
+    try {
+      const payload = {
+        name: serviceForm.name,
+        price: Number(serviceForm.price),
+        duration: serviceForm.duration,
+        image: serviceForm.image || '',
+        icon: serviceForm.icon || '',
+        description: serviceForm.description || '',
+      };
+
+      if (serviceForm.id) {
+        await apiClient.put(`/api/v1/services/${serviceForm.id}`, payload);
+        toast.success('Service updated successfully');
+      } else {
+        await apiClient.post('/api/v1/services', payload);
+        toast.success('New service created successfully');
+      }
+      setServiceForm({});
+      setIsAdding(null);
+      setEditingItem(null);
+      await fetchAllData();
+    } catch (err: any) {
+      toast.error(err.message || 'Failed to save service.');
+    }
   };
 
-  const handleServiceDelete = (id: string) => {
+  const handleServiceDelete = async (id: string) => {
     if (confirm('Are you sure you want to delete this service?')) {
-      deleteService(id);
-      toast.success('Service deleted.');
+      try {
+        await apiClient.delete(`/api/v1/services/${id}`);
+        toast.success('Service deleted.');
+        await fetchAllData();
+      } catch (err: any) {
+        toast.error(err.message || 'Failed to delete service.');
+      }
     }
   };
 
   // Product Handlers
-  const handleProductSubmit = (e: React.FormEvent) => {
+  const handleProductSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!productForm.name || !productForm.price || !productForm.category) {
       toast.error('Please complete all mandatory fields.');
       return;
     }
-    const id = productForm.id || `prd-${Date.now()}`;
-    const newProduct: Product = {
-      id,
-      name: productForm.name,
-      price: Number(productForm.price),
-      image: productForm.image || '/img/Products Section/shampoo.png',
-      category: productForm.category,
-      rating: Number(productForm.rating || 5),
-      ratingCount: Number(productForm.ratingCount || 1),
-      description: productForm.description || '',
-      tags: typeof productForm.tags === 'string' ? (productForm.tags as string).split(',').map(t => t.trim()) : (productForm.tags || []),
-    };
-    saveProduct(newProduct);
-    toast.success(productForm.id ? 'Product updated successfully' : 'Product catalog updated successfully');
-    setProductForm({});
-    setIsAdding(null);
-    setEditingItem(null);
+    try {
+      const payload: any = {
+        name: productForm.name,
+        price: Number(productForm.price),
+        image: productForm.image || '',
+        category: productForm.category,
+        description: productForm.description || '',
+        tags: typeof productForm.tags === 'string'
+          ? (productForm.tags as string).split(',').map(t => t.trim())
+          : (productForm.tags || []),
+      };
+
+      if (productForm.id) {
+        await apiClient.put(`/api/v1/products/${productForm.id}`, payload);
+        toast.success('Product updated successfully');
+      } else {
+        payload.sku = 'PRD-' + Math.random().toString(36).substring(2, 11).toUpperCase();
+        payload.stock = 0;
+        payload.minStock = 0;
+        await apiClient.post('/api/v1/products', payload);
+        toast.success('Product catalog updated successfully');
+      }
+      setProductForm({});
+      setIsAdding(null);
+      setEditingItem(null);
+      await fetchAllData();
+    } catch (err: any) {
+      toast.error(err.message || 'Failed to save product.');
+    }
   };
 
-  const handleProductDelete = (id: string) => {
+  const handleProductDelete = async (id: string) => {
     if (confirm('Are you sure you want to delete this product?')) {
-      deleteProduct(id);
-      toast.success('Product deleted.');
+      try {
+        await apiClient.delete(`/api/v1/products/${id}`);
+        toast.success('Product deleted.');
+        await fetchAllData();
+      } catch (err: any) {
+        toast.error(err.message || 'Failed to delete product.');
+      }
     }
   };
 
   // Stylist Handlers
-  const handleTeamSubmit = (e: React.FormEvent) => {
+  const handleTeamSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!teamForm.name || !teamForm.role) {
       toast.error('Please enter name and role.');
       return;
     }
-    const id = teamForm.id || `stylist-${Date.now()}`;
-    const newMember: TeamMember = {
-      id,
-      name: teamForm.name,
-      role: teamForm.role,
-      image: teamForm.image || '/img/About Section/Team-1.png',
-      facebook: teamForm.facebook || '#',
-      instagram: teamForm.instagram || '#',
-      tiktok: teamForm.tiktok || '#',
-    };
-    saveTeamMember(newMember);
-    toast.success(teamForm.id ? 'Stylist profile updated' : 'Stylist hired successfully');
-    setTeamForm({});
-    setIsAdding(null);
-    setEditingItem(null);
+    try {
+      const payload: any = {
+        name: teamForm.name,
+        role: teamForm.role,
+        image: teamForm.image || '',
+        facebook: teamForm.facebook || '#',
+        instagram: teamForm.instagram || '#',
+        tiktok: teamForm.tiktok || '#',
+        bio: teamForm.bio || '',
+        specialties: typeof teamForm.specialties === 'string'
+          ? (teamForm.specialties as string).split(',').map(s => s.trim())
+          : (teamForm.specialties || []),
+        achievements: typeof teamForm.achievements === 'string'
+          ? (teamForm.achievements as string).split(',').map(a => a.trim())
+          : (teamForm.achievements || []),
+        schedule: teamForm.schedule || '9:00 AM - 6:00 PM',
+      };
+
+      if (teamForm.id) {
+        await apiClient.put(`/api/v1/users/${teamForm.id}`, payload);
+        toast.success('Stylist profile updated');
+      } else {
+        payload.email = teamForm.name.toLowerCase().replace(/\s+/g, '') + '@aurelia.com';
+        payload.password = 'Stylist123!';
+        await apiClient.post('/api/v1/users', payload);
+        toast.success('Stylist hired successfully');
+      }
+      setTeamForm({});
+      setIsAdding(null);
+      setEditingItem(null);
+      await fetchAllData();
+    } catch (err: any) {
+      toast.error(err.message || 'Failed to save stylist.');
+    }
   };
 
-  const handleTeamDelete = (id: string) => {
+  const handleTeamDelete = async (id: string) => {
     if (confirm('Are you sure you want to delete this team member?')) {
-      deleteTeamMember(id);
-      toast.success('Stylist removed.');
+      try {
+        await apiClient.delete(`/api/v1/users/${id}`);
+        toast.success('Stylist removed.');
+        await fetchAllData();
+      } catch (err: any) {
+        toast.error(err.message || 'Failed to remove stylist.');
+      }
     }
   };
 
   // Blog Handlers
-  const handleBlogSubmit = (e: React.FormEvent) => {
+  const handleBlogSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!blogForm.title || !blogForm.excerpt || !blogForm.content) {
       toast.error('Please write title, excerpt, and body content.');
       return;
     }
-    const id = blogForm.id || `blog-${Date.now()}`;
-    const newBlog: BlogPost = {
-      id,
-      title: blogForm.title,
-      excerpt: blogForm.excerpt,
-      content: blogForm.content,
-      author: blogForm.author || 'Aurelia Editorial',
-      date: blogForm.date || new Date().toISOString().split('T')[0],
-      image: blogForm.image || '/img/Blog Section/Image-1.png',
-      category: blogForm.category || 'Styling Tips',
-    };
-    saveBlogPost(newBlog);
-    toast.success(blogForm.id ? 'Blog article revised' : 'New article published successfully');
-    setBlogForm({});
-    setIsAdding(null);
-    setEditingItem(null);
+    try {
+      const payload = {
+        title: blogForm.title,
+        excerpt: blogForm.excerpt,
+        content: blogForm.content,
+        author: blogForm.author || 'Aurelia Editorial',
+        image: blogForm.image || '',
+        category: blogForm.category || 'Styling Tips',
+      };
+
+      if (blogForm.id) {
+        await apiClient.put(`/api/v1/blogs/${blogForm.id}`, payload);
+        toast.success('Blog article revised');
+      } else {
+        await apiClient.post('/api/v1/blogs', payload);
+        toast.success('New article published successfully');
+      }
+      setBlogForm({});
+      setIsAdding(null);
+      setEditingItem(null);
+      await fetchAllData();
+    } catch (err: any) {
+      toast.error(err.message || 'Failed to publish article.');
+    }
   };
 
-  const handleBlogDelete = (id: string) => {
+  const handleBlogDelete = async (id: string) => {
     if (confirm('Are you sure you want to delete this article?')) {
-      deleteBlogPost(id);
-      toast.success('Article deleted.');
+      try {
+        await apiClient.delete(`/api/v1/blogs/${id}`);
+        toast.success('Article deleted.');
+        await fetchAllData();
+      } catch (err: any) {
+        toast.error(err.message || 'Failed to delete article.');
+      }
     }
   };
 
   // Appointment Status Updates
-  const handleApptStatus = (id: string, status: 'Confirmed' | 'Pending' | 'Cancelled') => {
-    const list = getAppointments();
-    const index = list.findIndex(a => a.id === id);
-    if (index > -1) {
-      list[index].status = status;
-      saveAppointment(list[index]);
+  const handleApptStatus = async (id: string, status: 'Confirmed' | 'Pending' | 'Cancelled') => {
+    try {
+      await apiClient.put(`/api/v1/appointments/${id}`, { status });
       toast.success(`Appointment status set to ${status}`);
+      await fetchAllData();
+    } catch (err: any) {
+      toast.error(err.message || 'Failed to update appointment status.');
     }
   };
 
   // Order Status Updates
-  const handleOrderStatus = (id: string, status: 'Processing' | 'Shipped' | 'Delivered') => {
-    const list = getOrders();
-    const index = list.findIndex(o => o.id === id);
-    if (index > -1) {
-      list[index].status = status;
-      saveOrder(list[index]);
+  const handleOrderStatus = async (id: string, status: 'Processing' | 'Shipped' | 'Delivered') => {
+    try {
+      await apiClient.put(`/api/v1/orders/${id}`, { status });
       toast.success(`Order set to ${status}`);
+      await fetchAllData();
+    } catch (err: any) {
+      toast.error(err.message || 'Failed to update order status.');
     }
   };
 
   // Manual Appointment creation
-  const handleApptSubmit = (e: React.FormEvent) => {
+  const handleApptSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!apptForm.userEmail || !apptForm.service || !apptForm.stylist || !apptForm.date || !apptForm.time || !apptForm.price) {
       toast.error('Fill in all fields for the manual appointment booking.');
       return;
     }
-    const id = apptForm.id || `APT-${Math.floor(1000 + Math.random() * 9000)}`;
-    const newAppt: Appointment = {
-      id,
-      userEmail: apptForm.userEmail,
-      service: apptForm.service,
-      stylist: apptForm.stylist,
-      date: apptForm.date,
-      time: apptForm.time,
-      price: Number(apptForm.price),
-      status: apptForm.status || 'Confirmed',
-    };
-    saveAppointment(newAppt);
-    toast.success('Appointment created manually');
-    setApptForm({});
-    setIsAdding(null);
+    const selectedService = services.find(s => s.name === apptForm.service);
+    const selectedStylist = team.find(t => t.name === apptForm.stylist);
+    
+    if (!selectedService || !selectedStylist) {
+      toast.error('Selected service or stylist not found.');
+      return;
+    }
+
+    try {
+      const payload = {
+        userEmail: apptForm.userEmail,
+        serviceIds: [selectedService.id],
+        stylistId: selectedStylist.id,
+        date: apptForm.date,
+        time: apptForm.time,
+        price: Number(apptForm.price),
+        status: apptForm.status || 'Confirmed',
+      };
+
+      await apiClient.post('/api/v1/appointments', payload);
+      toast.success('Appointment created manually');
+      setApptForm({});
+      setIsAdding(null);
+      await fetchAllData();
+    } catch (err: any) {
+      toast.error(err.message || 'Failed to book appointment.');
+    }
   };
 
-  const handleApptDelete = (id: string) => {
+  const handleApptDelete = async (id: string) => {
     if (confirm('Delete this booking?')) {
-      deleteAppointment(id);
-      toast.success('Booking deleted.');
+      try {
+        await apiClient.delete(`/api/v1/appointments/${id}`);
+        toast.success('Booking deleted.');
+        await fetchAllData();
+      } catch (err: any) {
+        toast.error(err.message || 'Failed to delete booking.');
+      }
     }
   };
 

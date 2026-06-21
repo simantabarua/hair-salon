@@ -131,7 +131,7 @@ export default function ClientDashboard() {
       date: new Date(ord.createdAt).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' }),
       status: displayStatus,
       items: itemsText,
-      total: ord.totalAmount,
+      total: ord.totalAmount ?? ord.total ?? 0,
     };
   };
 

@@ -244,7 +244,7 @@ function SuccessPageContent() {
               <div className="border-t border-white/5 pt-6 space-y-2">
                 <div className="flex justify-between text-xs font-manrope text-white/60">
                   <span>Subtotal</span>
-                  <span>${order.totalAmount.toFixed(2)}</span>
+                  <span>${(order.totalAmount ?? order.total ?? 0).toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between text-xs font-manrope text-white/60">
                   <span>Shipping & Tax</span>
@@ -252,7 +252,7 @@ function SuccessPageContent() {
                 </div>
                 <div className="flex justify-between items-center pt-3 border-t border-white/5">
                   <span className="font-bold text-sm uppercase tracking-wider text-white">Total Amount Paid</span>
-                  <span className="font-cormorant text-2xl font-bold text-primary">${order.totalAmount.toFixed(2)}</span>
+                  <span className="font-cormorant text-2xl font-bold text-primary">${(order.totalAmount ?? order.total ?? 0).toFixed(2)}</span>
                 </div>
               </div>
 
