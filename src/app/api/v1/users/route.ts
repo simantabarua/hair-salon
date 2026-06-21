@@ -13,12 +13,12 @@ export const GET = apiHandler(async (req: NextRequest) => {
   
   const allUsers = await userRepository.listAll();
   
-  const formattedUsers = allUsers.map(u => ({
+  const formattedUsers = allUsers.map((u, index) => ({
     id: u._id.toString(),
     name: u.name,
     email: u.email,
     role: u.role,
-    image: u.image || "/img/Team/team-1.jpg",
+    image: u.image || `/img/Team Members Images/team-${(index % 4) + 1}.png`,
     bio: u.bio,
     specialties: u.specialties,
     achievements: u.achievements,

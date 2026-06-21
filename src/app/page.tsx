@@ -1,16 +1,17 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useDispatch } from 'react-redux';
 import { ShoppingBag, ArrowRight, Star, Heart } from 'lucide-react';
 import { addToCart } from '@/store/slices/cartSlice';
-import { services, products, teamMembers, blogPosts, faqItems } from '@/data/salonData';
+import { services as mockServices, products as mockProducts, teamMembers as mockTeamMembers, blogPosts as mockBlogPosts, faqItems } from '@/data/salonData';
 import { Button, buttonVariants } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
 import { LucideIcon } from '@/components/ui/LucideIcon';
+import { apiClient } from '@/lib/apiClient';
 import {
   Accordion,
   AccordionContent,
@@ -21,7 +22,53 @@ import {
 export default function HomePage() {
   const dispatch = useDispatch();
 
-  const handleAddToCart = (product: typeof products[0]) => {
+  const [servicesList, setServicesList] = useState<any[]>(mockServices);
+  const [productsList, setProductsList] = useState<any[]>(mockProducts);
+  const [teamList, setTeamList] = useState<any[]>(mockTeamMembers);
+  const [blogList, setBlogList] = useState<any[]>(mockBlogPosts);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchApiData = async () => {
+      try {
+        const [servicesRes, productsRes, teamRes, blogsRes] = await Promise.allSettled([
+          apiClient.get<any[]>('/api/v1/services'),
+          apiClient.get<any>('/api/v1/products?limit=6'),
+          apiClient.get<any[]>('/api/v1/users?role=staff'),
+          apiClient.get<any[]>('/api/v1/blogs')
+        ]);
+
+        if (servicesRes.status === 'fulfilled' && servicesRes.value && servicesRes.value.length > 0) {
+          setServicesList(servicesRes.value);
+        }
+
+        if (productsRes.status === 'fulfilled' && productsRes.value) {
+          const pVal = productsRes.value;
+          if (Array.isArray(pVal.products) && pVal.products.length > 0) {
+            setProductsList(pVal.products);
+          } else if (Array.isArray(pVal) && pVal.length > 0) {
+            setProductsList(pVal);
+          }
+        }
+
+        if (teamRes.status === 'fulfilled' && teamRes.value && teamRes.value.length > 0) {
+          setTeamList(teamRes.value);
+        }
+
+        if (blogsRes.status === 'fulfilled' && blogsRes.value && blogsRes.value.length > 0) {
+          setBlogList(blogsRes.value);
+        }
+      } catch (error) {
+        console.error('Error fetching dynamic homepage data:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchApiData();
+  }, []);
+
+  const handleAddToCart = (product: any) => {
     dispatch(addToCart({
       id: product.id,
       name: product.name,
@@ -165,7 +212,7 @@ export default function HomePage() {
           </div>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {services.map((service) => (
+            {servicesList.map((service) => (
               <div
                 key={service.id}
                 className="group relative flex flex-col items-center text-center p-8 md:p-10 rounded-2xl bg-secondary/40 border border-primary/20 hover:border-primary hover:bg-secondary/70 transition-all duration-300 shadow-xl"
@@ -212,7 +259,7 @@ export default function HomePage() {
           </div>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {products.slice(0, 6).map((product) => (
+            {productsList.slice(0, 6).map((product) => (
               <div
                 key={product.id}
                 className="group flex flex-col bg-secondary/50 border border-primary/10 hover:border-primary/30 rounded-2xl overflow-hidden shadow-xl transition-all duration-300"
@@ -251,8 +298,8 @@ export default function HomePage() {
                     <span className="text-xs tracking-widest text-primary font-semibold uppercase">{product.category}</span>
                     <div className="flex items-center gap-1">
                       <Star className="w-4 h-4 fill-yellow-400 stroke-yellow-400" />
-                      <span className="text-xs text-white/80 font-semibold">{product.rating.toFixed(1)}</span>
-                      <span className="text-[10px] text-white/40">({product.ratingCount})</span>
+                      <span className="text-xs text-white/80 font-semibold">{(product.rating ?? 5).toFixed(1)}</span>
+                      <span className="text-[10px] text-white/40">({product.ratingCount ?? 0})</span>
                     </div>
                   </div>
                   <h4 className="text-xl font-cormorant font-semibold text-white mb-2 group-hover:text-primary transition-colors">
@@ -357,23 +404,23 @@ export default function HomePage() {
           </div>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            {teamMembers.map((stylist) => (
+            {teamList.map((stylist) => (
               <div key={stylist.id} className="group relative flex flex-col bg-secondary/50 border border-primary/10 hover:border-primary/30 rounded-2xl overflow-hidden shadow-xl transition-all duration-300">
                 {/* Photo */}
                 <div className="relative h-72 w-full overflow-hidden bg-secondary">
                   <Image
                     className="object-cover object-top group-hover:scale-105 transition-transform duration-500"
-                    src={stylist.image}
+                    src={stylist.image || '/img/Team/team-1.jpg'}
                     alt={stylist.name}
                     fill
                     sizes="(max-w-768px) 50vw, 25vw"
                   />
                   {/* Hover Social Overlay */}
                   <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 flex items-center justify-center gap-4 transition-opacity duration-300">
-                    <a href={stylist.facebook} className="w-10 h-10 rounded-full bg-primary text-black flex items-center justify-center hover:bg-primary/80 transition-colors">
+                    <a href={stylist.facebook || '#'} className="w-10 h-10 rounded-full bg-primary text-black flex items-center justify-center hover:bg-primary/80 transition-colors">
                       <Star className="w-4 h-4 fill-current" />
                     </a>
-                    <a href={stylist.instagram} className="w-10 h-10 rounded-full bg-primary text-black flex items-center justify-center hover:bg-primary/80 transition-colors">
+                    <a href={stylist.instagram || '#'} className="w-10 h-10 rounded-full bg-primary text-black flex items-center justify-center hover:bg-primary/80 transition-colors">
                       <Heart className="w-4 h-4 fill-current" />
                     </a>
                   </div>
@@ -385,7 +432,7 @@ export default function HomePage() {
                     {stylist.name}
                   </h4>
                   <p className="text-xs text-white/50 font-manrope uppercase tracking-widest">
-                    {stylist.role}
+                    {stylist.role === 'staff' ? 'Hair Stylist' : (stylist.role || 'Stylist')}
                   </p>
                 </div>
               </div>
@@ -410,7 +457,7 @@ export default function HomePage() {
           </div>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {blogPosts.map((post) => (
+            {blogList.map((post) => (
               <div key={post.id} className="group flex flex-col bg-secondary/40 border border-primary/10 hover:border-primary/30 rounded-2xl overflow-hidden shadow-xl transition-all duration-300">
                 <div className="relative h-60 w-full overflow-hidden bg-secondary">
                   <Image
@@ -425,7 +472,9 @@ export default function HomePage() {
                   </div>
                 </div>
                 <div className="p-6 flex flex-col flex-grow font-manrope">
-                  <span className="text-xs text-white/55 mb-2">By {post.author} | {post.date}</span>
+                  <span className="text-xs text-white/55 mb-2">
+                    By {post.author} | {post.createdAt ? new Date(post.createdAt).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) : (post.date || '')}
+                  </span>
                   <h4 className="text-xl font-cormorant font-semibold text-white leading-snug mb-3 group-hover:text-primary transition-colors line-clamp-2">
                     {post.title}
                   </h4>
