@@ -18,7 +18,7 @@ const ServiceSchema = new Schema<IService>(
     name: { type: String, required: true, trim: true },
     price: { type: Number, required: true, min: 0 },
     duration: { type: String, required: true, trim: true },
-    image: { type: String, required: true },
+    image: { type: String, required: false, default: "" },
     icon: { type: String, required: true },
     description: { type: String, required: true, trim: true },
     isDeleted: { type: Boolean, default: false, index: true },

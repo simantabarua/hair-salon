@@ -23,7 +23,7 @@ const ProductSchema = new Schema<IProduct>(
   {
     name: { type: String, required: true, trim: true },
     price: { type: Number, required: true, min: 0 },
-    image: { type: String, required: true },
+    image: { type: String, required: false, default: "" },
     images: { type: [String], default: [] },
     rating: { type: Number, default: 5, min: 1, max: 5 },
     ratingCount: { type: Number, default: 0, min: 0 },
